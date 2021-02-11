@@ -9,11 +9,24 @@ namespace KhotsoCBookStore.API.Services
 {
     public class AuthorRepository : IAuthorRepository, IDisposable
     {
-        private LibraryContext _context;
+        private khotsoCBookStoreDbContext _context;
 
-        public AuthorRepository(LibraryContext context)
+        public AuthorRepository(khotsoCBookStoreDbContext context)
         {
             _context = context;
+        }
+        public async Task AddAuthorAsync(Author author)
+        {
+            await _context.Authors.AddAsync(author);
+        }
+           public void DeleteAuthor(Author author)
+        {
+            if (author == null)
+            {
+                throw new ArgumentNullException(nameof(author));
+            }
+
+            _context.Authors.Remove(author);
         }
 
         public async Task<bool> AuthorExistsAsync(Guid authorId)

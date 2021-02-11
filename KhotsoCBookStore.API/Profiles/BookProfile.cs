@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using KhotsoCBookStore.API.Entities;
 using KhotsoCBookStore.API.Models;
 
 namespace KhotsoCBookStore.API.Profiles
@@ -8,19 +7,19 @@ namespace KhotsoCBookStore.API.Profiles
     {
         public BookProfile()
         {
-            CreateMap<Book, BookWithConcatenatedAuthorName>()
+            CreateMap<Entities.Book, BookWithConcatenatedAuthorName>()
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src =>
                  $"{src.Author.FirstName} {src.Author.LastName}"));
 
-            CreateMap<Book, Models.Book>()
+            CreateMap<Entities.Book, Models.Book>()
                 .ForMember(dest => dest.AuthorFirstName, opt => opt.MapFrom(src =>
                 $"{src.Author.FirstName}"))
                 .ForMember(dest => dest.AuthorLastName, opt => opt.MapFrom(src =>
                 $"{src.Author.LastName}"));
 
-            CreateMap<BookForCreation, Book>();
+            CreateMap<BookForCreation, Entities.Book>();
 
-            CreateMap<BookForCreationWithAmountOfPages, Book>();
+            CreateMap<BookForCreationWithAmountOfPages, Entities.Book>();
         }
     }
 }

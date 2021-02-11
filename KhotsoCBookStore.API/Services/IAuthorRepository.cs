@@ -7,6 +7,10 @@ namespace KhotsoCBookStore.API.Services
 {
     public interface IAuthorRepository : IDisposable
     {
+        Task AddAuthorAsync(Author author);
+
+        void DeleteAuthor(Author author);
+
         Task<bool> AuthorExistsAsync(Guid authorId);
 
         Task<IEnumerable<Author>> GetAuthorsAsync();
@@ -16,5 +20,6 @@ namespace KhotsoCBookStore.API.Services
         void UpdateAuthor(Author author);
 
         Task<bool> SaveChangesAsync();
+        
     }
 }

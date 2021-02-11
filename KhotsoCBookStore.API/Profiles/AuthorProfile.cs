@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using KhotsoCBookStore.API.Entities;
 using KhotsoCBookStore.API.Models;
 
 namespace KhotsoCBookStore.API.Profiles
@@ -8,9 +7,11 @@ namespace KhotsoCBookStore.API.Profiles
     {
         public AuthorProfile()
         {
-            CreateMap<Author, Models.Author>();
+            CreateMap<Entities.Author, Models.Author>();
 
-            CreateMap<AuthorForUpdate, Author>();
+            CreateMap<AuthorForUpdate, Entities.Author>();
+
+            CreateMap<Models.AuthorForCreation, Entities.Author>();
         }
     }
 }

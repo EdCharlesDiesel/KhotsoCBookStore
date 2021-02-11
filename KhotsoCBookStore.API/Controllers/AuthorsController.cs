@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using KhotsoCBookStore.API.Models;
 using KhotsoCBookStore.API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +10,8 @@ using System.Threading.Tasks;
 namespace KhotsoCBookStore.API.Controllers
 {
 
-    [Route("api/v{version:apiVersion}/authors")]
+    [Route("api/authors")]
     [ApiController]
-    [Produces("application/json",
-            "application/xml")]
     public class AuthorsController : ControllerBase
     {
         private readonly IAuthorRepository _authorsRepository;
@@ -24,30 +21,31 @@ namespace KhotsoCBookStore.API.Controllers
             IAuthorRepository authorsRepository,
             IMapper mapper)
         {
-            _authorsRepository = authorsRepository;
-            _mapper = mapper;
+            _authorsRepository = authorsRepository ?? throw new ArgumentNullException(nameof(authorsRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        /// <summary>
-        /// Get a list of authors
-        /// </summary>
-        /// <returns>An ActionResult of type IEnumerable of Author</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
         {
             var authorsFromRepo = await _authorsRepository.GetAuthorsAsync();
             return Ok(_mapper.Map<IEnumerable<Author>>(authorsFromRepo));
         }
 
-        /// <summary>
-        /// Get an author by his/her id
-        /// </summary>
-        /// <param name="authorId">The id of the author you want to get</param>
-        /// <returns>An ActionResult of type Author</returns>
-        [HttpGet("{authorId}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost]
+        public ActionResult<Author> CreateAuthor(AuthorForCreation author)
+        {
+            var authorEntity = _mapper.Map<Entities.Author>(author);
+            _authorsRepository.AddAuthorAsync(authorEntity);
+            _authorsRepository.SaveChangesAsync();
+
+            var authorToReturn = _mapper.Map<Author>(authorEntity);
+            return CreatedAtRoute("GetAuthor",
+                new { authorId = authorToReturn.Id },
+                authorToReturn);
+        }
+
+        [HttpGet("{authorId}", Name = "GetAuthor")]
         public async Task<ActionResult<Author>> GetAuthor(
             Guid authorId)
         {
@@ -60,19 +58,7 @@ namespace KhotsoCBookStore.API.Controllers
             return Ok(_mapper.Map<Author>(authorFromRepo));
         }
 
-        /// <summary>
-        /// Update an author 
-        /// </summary>
-        /// <param name="authorId">The id of the author to update</param>
-        /// <param name="authorForUpdate">The author with updated values</param>
-        /// <returns>An ActionResult of type Author</returns>
-        /// <response code="422">Validation error</response>
         [HttpPut("{authorId}")]
-        [Consumes("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity,
-            Type = typeof(ValidationProblemDetails))]
         public async Task<ActionResult<Author>> UpdateAuthor(
             Guid authorId,
             AuthorForUpdate authorForUpdate)
@@ -93,30 +79,31 @@ namespace KhotsoCBookStore.API.Controllers
             return Ok(_mapper.Map<Author>(authorFromRepo));
         }
 
-        /// <summary>
-        /// Partially update an author
-        /// </summary>
-        /// <param name="authorId">The id of the author you want to get</param>
-        /// <param name="patchDocument">The set of operations to apply to the author</param>
-        /// <returns>An ActionResult of type Author</returns>
-        /// <remarks>Sample request (this request updates the author's **first name**)  
-        /// 
-        /// PATCH /authors/authorId
-        /// [ 
-        ///     {
-        ///         "op": "replace", 
-        ///         "path": "/firstname", 
-        ///         "value": "new first name" 
-        ///     } 
-        /// ] 
-        /// </remarks>
-        /// <response code="200">Returns the updated author</response>
+        [HttpOptions]
+        public IActionResult GetAuthorsOptions()
+        {
+            Response.Headers.Add("Allow", "GET,OPTIONS,POST");
+            return Ok();
+        }
+
+        [HttpDelete("{authorId}")]
+        public async Task <IActionResult> DeleteAuthor(Guid authorId)
+        {
+            var authorFromRepo = await _authorsRepository.GetAuthorAsync(authorId);
+
+            if (authorFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _authorsRepository.DeleteAuthor(authorFromRepo);
+
+            await _authorsRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         [HttpPatch("{authorId}")]
-        [Consumes("application/json-patch+json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity,
-            Type = typeof(ValidationProblemDetails))]
         public async Task<ActionResult<Author>> UpdateAuthor(
             Guid authorId,
             JsonPatchDocument<AuthorForUpdate> patchDocument)

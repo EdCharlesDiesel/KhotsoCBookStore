@@ -12,10 +12,13 @@ namespace KhotsoCBookStore.API.Entities
 
         [Required]
         [MaxLength(150)]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         [MaxLength(2500)]
-        public string Description { get; set; }
+        public string Text { get; set; }
+
+        [Required]
+        public int PurchasePrice { get; set; }
 
         public int? AmountOfPages { get; set; }
 

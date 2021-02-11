@@ -10,9 +10,9 @@ namespace KhotsoCBookStore.API.Services
 {
     public class BookRepository : IBookRepository, IDisposable
     {
-        private LibraryContext _context;
+        private khotsoCBookStoreDbContext _context;
 
-        public BookRepository(LibraryContext context)
+        public BookRepository(khotsoCBookStoreDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
