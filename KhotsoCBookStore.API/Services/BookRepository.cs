@@ -58,6 +58,52 @@ namespace KhotsoCBookStore.API.Services
             _context.Add(bookToAdd);
         }
 
+          public void AddBook(Guid authorId, Book book)
+        {
+            if (authorId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(authorId));
+            }
+
+            if (book == null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+            // always set the AuthorId to the passed-in authorId
+            book.AuthorId = authorId;
+            _context.Books.Add(book); 
+        }   
+
+
+           public void DeleteBook(Book book)
+        {
+            _context.Books.Remove(book);
+        }
+
+        public async Task<bool> AuthorExists(Guid authorId)
+        {
+            if (authorId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(authorId));
+            }
+
+            return await _context.Authors.AnyAsync(a => a.Id == authorId);
+        }
+        public void UpdateBook(Book book)
+        {
+            // no code in this implementation
+        }
+
+        public async Task<Author> GetAuthorAsync(Guid authorId)
+        {
+            if (authorId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(authorId));
+            }
+
+            return await _context.Authors.FirstOrDefaultAsync(a => a.Id == authorId);
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             // return true if 1 or more entities were changed

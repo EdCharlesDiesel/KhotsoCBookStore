@@ -11,13 +11,13 @@ namespace KhotsoCBookStore.API.Profiles
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src =>
                  $"{src.Author.FirstName} {src.Author.LastName}"));
 
-            CreateMap<Entities.Book, Models.Book>()
+            CreateMap<Entities.Book, Models.BookDto>()
                 .ForMember(dest => dest.AuthorFirstName, opt => opt.MapFrom(src =>
                 $"{src.Author.FirstName}"))
                 .ForMember(dest => dest.AuthorLastName, opt => opt.MapFrom(src =>
                 $"{src.Author.LastName}"));
 
-            CreateMap<BookForCreation, Entities.Book>();
+            CreateMap<BookForCreationDto, Entities.Book>();
 
             CreateMap<BookForCreationWithAmountOfPages, Entities.Book>();
         }

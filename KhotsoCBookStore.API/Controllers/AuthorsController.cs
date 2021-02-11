@@ -26,27 +26,27 @@ namespace KhotsoCBookStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
+        public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors()
         {
             var authorsFromRepo = await _authorsRepository.GetAuthorsAsync();
-            return Ok(_mapper.Map<IEnumerable<Author>>(authorsFromRepo));
+            return Ok(_mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo));
         }
 
         [HttpPost]
-        public ActionResult<Author> CreateAuthor(AuthorForCreation author)
+        public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto author)
         {
             var authorEntity = _mapper.Map<Entities.Author>(author);
             _authorsRepository.AddAuthorAsync(authorEntity);
             _authorsRepository.SaveChangesAsync();
 
-            var authorToReturn = _mapper.Map<Author>(authorEntity);
+            var authorToReturn = _mapper.Map<AuthorDto>(authorEntity);
             return CreatedAtRoute("GetAuthor",
                 new { authorId = authorToReturn.Id },
                 authorToReturn);
         }
 
         [HttpGet("{authorId}", Name = "GetAuthor")]
-        public async Task<ActionResult<Author>> GetAuthor(
+        public async Task<ActionResult<AuthorDto>> GetAuthor(
             Guid authorId)
         {
             var authorFromRepo = await _authorsRepository.GetAuthorAsync(authorId);
@@ -55,13 +55,13 @@ namespace KhotsoCBookStore.API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<Author>(authorFromRepo));
+            return Ok(_mapper.Map<AuthorDto>(authorFromRepo));
         }
 
         [HttpPut("{authorId}")]
-        public async Task<ActionResult<Author>> UpdateAuthor(
+        public async Task<ActionResult<AuthorDto>> UpdateAuthor(
             Guid authorId,
-            AuthorForUpdate authorForUpdate)
+            AuthorForUpdateDto authorForUpdate)
         {
             var authorFromRepo = await _authorsRepository.GetAuthorAsync(authorId);
             if (authorFromRepo == null)
@@ -76,7 +76,7 @@ namespace KhotsoCBookStore.API.Controllers
             await _authorsRepository.SaveChangesAsync();
 
             // return the author
-            return Ok(_mapper.Map<Author>(authorFromRepo));
+            return Ok(_mapper.Map<AuthorDto>(authorFromRepo));
         }
 
         [HttpOptions]
@@ -104,9 +104,9 @@ namespace KhotsoCBookStore.API.Controllers
         }
 
         [HttpPatch("{authorId}")]
-        public async Task<ActionResult<Author>> UpdateAuthor(
+        public async Task<ActionResult<AuthorDto>> UpdateAuthor(
             Guid authorId,
-            JsonPatchDocument<AuthorForUpdate> patchDocument)
+            JsonPatchDocument<AuthorForUpdateDto> patchDocument)
         {
             var authorFromRepo = await _authorsRepository.GetAuthorAsync(authorId);
             if (authorFromRepo == null)
@@ -115,7 +115,7 @@ namespace KhotsoCBookStore.API.Controllers
             }
 
             // map to DTO to apply the patch to
-            var author = _mapper.Map<AuthorForUpdate>(authorFromRepo);
+            var author = _mapper.Map<AuthorForUpdateDto>(authorFromRepo);
             patchDocument.ApplyTo(author, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
 
             // if there are errors when applying the patch the patch doc 
@@ -135,7 +135,7 @@ namespace KhotsoCBookStore.API.Controllers
             await _authorsRepository.SaveChangesAsync();
 
             // return the author
-            return Ok(_mapper.Map<Author>(authorFromRepo));
+            return Ok(_mapper.Map<AuthorDto>(authorFromRepo));
         }
     }
 }

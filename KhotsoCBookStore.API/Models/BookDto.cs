@@ -2,7 +2,7 @@
 
 namespace KhotsoCBookStore.API.Models
 {
-    public class Book
+    public class BookDto
     {
         public Guid Id { get; set; }
 
@@ -10,8 +10,8 @@ namespace KhotsoCBookStore.API.Models
 
         public string AuthorLastName { get; set; }
 
-        public string Title { get; set; }
+        public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string Text { get; set; }
     }
 }

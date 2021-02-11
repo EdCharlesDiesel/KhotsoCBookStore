@@ -1,6 +1,6 @@
 ﻿namespace KhotsoCBookStore.API.Models
 {
-    public class AuthorForUpdate
+    public class AuthorForUpdateDto
     {
         public string FirstName { get; set; }
 

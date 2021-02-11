@@ -7,11 +7,11 @@ namespace KhotsoCBookStore.API.Profiles
     {
         public AuthorProfile()
         {
-            CreateMap<Entities.Author, Models.Author>();
+            CreateMap<Entities.Author, Models.AuthorDto>();
 
-            CreateMap<AuthorForUpdate, Entities.Author>();
+            CreateMap<AuthorForUpdateDto, Entities.Author>();
 
-            CreateMap<Models.AuthorForCreation, Entities.Author>();
+            CreateMap<Models.AuthorForCreationDto, Entities.Author>();
         }
     }
 }

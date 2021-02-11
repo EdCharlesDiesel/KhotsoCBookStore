@@ -13,6 +13,13 @@ namespace KhotsoCBookStore.API.Services
 
         void AddBook(Book bookToAdd);
 
+        void AddBook(Guid authorId, Book book);
+        void UpdateBook(Book book);
+        void DeleteBook(Book book);
+
+        Task<Author> GetAuthorAsync(Guid authorId);
+        Task<bool> AuthorExists(Guid authorId);
+
         Task<bool> SaveChangesAsync();
     }
 }

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace KhotsoCBookStore.API.Models
 {
-    public class AuthorForCreation
+    public class AuthorForCreationDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public ICollection<BookForCreation> Books { get; set; }
-          = new List<BookForCreation>();
+        public ICollection<BookForCreationDto> Books { get; set; }
+          = new List<BookForCreationDto>();
 
     }
 }

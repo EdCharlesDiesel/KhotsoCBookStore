@@ -3,7 +3,7 @@
 namespace KhotsoCBookStore.API.Models
 {
 
-    public class Author
+    public class AuthorDto
     {
         public Guid Id { get; set; }
 

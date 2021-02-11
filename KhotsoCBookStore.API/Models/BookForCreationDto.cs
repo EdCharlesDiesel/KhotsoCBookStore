@@ -1,6 +1,6 @@
 ﻿namespace KhotsoCBookStore.API.Models
 {
-    public class BookForCreation
+    public class BookForCreationDto
     {
         public string Title { get; set; }
 
