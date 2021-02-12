@@ -58,7 +58,7 @@ namespace KhotsoCBookStore.API.Services
             _context.Add(bookToAdd);
         }
 
-          public void AddBook(Guid authorId, Book book)
+        public void AddBook(Guid authorId, Book book)
         {
             if (authorId == Guid.Empty)
             {
@@ -71,11 +71,11 @@ namespace KhotsoCBookStore.API.Services
             }
             // always set the AuthorId to the passed-in authorId
             book.AuthorId = authorId;
-            _context.Books.Add(book); 
-        }   
+            _context.Books.Add(book);
+        }
 
 
-           public void DeleteBook(Book book)
+        public void DeleteBook(Book book)
         {
             _context.Books.Remove(book);
         }
@@ -102,6 +102,22 @@ namespace KhotsoCBookStore.API.Services
             }
 
             return await _context.Authors.FirstOrDefaultAsync(a => a.Id == authorId);
+        }
+
+        public async Task<Book> GetBookForAuthorAsync(Guid authorId, Guid bookId)
+        {
+            if (authorId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(authorId));
+            }
+
+            if (bookId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(bookId));
+            }
+
+            return await _context.Books
+              .Where(c => c.AuthorId == authorId && c.Id == bookId).FirstOrDefaultAsync();
         }
 
         public async Task<bool> SaveChangesAsync()

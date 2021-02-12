@@ -11,6 +11,8 @@ namespace KhotsoCBookStore.API.Services
 
         Task<Book> GetBookAsync(Guid authorId, Guid bookId);
 
+        Task<Book> GetBookForAuthorAsync(Guid authorId, Guid bookId);
+
         void AddBook(Book bookToAdd);
 
         void AddBook(Guid authorId, Book book);

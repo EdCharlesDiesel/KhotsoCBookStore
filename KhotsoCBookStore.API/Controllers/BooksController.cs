@@ -22,9 +22,9 @@ namespace KhotsoCBookStore.API.Controllers
             IAuthorRepository authorRepository,
             IMapper mapper)
         {
-            _bookRepository = bookRepository;
-            _authorRepository = authorRepository;
-            _mapper = mapper;
+            _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
+            _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet()]
@@ -83,19 +83,22 @@ namespace KhotsoCBookStore.API.Controllers
         //[HttpDelete("{bookId}")]
         //public ActionResult DeleteBookForAuthor(Guid authorId, Guid bookId)
         //{
-        //    if (!_authorRepository.AuthorExists(authorId))
+        //    var authourFromRepo =  _authorRepository.GetAuthorAsync(authorId); 
+
+        //    if (authourFromRepo == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    var bookForAuthorFromRepo = _authorRepository.GetBook(authorId, bookId);
+        //    var bookForAuthorFromRepo = _bookRepository.GetBookForAuthorAsync(authorId, bookId);
 
         //    if (bookForAuthorFromRepo == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    _authorRepository.DeleteBook(bookForAuthorFromRepo);
+        //    _bookRepository.DeleteBook(bookForAuthorFromRepo)
+        //    _authorRepository.(bookForAuthorFromRepo);
         //    _authorRepository.Save();
 
         //    return NoContent();
