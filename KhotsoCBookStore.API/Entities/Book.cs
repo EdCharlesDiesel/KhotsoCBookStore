@@ -5,7 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace KhotsoCBookStore.API.Entities
 {
     [Table("Books")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Book
+
     {
         [Key]
         public Guid Id { get; set; }
@@ -25,4 +27,6 @@ namespace KhotsoCBookStore.API.Entities
         public Guid AuthorId { get; set; }
         public Author Author { get; set; }
     }
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

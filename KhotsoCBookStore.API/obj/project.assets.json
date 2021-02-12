@@ -252,6 +252,9 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Abstractions.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.6": {
+        "type": "package"
+      },
       "Microsoft.AspNetCore.Mvc.Core/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -2893,6 +2896,18 @@
         "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Abstractions.xml",
         "microsoft.aspnetcore.mvc.abstractions.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.mvc.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.6": {
+      "sha512": "XvMvPlksyAtIk+wYzF6pcroVX8cxMkVqqv2Scheh+NzskS1JKXLU1myt2+X6Ia1XLMUtbxZY1hrYgZJy92fjqA==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.mvc.api.analyzers/2.2.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/Microsoft.AspNetCore.Mvc.Api.Analyzers.dll",
+        "microsoft.aspnetcore.mvc.api.analyzers.2.2.6.nupkg.sha512",
+        "microsoft.aspnetcore.mvc.api.analyzers.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Mvc.Core/2.2.0": {
@@ -8468,6 +8483,7 @@
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 5.0.1",
       "Microsoft.AspNetCore.Authentication.OpenIdConnect >= 5.0.1",
       "Microsoft.AspNetCore.JsonPatch >= 5.0.3",
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers >= 2.2.6",
       "Microsoft.AspNetCore.Mvc.Formatters.Json >= 2.2.0",
       "Microsoft.AspNetCore.Mvc.Versioning >= 5.0.0",
       "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer >= 5.0.0",
@@ -8544,6 +8560,10 @@
           "Microsoft.AspNetCore.JsonPatch": {
             "target": "Package",
             "version": "[5.0.3, )"
+          },
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": {
+            "target": "Package",
+            "version": "[2.2.6, )"
           },
           "Microsoft.AspNetCore.Mvc.Formatters.Json": {
             "target": "Package",

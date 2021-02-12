@@ -7,7 +7,9 @@ namespace KhotsoCBookStore.API.Entities
 {
 
     [Table("Authors")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Author
+
     {
         [Key]
         public Guid Id { get; set; }
@@ -22,4 +24,5 @@ namespace KhotsoCBookStore.API.Entities
 
         public ICollection<Book> Books { get; set; } = new List<Book>();
     }
+    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
