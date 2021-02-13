@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-
+    [Produces("application/json", "application/xml")]
     [Route("api/authors")]
     [ApiController]
     public class AuthorsController : ControllerBase
