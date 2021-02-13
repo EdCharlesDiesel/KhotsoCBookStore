@@ -12,9 +12,9 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-export const appUrl = new InjectionToken<string>('appUrl');
+const appUrl = new InjectionToken<string>('appUrl');
 
-export interface IApiClient {
+interface IApiClient {
     /**
      * List of all the actions that are allows with this API
      * @return Success
@@ -58,10 +58,8 @@ export interface IApiClient {
     booksPatch(bookId: string, body: BookForUpdateDtoJsonPatchDocument | undefined): Observable<BookForUpdateDto>;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
-export class ApiClient implements IApiClient {
+@Injectable()
+class ApiClient implements IApiClient {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -271,76 +269,7 @@ export class ApiClient implements IApiClient {
         return _observableOf<BookDto>(<any>null);
     }
 
-    /**
-     * Get a book by id
-     * @param bookId The id of the book
-     * @return Returns the requested book
-     */
-    booksGet(bookId: string): Observable<BookDto> {
-        let url_ = this.baseUrl + "/api/books/{bookId}";
-        if (bookId === undefined || bookId === null)
-            throw new Error("The parameter 'bookId' must be defined.");
-        url_ = url_.replace("{bookId}", encodeURIComponent("" + bookId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processBooksGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processBooksGet(<any>response_);
-                } catch (e) {
-                    return <Observable<BookDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BookDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processBooksGet(response: HttpResponseBase): Observable<BookDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Returns no book is found", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("Returns bad request sent", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BookDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BookDto>(<any>null);
-    }
+ 
 
     /**
      * Delete a book
@@ -570,7 +499,7 @@ export class ApiClient implements IApiClient {
     }
 }
 
-export class BookDto implements IBookDto {
+class BookDto implements IBookDto {
     id?: string;
     name?: string | undefined;
     text?: string | undefined;
@@ -611,14 +540,14 @@ export class BookDto implements IBookDto {
     }
 }
 
-export interface IBookDto {
+interface IBookDto {
     id?: string;
     name?: string | undefined;
     text?: string | undefined;
     purchasePrice?: number;
 }
 
-export class ProblemDetails implements IProblemDetails {
+class ProblemDetails implements IProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
     status?: number | undefined;
@@ -662,7 +591,7 @@ export class ProblemDetails implements IProblemDetails {
     }
 }
 
-export interface IProblemDetails {
+interface IProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
     status?: number | undefined;
@@ -670,7 +599,7 @@ export interface IProblemDetails {
     instance?: string | undefined;
 }
 
-export class BookForCreationDto implements IBookForCreationDto {
+class BookForCreationDto implements IBookForCreationDto {
     name!: string;
     text!: string;
     purchasePrice!: number;
@@ -708,13 +637,13 @@ export class BookForCreationDto implements IBookForCreationDto {
     }
 }
 
-export interface IBookForCreationDto {
+interface IBookForCreationDto {
     name: string;
     text: string;
     purchasePrice: number;
 }
 
-export enum MemberTypes {
+enum MemberTypes {
     _1 = 1,
     _2 = 2,
     _4 = 4,
@@ -726,7 +655,7 @@ export enum MemberTypes {
     _191 = 191,
 }
 
-export enum GenericParameterAttributes {
+enum GenericParameterAttributes {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -737,7 +666,7 @@ export enum GenericParameterAttributes {
     _28 = 28,
 }
 
-export enum TypeAttributes {
+enum TypeAttributes {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -766,13 +695,13 @@ export enum TypeAttributes {
     _12582912 = 12582912,
 }
 
-export enum LayoutKind {
+enum LayoutKind {
     _0 = 0,
     _2 = 2,
     _3 = 3,
 }
 
-export class StructLayoutAttribute implements IStructLayoutAttribute {
+class StructLayoutAttribute implements IStructLayoutAttribute {
     readonly typeId?: any | undefined;
     value?: LayoutKind;
 
@@ -807,12 +736,12 @@ export class StructLayoutAttribute implements IStructLayoutAttribute {
     }
 }
 
-export interface IStructLayoutAttribute {
+interface IStructLayoutAttribute {
     typeId?: any | undefined;
     value?: LayoutKind;
 }
 
-export class IntPtr implements IIntPtr {
+class IntPtr implements IIntPtr {
 
     constructor(data?: IIntPtr) {
         if (data) {
@@ -839,10 +768,10 @@ export class IntPtr implements IIntPtr {
     }
 }
 
-export interface IIntPtr {
+interface IIntPtr {
 }
 
-export class RuntimeTypeHandle implements IRuntimeTypeHandle {
+class RuntimeTypeHandle implements IRuntimeTypeHandle {
     value?: IntPtr;
 
     constructor(data?: IRuntimeTypeHandle) {
@@ -874,17 +803,17 @@ export class RuntimeTypeHandle implements IRuntimeTypeHandle {
     }
 }
 
-export interface IRuntimeTypeHandle {
+interface IRuntimeTypeHandle {
     value?: IntPtr;
 }
 
-export enum EventAttributes {
+enum EventAttributes {
     _0 = 0,
     _512 = 512,
     _1024 = 1024,
 }
 
-export enum MethodAttributes {
+enum MethodAttributes {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -909,7 +838,7 @@ export enum MethodAttributes {
     _53248 = 53248,
 }
 
-export enum MethodImplAttributes {
+enum MethodImplAttributes {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -926,7 +855,7 @@ export enum MethodImplAttributes {
     _65535 = 65535,
 }
 
-export enum CallingConventions {
+enum CallingConventions {
     _1 = 1,
     _2 = 2,
     _3 = 3,
@@ -934,7 +863,7 @@ export enum CallingConventions {
     _64 = 64,
 }
 
-export class RuntimeMethodHandle implements IRuntimeMethodHandle {
+class RuntimeMethodHandle implements IRuntimeMethodHandle {
     value?: IntPtr;
 
     constructor(data?: IRuntimeMethodHandle) {
@@ -966,11 +895,11 @@ export class RuntimeMethodHandle implements IRuntimeMethodHandle {
     }
 }
 
-export interface IRuntimeMethodHandle {
+interface IRuntimeMethodHandle {
     value?: IntPtr;
 }
 
-export enum ParameterAttributes {
+enum ParameterAttributes {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -984,7 +913,7 @@ export enum ParameterAttributes {
     _61440 = 61440,
 }
 
-export class MemberInfo implements IMemberInfo {
+class MemberInfo implements IMemberInfo {
     memberType?: MemberTypes;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1045,7 +974,7 @@ export class MemberInfo implements IMemberInfo {
     }
 }
 
-export interface IMemberInfo {
+interface IMemberInfo {
     memberType?: MemberTypes;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1056,7 +985,7 @@ export interface IMemberInfo {
     metadataToken?: number;
 }
 
-export class ParameterInfo implements IParameterInfo {
+class ParameterInfo implements IParameterInfo {
     attributes?: ParameterAttributes;
     member?: MemberInfo;
     readonly name?: string | undefined;
@@ -1138,7 +1067,7 @@ export class ParameterInfo implements IParameterInfo {
     }
 }
 
-export interface IParameterInfo {
+interface IParameterInfo {
     attributes?: ParameterAttributes;
     member?: MemberInfo;
     name?: string | undefined;
@@ -1156,7 +1085,7 @@ export interface IParameterInfo {
     metadataToken?: number;
 }
 
-export class ICustomAttributeProvider implements IICustomAttributeProvider {
+class ICustomAttributeProvider implements IICustomAttributeProvider {
 
     constructor(data?: IICustomAttributeProvider) {
         if (data) {
@@ -1183,10 +1112,10 @@ export class ICustomAttributeProvider implements IICustomAttributeProvider {
     }
 }
 
-export interface IICustomAttributeProvider {
+interface IICustomAttributeProvider {
 }
 
-export class MethodInfo implements IMethodInfo {
+class MethodInfo implements IMethodInfo {
     readonly name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1328,7 +1257,7 @@ export class MethodInfo implements IMethodInfo {
     }
 }
 
-export interface IMethodInfo {
+interface IMethodInfo {
     name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1366,7 +1295,7 @@ export interface IMethodInfo {
     returnTypeCustomAttributes?: ICustomAttributeProvider;
 }
 
-export class EventInfo implements IEventInfo {
+class EventInfo implements IEventInfo {
     readonly name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1448,7 +1377,7 @@ export class EventInfo implements IEventInfo {
     }
 }
 
-export interface IEventInfo {
+interface IEventInfo {
     name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1466,7 +1395,7 @@ export interface IEventInfo {
     eventHandlerType?: Type;
 }
 
-export enum FieldAttributes {
+enum FieldAttributes {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -1488,7 +1417,7 @@ export enum FieldAttributes {
     _38144 = 38144,
 }
 
-export class RuntimeFieldHandle implements IRuntimeFieldHandle {
+class RuntimeFieldHandle implements IRuntimeFieldHandle {
     value?: IntPtr;
 
     constructor(data?: IRuntimeFieldHandle) {
@@ -1520,11 +1449,11 @@ export class RuntimeFieldHandle implements IRuntimeFieldHandle {
     }
 }
 
-export interface IRuntimeFieldHandle {
+interface IRuntimeFieldHandle {
     value?: IntPtr;
 }
 
-export class FieldInfo implements IFieldInfo {
+class FieldInfo implements IFieldInfo {
     readonly name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1639,7 +1568,7 @@ export class FieldInfo implements IFieldInfo {
     }
 }
 
-export interface IFieldInfo {
+interface IFieldInfo {
     name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1668,7 +1597,7 @@ export interface IFieldInfo {
     fieldHandle?: RuntimeFieldHandle;
 }
 
-export enum PropertyAttributes {
+enum PropertyAttributes {
     _0 = 0,
     _512 = 512,
     _1024 = 1024,
@@ -1679,7 +1608,7 @@ export enum PropertyAttributes {
     _62464 = 62464,
 }
 
-export class PropertyInfo implements IPropertyInfo {
+class PropertyInfo implements IPropertyInfo {
     readonly name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1761,7 +1690,7 @@ export class PropertyInfo implements IPropertyInfo {
     }
 }
 
-export interface IPropertyInfo {
+interface IPropertyInfo {
     name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -1779,7 +1708,7 @@ export interface IPropertyInfo {
     setMethod?: MethodInfo;
 }
 
-export class TypeInfo implements ITypeInfo {
+class TypeInfo implements ITypeInfo {
     readonly name?: string | undefined;
     readonly customAttributes?: CustomAttributeData[] | undefined;
     readonly isCollectible?: boolean;
@@ -2136,7 +2065,7 @@ export class TypeInfo implements ITypeInfo {
     }
 }
 
-export interface ITypeInfo {
+interface ITypeInfo {
     name?: string | undefined;
     customAttributes?: CustomAttributeData[] | undefined;
     isCollectible?: boolean;
@@ -2219,13 +2148,13 @@ export interface ITypeInfo {
     implementedInterfaces?: Type[] | undefined;
 }
 
-export enum SecurityRuleSet {
+enum SecurityRuleSet {
     _0 = 0,
     _1 = 1,
     _2 = 2,
 }
 
-export class Assembly implements IAssembly {
+class Assembly implements IAssembly {
     readonly definedTypes?: TypeInfo[] | undefined;
     readonly exportedTypes?: Type[] | undefined;
     readonly codeBase?: string | undefined;
@@ -2340,7 +2269,7 @@ export class Assembly implements IAssembly {
     }
 }
 
-export interface IAssembly {
+interface IAssembly {
     definedTypes?: TypeInfo[] | undefined;
     exportedTypes?: Type[] | undefined;
     codeBase?: string | undefined;
@@ -2361,7 +2290,7 @@ export interface IAssembly {
     securityRuleSet?: SecurityRuleSet;
 }
 
-export class ModuleHandle implements IModuleHandle {
+class ModuleHandle implements IModuleHandle {
     readonly mdStreamVersion?: number;
 
     constructor(data?: IModuleHandle) {
@@ -2393,11 +2322,11 @@ export class ModuleHandle implements IModuleHandle {
     }
 }
 
-export interface IModuleHandle {
+interface IModuleHandle {
     mdStreamVersion?: number;
 }
 
-export class Module implements IModule {
+class Module implements IModule {
     assembly?: Assembly;
     readonly fullyQualifiedName?: string | undefined;
     readonly name?: string | undefined;
@@ -2461,7 +2390,7 @@ export class Module implements IModule {
     }
 }
 
-export interface IModule {
+interface IModule {
     assembly?: Assembly;
     fullyQualifiedName?: string | undefined;
     name?: string | undefined;
@@ -2473,7 +2402,7 @@ export interface IModule {
     metadataToken?: number;
 }
 
-export class ConstructorInfo implements IConstructorInfo {
+class ConstructorInfo implements IConstructorInfo {
     readonly name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -2606,7 +2535,7 @@ export class ConstructorInfo implements IConstructorInfo {
     }
 }
 
-export interface IConstructorInfo {
+interface IConstructorInfo {
     name?: string | undefined;
     declaringType?: Type;
     reflectedType?: Type;
@@ -2641,7 +2570,7 @@ export interface IConstructorInfo {
     memberType?: MemberTypes;
 }
 
-export class CustomAttributeTypedArgument implements ICustomAttributeTypedArgument {
+class CustomAttributeTypedArgument implements ICustomAttributeTypedArgument {
     argumentType?: Type;
     readonly value?: any | undefined;
 
@@ -2676,12 +2605,12 @@ export class CustomAttributeTypedArgument implements ICustomAttributeTypedArgume
     }
 }
 
-export interface ICustomAttributeTypedArgument {
+interface ICustomAttributeTypedArgument {
     argumentType?: Type;
     value?: any | undefined;
 }
 
-export class CustomAttributeNamedArgument implements ICustomAttributeNamedArgument {
+class CustomAttributeNamedArgument implements ICustomAttributeNamedArgument {
     memberInfo?: MemberInfo;
     typedValue?: CustomAttributeTypedArgument;
     readonly memberName?: string | undefined;
@@ -2722,14 +2651,14 @@ export class CustomAttributeNamedArgument implements ICustomAttributeNamedArgume
     }
 }
 
-export interface ICustomAttributeNamedArgument {
+interface ICustomAttributeNamedArgument {
     memberInfo?: MemberInfo;
     typedValue?: CustomAttributeTypedArgument;
     memberName?: string | undefined;
     isField?: boolean;
 }
 
-export class CustomAttributeData implements ICustomAttributeData {
+class CustomAttributeData implements ICustomAttributeData {
     attributeType?: Type;
     constructor_?: ConstructorInfo;
     readonly constructorArguments?: CustomAttributeTypedArgument[] | undefined;
@@ -2786,14 +2715,14 @@ export class CustomAttributeData implements ICustomAttributeData {
     }
 }
 
-export interface ICustomAttributeData {
+interface ICustomAttributeData {
     attributeType?: Type;
     constructor_?: ConstructorInfo;
     constructorArguments?: CustomAttributeTypedArgument[] | undefined;
     namedArguments?: CustomAttributeNamedArgument[] | undefined;
 }
 
-export class Type implements IType {
+class Type implements IType {
     readonly name?: string | undefined;
     readonly customAttributes?: CustomAttributeData[] | undefined;
     readonly isCollectible?: boolean;
@@ -3051,7 +2980,7 @@ export class Type implements IType {
     }
 }
 
-export interface IType {
+interface IType {
     name?: string | undefined;
     customAttributes?: CustomAttributeData[] | undefined;
     isCollectible?: boolean;
@@ -3125,7 +3054,7 @@ export interface IType {
     isVisible?: boolean;
 }
 
-export class MethodBase implements IMethodBase {
+class MethodBase implements IMethodBase {
     memberType?: MemberTypes;
     readonly name?: string | undefined;
     declaringType?: Type;
@@ -3258,7 +3187,7 @@ export class MethodBase implements IMethodBase {
     }
 }
 
-export interface IMethodBase {
+interface IMethodBase {
     memberType?: MemberTypes;
     name?: string | undefined;
     declaringType?: Type;
@@ -3293,7 +3222,7 @@ export interface IMethodBase {
     isSecurityTransparent?: boolean;
 }
 
-export class Exception implements IException {
+class Exception implements IException {
     targetSite?: MethodBase;
     readonly stackTrace?: string | undefined;
     readonly message?: string | undefined;
@@ -3358,7 +3287,7 @@ export class Exception implements IException {
     }
 }
 
-export interface IException {
+interface IException {
     targetSite?: MethodBase;
     stackTrace?: string | undefined;
     message?: string | undefined;
@@ -3369,7 +3298,7 @@ export interface IException {
     hResult?: number;
 }
 
-export class ModelError implements IModelError {
+class ModelError implements IModelError {
     exception?: Exception;
     readonly errorMessage?: string | undefined;
 
@@ -3404,19 +3333,19 @@ export class ModelError implements IModelError {
     }
 }
 
-export interface IModelError {
+interface IModelError {
     exception?: Exception;
     errorMessage?: string | undefined;
 }
 
-export enum ModelValidationState {
+enum ModelValidationState {
     _0 = 0,
     _1 = 1,
     _2 = 2,
     _3 = 3,
 }
 
-export class ModelStateEntry implements IModelStateEntry {
+class ModelStateEntry implements IModelStateEntry {
     rawValue?: any | undefined;
     attemptedValue?: string | undefined;
     readonly errors?: ModelError[] | undefined;
@@ -3479,7 +3408,7 @@ export class ModelStateEntry implements IModelStateEntry {
     }
 }
 
-export interface IModelStateEntry {
+interface IModelStateEntry {
     rawValue?: any | undefined;
     attemptedValue?: string | undefined;
     errors?: ModelError[] | undefined;
@@ -3488,7 +3417,7 @@ export interface IModelStateEntry {
     children?: ModelStateEntry[] | undefined;
 }
 
-export class BookForUpdateDto implements IBookForUpdateDto {
+class BookForUpdateDto implements IBookForUpdateDto {
     name!: string;
     text!: string;
     purchasePrice!: number;
@@ -3526,13 +3455,13 @@ export class BookForUpdateDto implements IBookForUpdateDto {
     }
 }
 
-export interface IBookForUpdateDto {
+interface IBookForUpdateDto {
     name: string;
     text: string;
     purchasePrice: number;
 }
 
-export enum OperationType {
+enum OperationType {
     _0 = 0,
     _1 = 1,
     _2 = 2,
@@ -3542,7 +3471,7 @@ export enum OperationType {
     _6 = 6,
 }
 
-export class BookForUpdateDtoOperation implements IBookForUpdateDtoOperation {
+class BookForUpdateDtoOperation implements IBookForUpdateDtoOperation {
     operationType?: OperationType;
     path?: string | undefined;
     op?: string | undefined;
@@ -3586,7 +3515,7 @@ export class BookForUpdateDtoOperation implements IBookForUpdateDtoOperation {
     }
 }
 
-export interface IBookForUpdateDtoOperation {
+interface IBookForUpdateDtoOperation {
     operationType?: OperationType;
     path?: string | undefined;
     op?: string | undefined;
@@ -3594,7 +3523,7 @@ export interface IBookForUpdateDtoOperation {
     value?: any | undefined;
 }
 
-export class IContractResolver implements IIContractResolver {
+class IContractResolver implements IIContractResolver {
 
     constructor(data?: IIContractResolver) {
         if (data) {
@@ -3621,10 +3550,10 @@ export class IContractResolver implements IIContractResolver {
     }
 }
 
-export interface IIContractResolver {
+interface IIContractResolver {
 }
 
-export class BookForUpdateDtoJsonPatchDocument implements IBookForUpdateDtoJsonPatchDocument {
+class BookForUpdateDtoJsonPatchDocument implements IBookForUpdateDtoJsonPatchDocument {
     readonly operations?: BookForUpdateDtoOperation[] | undefined;
     contractResolver?: IContractResolver;
 
@@ -3667,12 +3596,12 @@ export class BookForUpdateDtoJsonPatchDocument implements IBookForUpdateDtoJsonP
     }
 }
 
-export interface IBookForUpdateDtoJsonPatchDocument {
+interface IBookForUpdateDtoJsonPatchDocument {
     operations?: BookForUpdateDtoOperation[] | undefined;
     contractResolver?: IContractResolver;
 }
 
-export class ApiException extends Error {
+class ApiException extends Error {
     message: string;
     status: number;
     response: string;
