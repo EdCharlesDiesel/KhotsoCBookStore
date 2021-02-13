@@ -7,20 +7,17 @@ namespace KhotsoCBookStore.API.Services
 {
     public interface IBookRepository : IDisposable
     {
-        Task<IEnumerable<Book>> GetBooksAsync(Guid authorId);
+        Task<IEnumerable<Book>> GetAllBooksAsync();
 
-        Task<Book> GetBookAsync(Guid authorId, Guid bookId);
+        Task<Book> GetBookAsync(Guid bookId);
 
-        Task<Book> GetBookForAuthorAsync(Guid authorId, Guid bookId);
+        Task AddBookAsync(Book book);
 
-        void AddBook(Book bookToAdd);
+        Task UpdateBook(Book book);
+        
+        Task DeleteBook(Book book);        
 
-        void AddBook(Guid authorId, Book book);
-        void UpdateBook(Book book);
-        void DeleteBook(Book book);
-
-        Task<Author> GetAuthorAsync(Guid authorId);
-        Task<bool> AuthorExists(Guid authorId);
+        Task<bool> BookExists(Guid Id);
 
         Task<bool> SaveChangesAsync();
     }

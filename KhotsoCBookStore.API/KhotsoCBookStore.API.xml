@@ -4,75 +4,73 @@
         <name>KhotsoCBookStore.API</name>
     </assembly>
     <members>
-        <member name="M:KhotsoCBookStore.API.Controllers.AuthorsController.GetAuthor(System.Guid)">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.GetBooksAPIOptions">
             <summary>
-            Get an authour by his/her id
+            List of all the actions that are allows with this API
             </summary>
-            <param name="authorId">The id of the author you want to get</param>
-            <returns> An author with id, fistname and lastname fields</returns>
+            <returns>An IActionResult of actions allowed</returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.AuthorsController.UpdateAuthor(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{KhotsoCBookStore.API.Models.AuthorForUpdateDto})">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.GetBooks">
             <summary>
-            Partial update an author
+            Get all the books
             </summary>
-            <param name="authorId">The id f the author you want to get</param>
-            <param name="patchDocument">The set of operations to apply to the author</param>
-            <returns>An ActionResult of type author</returns>
-            <remarks>
-            Sample request( this request updates the author's firstname) \
-            PATCH /authors/authorId \
-            [ \
-                {
-                    "op": "replace", \
-                    "path": "/firstname", \
-                    "value": "new first name" \
-                } \
-            ] 
-            </remarks>
+            <returns>An ActionResult of type Book</returns>
+            <response code="200">Returns the requested books</response>
+            <response code="404">Returns no books found</response>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.GetBook(System.Guid,System.Guid)">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.GetBook(System.Guid)">
             <summary>
-            Get a book by id for a specific author
-            </summary>
-            <param name="authorId">The id of the book author</param>
+            Get a book by id
+            </summary>        
             <param name="bookId">The id of the book</param>
             <returns>An ActionResult of type Book</returns>
             <response code="200">Returns the requested book</response>
+            <response code="404">Returns no book is found</response>
+            <response code="400">Returns bad request sent</response>
         </member>
-        <member name="T:KhotsoCBookStore.API.Models.AuthorDto">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.CreateBook(KhotsoCBookStore.API.Models.BookForCreationDto)">
             <summary>
-            An author with Id, FirstName and LasttName fields
-            </summary>
+            Create a book 
+            </summary>        
+            <param name="bookForCreation">The book to create</param>
+            <returns>An ActionResult of type Book</returns>
+            <response code="422">Validation error</response>
         </member>
-        <member name="P:KhotsoCBookStore.API.Models.AuthorDto.Id">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.DeleteBook(System.Guid)">
             <summary>
-            The id of the author
+            Delete a book
             </summary>
+            <param name="bookId"></param>
+            <returns>An ActionResult of type Book</returns>
         </member>
-        <member name="P:KhotsoCBookStore.API.Models.AuthorDto.FirstName">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.UpdateBook(System.Guid,KhotsoCBookStore.API.Models.BookForUpdateDto)">
             <summary>
-            The first name of the author
+            Update an book 
             </summary>
+            <param name="bookId">The id of the book to update</param>
+            <param name="bookForUpdate">The book with updated values</param>
+            <returns>An ActionResult of type Bbook</returns>
+            <response code="422">Validation error</response>
         </member>
-        <member name="P:KhotsoCBookStore.API.Models.AuthorDto.LastName">
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.UpdateBbook(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{KhotsoCBookStore.API.Models.BookForUpdateDto})">
             <summary>
-            The last name of the author
+            Partially update an book
             </summary>
-        </member>
-        <member name="T:KhotsoCBookStore.API.Models.AuthorForUpdateDto">
-            <summary>
-            An author for update with FirstName and LastName fields
-            </summary>
-        </member>
-        <member name="P:KhotsoCBookStore.API.Models.AuthorForUpdateDto.FirstName">
-            <summary>
-            The first name of the author
-            </summary>
-        </member>
-        <member name="P:KhotsoCBookStore.API.Models.AuthorForUpdateDto.LastName">
-            <summary>
-            The last name of the author
-            </summary>
+            <param name="bookId">The id of the book you want to get</param>
+            <param name="patchDocument">The set of operations to apply to the book</param>
+            <returns>An ActionResult of type Bbook</returns>
+            <remarks>Sample request (this request updates the book's **first name**)  
+            
+            PATCH /books/bookId
+                [ 
+                    {
+                        "op": "replace", 
+                        "path": "/firstname", 
+                        "value": "new first name" 
+                    } 
+                ] 
+            </remarks>
+            <response code="200">Returns the updated book</response>
         </member>
         <member name="T:KhotsoCBookStore.Client.Models.AuthorDto">
             <summary>An author with Id, FirstName and LasttName fields</summary>

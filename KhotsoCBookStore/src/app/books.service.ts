@@ -12,44 +12,50 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-export const API_BASE_URL = new InjectionToken<string>('https//localhost:5001/api/books');
+export const appUrl = new InjectionToken<string>('appUrl');
 
 export interface IApiClient {
     /**
-     * Get an authour by his/her id
-     * @param authorId The id of the author you want to get
+     * List of all the actions that are allows with this API
      * @return Success
      */
-    authorsGet(authorId: string): Observable<AuthorDto>;
+    booksOptions(): Observable<void>;
     /**
-     * @param body (optional) 
-     * @return Success
+     * Get all the books
+     * @return Returns the requested books
      */
-    authorsPut(authorId: string, body: AuthorForUpdateDto | undefined): Observable<AuthorDto>;
+    booksGet(): Observable<BookDto[]>;
     /**
+     * Create a book
+     * @param body (optional) The book to create
      * @return Success
      */
-    authorsDelete(authorId: string): Observable<void>;
+    booksPost(body: BookForCreationDto | undefined): Observable<BookDto>;
     /**
-     * Partial update an author
-     * @param authorId The id f the author you want to get
-     * @param body (optional) The set of operations to apply to the author
-     * @return Success
+     * Get a book by id
+     * @param bookId The id of the book
+     * @return Returns the requested book
      */
-    authorsPatch(authorId: string, body: AuthorForUpdateDtoJsonPatchDocument | undefined): Observable<AuthorDto>;
+    booksGet(bookId: string): Observable<BookDto>;
     /**
+     * Delete a book
      * @return Success
      */
-    authorsGet(): Observable<AuthorDto[]>;
+    booksDelete(bookId: string): Observable<void>;
     /**
-     * @param body (optional) 
+     * Update an book
+     * @param bookId The id of the book to update
+     * @param body (optional) The book with updated values
      * @return Success
      */
-    authorsPost(body: AuthorForCreationDto | undefined): Observable<AuthorDto>;
+    booksPut(bookId: string, body: BookForUpdateDto | undefined): Observable<BookDto>;
     /**
-     * @return Success
+     * Partially update an book
+     * @param bookId The id of the book you want to get
+     * @param body (optional) The set of operations to apply to the book
+     * @return Returns the updated book
      */
-    authorsOptions(): Observable<void>;
+    booksPatch(bookId: string, body: BookForUpdateDtoJsonPatchDocument | undefined): Observable<BookForUpdateDto>;
 }
 
 @Injectable({
@@ -60,410 +66,17 @@ export class ApiClient implements IApiClient {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(appUrl) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
     /**
-     * Get an authour by his/her id
-     * @param authorId The id of the author you want to get
+     * List of all the actions that are allows with this API
      * @return Success
      */
-    authorsGet(authorId: string): Observable<AuthorDto> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAuthorsGet(<any>response_);
-                } catch (e) {
-                    return <Observable<AuthorDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AuthorDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAuthorsGet(response: HttpResponseBase): Observable<AuthorDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthorDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ProblemDetails.fromJS(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-            }));
-        }
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    authorsPut(authorId: string, body: AuthorForUpdateDto | undefined): Observable<AuthorDto> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsPut(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAuthorsPut(<any>response_);
-                } catch (e) {
-                    return <Observable<AuthorDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AuthorDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAuthorsPut(response: HttpResponseBase): Observable<AuthorDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthorDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ProblemDetails.fromJS(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-            }));
-        }
-    }
-
-    /**
-     * @return Success
-     */
-    authorsDelete(authorId: string): Observable<void> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAuthorsDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAuthorsDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ProblemDetails.fromJS(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-            }));
-        }
-    }
-
-    /**
-     * Partial update an author
-     * @param authorId The id f the author you want to get
-     * @param body (optional) The set of operations to apply to the author
-     * @return Success
-     */
-    authorsPatch(authorId: string, body: AuthorForUpdateDtoJsonPatchDocument | undefined): Observable<AuthorDto> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsPatch(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAuthorsPatch(<any>response_);
-                } catch (e) {
-                    return <Observable<AuthorDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AuthorDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAuthorsPatch(response: HttpResponseBase): Observable<AuthorDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthorDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 422) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result422: any = null;
-            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData422) {
-                result422 = {} as any;
-                for (let key in resultData422) {
-                    if (resultData422.hasOwnProperty(key))
-                        result422![key] = resultData422[key] ? ModelStateEntry.fromJS(resultData422[key]) : new ModelStateEntry();
-                }
-            }
-            return throwException("Client Error", status, _responseText, _headers, result422);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ProblemDetails.fromJS(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-            }));
-        }
-    }
-
-    /**
-     * @return Success
-     */
-    authorsGet(): Observable<AuthorDto[]> {
-        let url_ = this.baseUrl + "/api/authors";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAuthorsGet(<any>response_);
-                } catch (e) {
-                    return <Observable<AuthorDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AuthorDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAuthorsGet(response: HttpResponseBase): Observable<AuthorDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(AuthorDto.fromJS(item));
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<AuthorDto[]>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    authorsPost(body: AuthorForCreationDto | undefined): Observable<AuthorDto> {
-        let url_ = this.baseUrl + "/api/authors";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            withCredentials: true,
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsPost(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAuthorsPost(<any>response_);
-                } catch (e) {
-                    return <Observable<AuthorDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AuthorDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAuthorsPost(response: HttpResponseBase): Observable<AuthorDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 201) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result201: any = null;
-            let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = AuthorDto.fromJS(resultData201);
-            return _observableOf(result201);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ProblemDetails.fromJS(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-            }));
-        }
-    }
-
-    /**
-     * @return Success
-     */
-    authorsOptions(): Observable<void> {
-        let url_ = this.baseUrl + "/api/authors";
+    booksOptions(): Observable<void> {
+        let url_ = this.baseUrl + "/api/books";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -475,11 +88,11 @@ export class ApiClient implements IApiClient {
         };
 
         return this.http.request("options", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorsOptions(response_);
+            return this.processBooksOptions(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processAuthorsOptions(<any>response_);
+                    return this.processBooksOptions(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -488,7 +101,7 @@ export class ApiClient implements IApiClient {
         }));
     }
 
-    protected processAuthorsOptions(response: HttpResponseBase): Observable<void> {
+    protected processBooksOptions(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -506,48 +119,13 @@ export class ApiClient implements IApiClient {
         }
         return _observableOf<void>(<any>null);
     }
-}
-
-export interface IAuthorsClient {
-    /**
-     * @return Success
-     */
-    booksGet(authorId: string): Observable<BookDto[]>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    booksPost(authorId: string, body: BookForCreationDto | undefined): Observable<BookDto>;
-    /**
-     * Get a book by id for a specific author
-     * @param authorId The id of the book author
-     * @param bookId The id of the book
-     * @return Returns the requested book
-     */
-    booksGet(authorId: string, bookId: string): Observable<BookDto>;
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class AuthorsClient implements IAuthorsClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
 
     /**
-     * @return Success
+     * Get all the books
+     * @return Returns the requested books
      */
-    booksGet(authorId: string): Observable<BookDto[]> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}/books";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
+    booksGet(): Observable<BookDto[]> {
+        let url_ = this.baseUrl + "/api/books";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -596,7 +174,7 @@ export class AuthorsClient implements IAuthorsClient {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
+            return throwException("Returns no books found", status, _responseText, _headers, result404);
             }));
         } else {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -609,14 +187,12 @@ export class AuthorsClient implements IAuthorsClient {
     }
 
     /**
-     * @param body (optional) 
+     * Create a book
+     * @param body (optional) The book to create
      * @return Success
      */
-    booksPost(authorId: string, body: BookForCreationDto | undefined): Observable<BookDto> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}/books";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
+    booksPost(body: BookForCreationDto | undefined): Observable<BookDto> {
+        let url_ = this.baseUrl + "/api/books";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -667,27 +243,41 @@ export class AuthorsClient implements IAuthorsClient {
             result404 = ProblemDetails.fromJS(resultData404);
             return throwException("Not Found", status, _responseText, _headers, result404);
             }));
-        } else {
+        } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ProblemDetails.fromJS(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData422) {
+                result422 = {} as any;
+                for (let key in resultData422) {
+                    if (resultData422.hasOwnProperty(key))
+                        result422![key] = resultData422[key] ? ModelStateEntry.fromJS(resultData422[key]) : new ModelStateEntry();
+                }
+            }
+            return throwException("Validation error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
+        return _observableOf<BookDto>(<any>null);
     }
 
     /**
-     * Get a book by id for a specific author
-     * @param authorId The id of the book author
+     * Get a book by id
      * @param bookId The id of the book
      * @return Returns the requested book
      */
-    booksGet(authorId: string, bookId: string): Observable<BookDto> {
-        let url_ = this.baseUrl + "/api/authors/{authorId}/books/{bookId}";
-        if (authorId === undefined || authorId === null)
-            throw new Error("The parameter 'authorId' must be defined.");
-        url_ = url_.replace("{authorId}", encodeURIComponent("" + authorId));
+    booksGet(bookId: string): Observable<BookDto> {
+        let url_ = this.baseUrl + "/api/books/{bookId}";
         if (bookId === undefined || bookId === null)
             throw new Error("The parameter 'bookId' must be defined.");
         url_ = url_.replace("{bookId}", encodeURIComponent("" + bookId));
@@ -728,14 +318,14 @@ export class AuthorsClient implements IAuthorsClient {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
+            return throwException("Returns no book is found", status, _responseText, _headers, result404);
             }));
         } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+            return throwException("Returns bad request sent", status, _responseText, _headers, result400);
             }));
         } else if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -751,18 +341,242 @@ export class AuthorsClient implements IAuthorsClient {
         }
         return _observableOf<BookDto>(<any>null);
     }
+
+    /**
+     * Delete a book
+     * @return Success
+     */
+    booksDelete(bookId: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/books/{bookId}";
+        if (bookId === undefined || bookId === null)
+            throw new Error("The parameter 'bookId' must be defined.");
+        url_ = url_.replace("{bookId}", encodeURIComponent("" + bookId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            withCredentials: true,
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBooksDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBooksDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processBooksDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Update an book
+     * @param bookId The id of the book to update
+     * @param body (optional) The book with updated values
+     * @return Success
+     */
+    booksPut(bookId: string, body: BookForUpdateDto | undefined): Observable<BookDto> {
+        let url_ = this.baseUrl + "/api/books/{bookId}";
+        if (bookId === undefined || bookId === null)
+            throw new Error("The parameter 'bookId' must be defined.");
+        url_ = url_.replace("{bookId}", encodeURIComponent("" + bookId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            withCredentials: true,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBooksPut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBooksPut(<any>response_);
+                } catch (e) {
+                    return <Observable<BookDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BookDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processBooksPut(response: HttpResponseBase): Observable<BookDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BookDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData422) {
+                result422 = {} as any;
+                for (let key in resultData422) {
+                    if (resultData422.hasOwnProperty(key))
+                        result422![key] = resultData422[key] ? ModelStateEntry.fromJS(resultData422[key]) : new ModelStateEntry();
+                }
+            }
+            return throwException("Validation error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BookDto>(<any>null);
+    }
+
+    /**
+     * Partially update an book
+     * @param bookId The id of the book you want to get
+     * @param body (optional) The set of operations to apply to the book
+     * @return Returns the updated book
+     */
+    booksPatch(bookId: string, body: BookForUpdateDtoJsonPatchDocument | undefined): Observable<BookForUpdateDto> {
+        let url_ = this.baseUrl + "/api/books/{bookId}";
+        if (bookId === undefined || bookId === null)
+            throw new Error("The parameter 'bookId' must be defined.");
+        url_ = url_.replace("{bookId}", encodeURIComponent("" + bookId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            withCredentials: true,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBooksPatch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBooksPatch(<any>response_);
+                } catch (e) {
+                    return <Observable<BookForUpdateDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BookForUpdateDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processBooksPatch(response: HttpResponseBase): Observable<BookForUpdateDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BookForUpdateDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData422) {
+                result422 = {} as any;
+                for (let key in resultData422) {
+                    if (resultData422.hasOwnProperty(key))
+                        result422![key] = resultData422[key] ? ModelStateEntry.fromJS(resultData422[key]) : new ModelStateEntry();
+                }
+            }
+            return throwException("Client Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BookForUpdateDto>(<any>null);
+    }
 }
 
-/** An author with Id, FirstName and LasttName fields */
-export class AuthorDto implements IAuthorDto {
-    /** The id of the author */
+export class BookDto implements IBookDto {
     id?: string;
-    /** The first name of the author */
-    firstName?: string | undefined;
-    /** The last name of the author */
-    lastName?: string | undefined;
+    name?: string | undefined;
+    text?: string | undefined;
+    purchasePrice?: number;
 
-    constructor(data?: IAuthorDto) {
+    constructor(data?: IBookDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -774,14 +588,15 @@ export class AuthorDto implements IAuthorDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
+            this.name = _data["name"];
+            this.text = _data["text"];
+            this.purchasePrice = _data["purchasePrice"];
         }
     }
 
-    static fromJS(data: any): AuthorDto {
+    static fromJS(data: any): BookDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AuthorDto();
+        let result = new BookDto();
         result.init(data);
         return result;
     }
@@ -789,20 +604,18 @@ export class AuthorDto implements IAuthorDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
+        data["name"] = this.name;
+        data["text"] = this.text;
+        data["purchasePrice"] = this.purchasePrice;
         return data; 
     }
 }
 
-/** An author with Id, FirstName and LasttName fields */
-export interface IAuthorDto {
-    /** The id of the author */
+export interface IBookDto {
     id?: string;
-    /** The first name of the author */
-    firstName?: string | undefined;
-    /** The last name of the author */
-    lastName?: string | undefined;
+    name?: string | undefined;
+    text?: string | undefined;
+    purchasePrice?: number;
 }
 
 export class ProblemDetails implements IProblemDetails {
@@ -857,14 +670,12 @@ export interface IProblemDetails {
     instance?: string | undefined;
 }
 
-/** An author for update with FirstName and LastName fields */
-export class AuthorForUpdateDto implements IAuthorForUpdateDto {
-    /** The first name of the author */
-    firstName!: string;
-    /** The last name of the author */
-    lastName!: string;
+export class BookForCreationDto implements IBookForCreationDto {
+    name!: string;
+    text!: string;
+    purchasePrice!: number;
 
-    constructor(data?: IAuthorForUpdateDto) {
+    constructor(data?: IBookForCreationDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -875,172 +686,32 @@ export class AuthorForUpdateDto implements IAuthorForUpdateDto {
 
     init(_data?: any) {
         if (_data) {
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
+            this.name = _data["name"];
+            this.text = _data["text"];
+            this.purchasePrice = _data["purchasePrice"];
         }
     }
 
-    static fromJS(data: any): AuthorForUpdateDto {
+    static fromJS(data: any): BookForCreationDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AuthorForUpdateDto();
+        let result = new BookForCreationDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
+        data["name"] = this.name;
+        data["text"] = this.text;
+        data["purchasePrice"] = this.purchasePrice;
         return data; 
     }
 }
 
-/** An author for update with FirstName and LastName fields */
-export interface IAuthorForUpdateDto {
-    /** The first name of the author */
-    firstName: string;
-    /** The last name of the author */
-    lastName: string;
-}
-
-export enum OperationType {
-    _0 = 0,
-    _1 = 1,
-    _2 = 2,
-    _3 = 3,
-    _4 = 4,
-    _5 = 5,
-    _6 = 6,
-}
-
-export class AuthorForUpdateDtoOperation implements IAuthorForUpdateDtoOperation {
-    operationType?: OperationType;
-    path?: string | undefined;
-    op?: string | undefined;
-    from?: string | undefined;
-    value?: any | undefined;
-
-    constructor(data?: IAuthorForUpdateDtoOperation) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.operationType = _data["operationType"];
-            this.path = _data["path"];
-            this.op = _data["op"];
-            this.from = _data["from"];
-            this.value = _data["value"];
-        }
-    }
-
-    static fromJS(data: any): AuthorForUpdateDtoOperation {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuthorForUpdateDtoOperation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["operationType"] = this.operationType;
-        data["path"] = this.path;
-        data["op"] = this.op;
-        data["from"] = this.from;
-        data["value"] = this.value;
-        return data; 
-    }
-}
-
-export interface IAuthorForUpdateDtoOperation {
-    operationType?: OperationType;
-    path?: string | undefined;
-    op?: string | undefined;
-    from?: string | undefined;
-    value?: any | undefined;
-}
-
-export class IContractResolver implements IIContractResolver {
-
-    constructor(data?: IIContractResolver) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): IContractResolver {
-        data = typeof data === 'object' ? data : {};
-        let result = new IContractResolver();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface IIContractResolver {
-}
-
-export class AuthorForUpdateDtoJsonPatchDocument implements IAuthorForUpdateDtoJsonPatchDocument {
-    readonly operations?: AuthorForUpdateDtoOperation[] | undefined;
-    contractResolver?: IContractResolver;
-
-    constructor(data?: IAuthorForUpdateDtoJsonPatchDocument) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["operations"])) {
-                (<any>this).operations = [] as any;
-                for (let item of _data["operations"])
-                    (<any>this).operations!.push(AuthorForUpdateDtoOperation.fromJS(item));
-            }
-            this.contractResolver = _data["contractResolver"] ? IContractResolver.fromJS(_data["contractResolver"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): AuthorForUpdateDtoJsonPatchDocument {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuthorForUpdateDtoJsonPatchDocument();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.operations)) {
-            data["operations"] = [];
-            for (let item of this.operations)
-                data["operations"].push(item.toJSON());
-        }
-        data["contractResolver"] = this.contractResolver ? this.contractResolver.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IAuthorForUpdateDtoJsonPatchDocument {
-    operations?: AuthorForUpdateDtoOperation[] | undefined;
-    contractResolver?: IContractResolver;
+export interface IBookForCreationDto {
+    name: string;
+    text: string;
+    purchasePrice: number;
 }
 
 export enum MemberTypes {
@@ -3817,11 +3488,12 @@ export interface IModelStateEntry {
     children?: ModelStateEntry[] | undefined;
 }
 
-export class BookForCreationDto implements IBookForCreationDto {
-    title?: string | undefined;
-    description?: string | undefined;
+export class BookForUpdateDto implements IBookForUpdateDto {
+    name!: string;
+    text!: string;
+    purchasePrice!: number;
 
-    constructor(data?: IBookForCreationDto) {
+    constructor(data?: IBookForUpdateDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3832,133 +3504,172 @@ export class BookForCreationDto implements IBookForCreationDto {
 
     init(_data?: any) {
         if (_data) {
-            this.title = _data["title"];
-            this.description = _data["description"];
-        }
-    }
-
-    static fromJS(data: any): BookForCreationDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new BookForCreationDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
-        data["description"] = this.description;
-        return data; 
-    }
-}
-
-export interface IBookForCreationDto {
-    title?: string | undefined;
-    description?: string | undefined;
-}
-
-export class AuthorForCreationDto implements IAuthorForCreationDto {
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    books?: BookForCreationDto[] | undefined;
-
-    constructor(data?: IAuthorForCreationDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
-            if (Array.isArray(_data["books"])) {
-                this.books = [] as any;
-                for (let item of _data["books"])
-                    this.books!.push(BookForCreationDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): AuthorForCreationDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuthorForCreationDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        if (Array.isArray(this.books)) {
-            data["books"] = [];
-            for (let item of this.books)
-                data["books"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IAuthorForCreationDto {
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    books?: BookForCreationDto[] | undefined;
-}
-
-export class BookDto implements IBookDto {
-    id?: string;
-    authorFirstName?: string | undefined;
-    authorLastName?: string | undefined;
-    name?: string | undefined;
-    text?: string | undefined;
-
-    constructor(data?: IBookDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.authorFirstName = _data["authorFirstName"];
-            this.authorLastName = _data["authorLastName"];
             this.name = _data["name"];
             this.text = _data["text"];
+            this.purchasePrice = _data["purchasePrice"];
         }
     }
 
-    static fromJS(data: any): BookDto {
+    static fromJS(data: any): BookForUpdateDto {
         data = typeof data === 'object' ? data : {};
-        let result = new BookDto();
+        let result = new BookForUpdateDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["authorFirstName"] = this.authorFirstName;
-        data["authorLastName"] = this.authorLastName;
         data["name"] = this.name;
         data["text"] = this.text;
+        data["purchasePrice"] = this.purchasePrice;
         return data; 
     }
 }
 
-export interface IBookDto {
-    id?: string;
-    authorFirstName?: string | undefined;
-    authorLastName?: string | undefined;
-    name?: string | undefined;
-    text?: string | undefined;
+export interface IBookForUpdateDto {
+    name: string;
+    text: string;
+    purchasePrice: number;
+}
+
+export enum OperationType {
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
+    _3 = 3,
+    _4 = 4,
+    _5 = 5,
+    _6 = 6,
+}
+
+export class BookForUpdateDtoOperation implements IBookForUpdateDtoOperation {
+    operationType?: OperationType;
+    path?: string | undefined;
+    op?: string | undefined;
+    from?: string | undefined;
+    value?: any | undefined;
+
+    constructor(data?: IBookForUpdateDtoOperation) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.operationType = _data["operationType"];
+            this.path = _data["path"];
+            this.op = _data["op"];
+            this.from = _data["from"];
+            this.value = _data["value"];
+        }
+    }
+
+    static fromJS(data: any): BookForUpdateDtoOperation {
+        data = typeof data === 'object' ? data : {};
+        let result = new BookForUpdateDtoOperation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["operationType"] = this.operationType;
+        data["path"] = this.path;
+        data["op"] = this.op;
+        data["from"] = this.from;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface IBookForUpdateDtoOperation {
+    operationType?: OperationType;
+    path?: string | undefined;
+    op?: string | undefined;
+    from?: string | undefined;
+    value?: any | undefined;
+}
+
+export class IContractResolver implements IIContractResolver {
+
+    constructor(data?: IIContractResolver) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): IContractResolver {
+        data = typeof data === 'object' ? data : {};
+        let result = new IContractResolver();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IIContractResolver {
+}
+
+export class BookForUpdateDtoJsonPatchDocument implements IBookForUpdateDtoJsonPatchDocument {
+    readonly operations?: BookForUpdateDtoOperation[] | undefined;
+    contractResolver?: IContractResolver;
+
+    constructor(data?: IBookForUpdateDtoJsonPatchDocument) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["operations"])) {
+                (<any>this).operations = [] as any;
+                for (let item of _data["operations"])
+                    (<any>this).operations!.push(BookForUpdateDtoOperation.fromJS(item));
+            }
+            this.contractResolver = _data["contractResolver"] ? IContractResolver.fromJS(_data["contractResolver"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BookForUpdateDtoJsonPatchDocument {
+        data = typeof data === 'object' ? data : {};
+        let result = new BookForUpdateDtoJsonPatchDocument();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.operations)) {
+            data["operations"] = [];
+            for (let item of this.operations)
+                data["operations"].push(item.toJSON());
+        }
+        data["contractResolver"] = this.contractResolver ? this.contractResolver.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBookForUpdateDtoJsonPatchDocument {
+    operations?: BookForUpdateDtoOperation[] | undefined;
+    contractResolver?: IContractResolver;
 }
 
 export class ApiException extends Error {

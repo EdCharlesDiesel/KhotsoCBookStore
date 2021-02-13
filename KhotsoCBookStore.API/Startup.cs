@@ -83,8 +83,7 @@ namespace KhotsoCBookStore.API
                 };
             });
 
-            services.AddScoped<IBookRepository, BookRepository>();
-            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();            
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -112,10 +111,7 @@ namespace KhotsoCBookStore.API
                     }                    
                 });
 
-                //setupAction.ResolveConflictingActions(apiDescriptions =>
-                //{
-                //    return apiDescriptions.First();
-                //});
+                
 
                 setupAction.AddSecurityDefinition("basicAuth", new OpenApiSecurityScheme()
                 {
@@ -145,9 +141,9 @@ namespace KhotsoCBookStore.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#pragma warning disable CS0618 // Type or member is obsolete
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#pragma warning restore CS0618 // Type or member is obsolete
+
         {
             if (env.IsDevelopment())
             {
@@ -162,7 +158,7 @@ namespace KhotsoCBookStore.API
 
             app.UseSwaggerUI(setupAction =>{
                  setupAction.SwaggerEndpoint("/swagger/KhotsoCBookStoreAPISpecification/swagger.json", "KhotsoCBookStore API");
-                //By specifiying the routerefix the swagger documentaion will be available at the root
+                
                 setupAction.RoutePrefix ="";
 
                 setupAction.DefaultModelExpandDepth(2);
@@ -171,7 +167,7 @@ namespace KhotsoCBookStore.API
 
                 setupAction.EnableDeepLinking();
                 setupAction.DisplayOperationId();
-                });
+             });
 
             // Enable CORS
             app.UseCors("AllowAllOriginsHeadersAndMethods");

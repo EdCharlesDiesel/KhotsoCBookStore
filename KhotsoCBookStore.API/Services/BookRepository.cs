@@ -17,113 +17,56 @@ namespace KhotsoCBookStore.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Book>> GetBooksAsync(Guid authorId)
-        {
-            if (authorId == Guid.Empty)
-            {
-                throw new ArgumentException(nameof(authorId));
-            }
 
-            return await _context.Books
-                .Include(b => b.Author)
-                .Where(b => b.AuthorId == authorId)
-                .ToListAsync();
+        public async Task AddBookAsync(Book book)
+        {
+            await _context.Books.AddAsync(book);
         }
 
-        public async Task<Book> GetBookAsync(Guid authorId, Guid bookId)
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public async Task DeleteBook(Book book)
+
         {
-            if (authorId == Guid.Empty)
-            {
-                throw new ArgumentException(nameof(authorId));
-            }
-
-            if (bookId == Guid.Empty)
-            {
-                throw new ArgumentException(nameof(bookId));
-            }
-
-            return await _context.Books
-                .Include(b => b.Author)
-                .Where(b => b.AuthorId == authorId && b.Id == bookId)
-                .FirstOrDefaultAsync();
-        }
-
-        public void AddBook(Book bookToAdd)
-        {
-            if (bookToAdd == null)
-            {
-                throw new ArgumentNullException(nameof(bookToAdd));
-            }
-
-            _context.Add(bookToAdd);
-        }
-
-        public void AddBook(Guid authorId, Book book)
-        {
-            if (authorId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(authorId));
-            }
-
             if (book == null)
             {
                 throw new ArgumentNullException(nameof(book));
             }
-            // always set the AuthorId to the passed-in authorId
-            book.AuthorId = authorId;
-            _context.Books.Add(book);
-        }
-
-
-        public void DeleteBook(Book book)
-        {
             _context.Books.Remove(book);
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
-        public async Task<bool> AuthorExists(Guid authorId)
+        public async Task<bool> BookExists(Guid Id)
         {
-            if (authorId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(authorId));
-            }
-
-            return await _context.Authors.AnyAsync(a => a.Id == authorId);
+            return await _context.Books.AnyAsync(t => t.Id == Id);
         }
-        public void UpdateBook(Book book)
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public async Task UpdateBook(Book book)
+
         {
             // no code in this implementation
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
-        public async Task<Author> GetAuthorAsync(Guid authorId)
+
+        public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
-            if (authorId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(authorId));
-            }
-
-            return await _context.Authors.FirstOrDefaultAsync(a => a.Id == authorId);
+            return await _context.Books.ToListAsync();
         }
 
-        public async Task<Book> GetBookForAuthorAsync(Guid authorId, Guid bookId)
+        public async Task<Book> GetBookAsync(Guid Id)
         {
-            if (authorId == Guid.Empty)
+            if (Id == Guid.Empty)
             {
-                throw new ArgumentNullException(nameof(authorId));
+                throw new ArgumentNullException(nameof(Id));
             }
 
-            if (bookId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(bookId));
-            }
-
-            return await _context.Books
-              .Where(c => c.AuthorId == authorId && c.Id == bookId).FirstOrDefaultAsync();
+            return await _context.Books.FirstOrDefaultAsync(a => a.Id == Id);
         }
 
         public async Task<bool> SaveChangesAsync()
         {
-            // return true if 1 or more entities were changed
-            return await _context.SaveChangesAsync() > 0;
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         public void Dispose()

@@ -5,7 +5,7 @@ namespace KhotsoCBookStore.API.Models
     public class BookForUpdateDto : BookAbstractBase
     {
 
-        [Required(ErrorMessage = "You should fill out a text.")]
-        public override string Text { get => base.Text; set => base.Text = value; }
+        [Required(ErrorMessage = "You should fill out the purchase price.")]
+        public override int PurchasePrice { get => base.PurchasePrice   ; set => base.PurchasePrice = value; }
     }
 }

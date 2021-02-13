@@ -1,569 +1,87 @@
 {
 	"info": {
-		"_postman_id": "76aa5d9d-4cf7-4fc9-8738-8e9cfcda922f",
+		"_postman_id": "925a2c1f-4710-4d17-a902-a9e30b491fee",
 		"name": "KhotsoCBookStore API",
 		"description": "The business has requested the development of a new system which allows users to register online over Http which provides the same functionality.\n\nContact Support:\n Name: Khotso Mokhethi\n Email: Mokhetkc@hotmail.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "api/authors",
+			"name": "api/books",
 			"item": [
 				{
-					"name": "{author Id}",
+					"name": "{book Id}",
 					"item": [
 						{
-							"name": "books",
-							"item": [
+							"name": "Get a book by id",
+							"event": [
 								{
-									"name": "/api/authors/:authorId/books",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId/books",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId",
-												"books"
-											],
-											"variable": [
-												{
-													"key": "authorId",
-													"value": "<uuid>",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"response": [
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/api/books/:bookId",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api",
+										"books",
+										":bookId"
+									],
+									"variable": [
 										{
-											"name": "Success",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "[\n {\n  \"id\": \"urn:uuid:093cc4c4-c90e-caab-e312-190ff284adc5\",\n  \"authorFirstName\": \"mollit proident dolor\",\n  \"authorLastName\": \"esse ullamco\",\n  \"name\": \"dolor\",\n  \"text\": \"sed sint in tempor ipsum\"\n },\n {\n  \"id\": \"urn:uuid:9390c764-75f2-6ab2-f9cf-6814b090e076\",\n  \"authorFirstName\": \"occaecat est sunt\",\n  \"authorLastName\": \"laborum ut pariatur\",\n  \"name\": \"esse et\",\n  \"text\": \"ea voluptate\"\n }\n]"
-										},
-										{
-											"name": "Error",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														}
-													]
-												}
-											},
-											"status": "Internal Server Error",
-											"code": 500,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-										},
-										{
-											"name": "Not Found",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
+											"key": "bookId",
+											"value": "7b76dd02-35a5-4e75-ec89-08d8d0372cd5",
+											"description": "(Required) The id of the book"
 										}
 									]
-								},
+								}
+							},
+							"response": [
 								{
-									"name": "/api/authors/:authorId/books",
-									"request": {
-										"method": "POST",
+									"name": "Returns bad request sent",
+									"originalRequest": {
+										"method": "GET",
 										"header": [
 											{
-												"key": "Content-Type",
-												"value": "application/json"
+												"description": "Added as a part of security scheme: basic",
+												"key": "Authorization",
+												"value": "Basic <credentials>"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"title\": \"<string>\",\n    \"description\": \"<string>\"\n}"
-										},
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId/books",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId",
-												"books"
-											],
-											"variable": [
-												{
-													"key": "authorId",
-													"value": "<uuid>",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"response": [
-										{
-											"name": "Not Found",
-											"originalRequest": {
-												"method": "POST",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n    \"title\": \"<string>\",\n    \"description\": \"<string>\"\n}"
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-										},
-										{
-											"name": "Success",
-											"originalRequest": {
-												"method": "POST",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n    \"title\": \"<string>\",\n    \"description\": \"<string>\"\n}"
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														}
-													]
-												}
-											},
-											"status": "Created",
-											"code": 201,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"id\": \"urn:uuid:ec3fadc5-2edc-05ec-2461-e500af554343\",\n \"authorFirstName\": \"sunt ani\",\n \"authorLastName\": \"minim ea\",\n \"name\": \"officia\",\n \"text\": \"ut officia laborum\"\n}"
-										},
-										{
-											"name": "Error",
-											"originalRequest": {
-												"method": "POST",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n    \"title\": \"<string>\",\n    \"description\": \"<string>\"\n}"
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														}
-													]
-												}
-											},
-											"status": "Internal Server Error",
-											"code": 500,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-										}
-									]
-								},
-								{
-									"name": "Get a book by id for a specific author",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId/books/:bookId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId",
 												"books",
 												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId",
-													"value": "<uuid>",
-													"description": "(Required) The id of the book author"
-												},
-												{
-													"key": "bookId",
-													"value": "<uuid>",
-													"description": "(Required) The id of the book"
+													"key": "bookId"
 												}
 											]
 										}
 									},
-									"response": [
-										{
-											"name": "Bad Request",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books/:bookId",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books",
-														":bookId"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														},
-														{
-															"key": "bookId"
-														}
-													]
-												}
-											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-										},
-										{
-											"name": "Returns the requested book",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books/:bookId",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books",
-														":bookId"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														},
-														{
-															"key": "bookId"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"id\": \"urn:uuid:ec3fadc5-2edc-05ec-2461-e500af554343\",\n \"authorFirstName\": \"sunt ani\",\n \"authorLastName\": \"minim ea\",\n \"name\": \"officia\",\n \"text\": \"ut officia laborum\"\n}"
-										},
-										{
-											"name": "Not Found",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"description": "Added as a part of security scheme: basic",
-														"key": "Authorization",
-														"value": "Basic <credentials>"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/authors/:authorId/books/:bookId",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"authors",
-														":authorId",
-														"books",
-														":bookId"
-													],
-													"variable": [
-														{
-															"key": "authorId"
-														},
-														{
-															"key": "bookId"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-										}
-									]
-								}
-							]
-						},
-						{
-							"name": "Get an authour by his/her id",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/authors/:authorId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"authors",
-										":authorId"
-									],
-									"variable": [
-										{
-											"key": "authorId",
-											"value": "<uuid>",
-											"description": "(Required) The id of the author you want to get"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Error",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"description": "Added as a part of security scheme: basic",
-												"key": "Authorization",
-												"value": "Basic <credentials>"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId"
-											],
-											"variable": [
-												{
-													"key": "authorId"
-												}
-											]
-										}
-									},
-									"status": "Internal Server Error",
-									"code": 500,
+									"status": "Bad Request",
+									"code": 400,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -572,10 +90,10 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
+									"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
 								},
 								{
-									"name": "Not Found",
+									"name": "Returns no book is found",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -586,18 +104,18 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -612,10 +130,10 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
+									"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
 								},
 								{
-									"name": "Success",
+									"name": "Returns the requested book",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -626,18 +144,18 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -652,196 +170,28 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"id\": \"f60b44b4-5edc-1414-3528-47708731ed76\",\n \"firstName\": \"dolore\",\n \"lastName\": \"commodo magna in\"\n}"
+									"body": "{\n \"id\": \"c574b569-4550-8261-97c9-9faaa6c71f96\",\n \"name\": \"cupidatat eiusmod\",\n \"text\": \"tempor nostrud pariatur ut\",\n \"purchasePrice\": 45414275\n}"
 								}
 							]
 						},
 						{
-							"name": "/api/authors/:authorId",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/authors/:authorId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"authors",
-										":authorId"
-									],
-									"variable": [
-										{
-											"key": "authorId",
-											"value": "<uuid>",
-											"description": "(Required) "
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Success",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [
-											{
-												"description": "Added as a part of security scheme: basic",
-												"key": "Authorization",
-												"value": "Basic <credentials>"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n}"
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId"
-											],
-											"variable": [
-												{
-													"key": "authorId"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n \"id\": \"f60b44b4-5edc-1414-3528-47708731ed76\",\n \"firstName\": \"dolore\",\n \"lastName\": \"commodo magna in\"\n}"
-								},
-								{
-									"name": "Error",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [
-											{
-												"description": "Added as a part of security scheme: basic",
-												"key": "Authorization",
-												"value": "Basic <credentials>"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n}"
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId"
-											],
-											"variable": [
-												{
-													"key": "authorId"
-												}
-											]
-										}
-									},
-									"status": "Internal Server Error",
-									"code": 500,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-								},
-								{
-									"name": "Not Found",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [
-											{
-												"description": "Added as a part of security scheme: basic",
-												"key": "Authorization",
-												"value": "Basic <credentials>"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n}"
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId"
-											],
-											"variable": [
-												{
-													"key": "authorId"
-												}
-											]
-										}
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-								}
-							]
-						},
-						{
-							"name": "/api/authors/:authorId",
+							"name": "Delete a book",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/api/authors/:authorId",
+									"raw": "{{baseUrl}}/api/books/:bookId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"authors",
-										":authorId"
+										"books",
+										":bookId"
 									],
 									"variable": [
 										{
-											"key": "authorId",
+											"key": "bookId",
 											"value": "<uuid>",
 											"description": "(Required) "
 										}
@@ -850,7 +200,7 @@
 							},
 							"response": [
 								{
-									"name": "Error",
+									"name": "Success",
 									"originalRequest": {
 										"method": "DELETE",
 										"header": [
@@ -861,33 +211,33 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
 									},
-									"status": "Internal Server Error",
-									"code": 500,
-									"_postman_previewlanguage": "json",
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
 									"header": [
 										{
 											"key": "Content-Type",
-											"value": "application/json"
+											"value": "text/plain"
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
+									"body": ""
 								},
 								{
 									"name": "Success",
@@ -901,18 +251,18 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -941,18 +291,18 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -967,14 +317,14 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
+									"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
 								}
 							]
 						},
 						{
-							"name": "Partial update an author",
+							"name": "Update an book",
 							"request": {
-								"method": "PATCH",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -983,77 +333,32 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
+									"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/authors/:authorId",
+									"raw": "{{baseUrl}}/api/books/:bookId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"authors",
-										":authorId"
+										"books",
+										":bookId"
 									],
 									"variable": [
 										{
-											"key": "authorId",
+											"key": "bookId",
 											"value": "<uuid>",
-											"description": "(Required) The id f the author you want to get"
+											"description": "(Required) The id of the book to update"
 										}
 									]
-								},
-								"description": "Sample request( this request updates the author's firstname) \\\r\nPATCH /authors/authorId \\\r\n[ \\\r\n    {\r\n        \"op\": \"replace\", \\\r\n        \"path\": \"/firstname\", \\\r\n        \"value\": \"new first name\" \\\r\n    } \\\r\n]"
+								}
 							},
 							"response": [
 								{
-									"name": "Error",
-									"originalRequest": {
-										"method": "PATCH",
-										"header": [
-											{
-												"description": "Added as a part of security scheme: basic",
-												"key": "Authorization",
-												"value": "Basic <credentials>"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"authors",
-												":authorId"
-											],
-											"variable": [
-												{
-													"key": "authorId"
-												}
-											]
-										}
-									},
-									"status": "Internal Server Error",
-									"code": 500,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-								},
-								{
 									"name": "Success",
 									"originalRequest": {
-										"method": "PATCH",
+										"method": "PUT",
 										"header": [
 											{
 												"description": "Added as a part of security scheme: basic",
@@ -1063,21 +368,21 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
+											"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
 										},
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -1092,8 +397,133 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"id\": \"f60b44b4-5edc-1414-3528-47708731ed76\",\n \"firstName\": \"dolore\",\n \"lastName\": \"commodo magna in\"\n}"
+									"body": "{\n \"id\": \"c574b569-4550-8261-97c9-9faaa6c71f96\",\n \"name\": \"cupidatat eiusmod\",\n \"text\": \"tempor nostrud pariatur ut\",\n \"purchasePrice\": 45414275\n}"
 								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: basic",
+												"key": "Authorization",
+												"value": "Basic <credentials>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/books/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"books",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "bookId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+								},
+								{
+									"name": "Validation error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: basic",
+												"key": "Authorization",
+												"value": "Basic <credentials>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/books/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"books",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "bookId"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						},
+						{
+							"name": "Partially update an book",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json-patch+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/books/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "bookId",
+											"value": "<uuid>",
+											"description": "(Required) The id of the book you want to get"
+										}
+									]
+								},
+								"description": "Sample request (this request updates the book's **first name**)  \r\n            \r\n            PATCH /books/bookId\r\n                [ \r\n                    {\r\n                        \"op\": \"replace\", \r\n                        \"path\": \"/firstname\", \r\n                        \"value\": \"new first name\" \r\n                    } \r\n                ]"
+							},
+							"response": [
 								{
 									"name": "Client Error",
 									"originalRequest": {
@@ -1110,18 +540,18 @@
 											"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
 										},
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -1139,6 +569,50 @@
 									"body": "{}"
 								},
 								{
+									"name": "Returns the updated book",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: basic",
+												"key": "Authorization",
+												"value": "Basic <credentials>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/books/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"books",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "bookId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"name\": \"<string>\",\n \"purchasePrice\": \"<integer>\",\n \"text\": \"<string>\"\n}"
+								},
+								{
 									"name": "Not Found",
 									"originalRequest": {
 										"method": "PATCH",
@@ -1154,18 +628,18 @@
 											"raw": "{\n    \"contractResolver\": \"<object>\"\n}"
 										},
 										"url": {
-											"raw": "{{baseUrl}}/api/authors/:authorId",
+											"raw": "{{baseUrl}}/api/books/:bookId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
-												"authors",
-												":authorId"
+												"books",
+												":bookId"
 											],
 											"variable": [
 												{
-													"key": "authorId"
+													"key": "bookId"
 												}
 											]
 										}
@@ -1180,182 +654,27 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
+									"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
 								}
 							]
 						}
 					]
 				},
 				{
-					"name": "/api/authors",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/authors",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"authors"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Success",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"description": "Added as a part of security scheme: basic",
-										"key": "Authorization",
-										"value": "Basic <credentials>"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/api/authors",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"authors"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "[\n {\n  \"id\": \"urn:uuid:ed2e1c5d-3f8a-c494-7443-f9dd7cb5091f\",\n  \"firstName\": \"laboris aliquip labore cu\",\n  \"lastName\": \"id consectetur ipsum qui commodo\"\n },\n {\n  \"id\": \"d2199b7b-951c-5d0a-62e6-cb55a58afa0d\",\n  \"firstName\": \"ad labore magna\",\n  \"lastName\": \"veniam\"\n }\n]"
-						}
-					]
-				},
-				{
-					"name": "/api/authors",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"books\": [\n        {\n            \"title\": \"<string>\",\n            \"description\": \"<string>\"\n        },\n        {\n            \"title\": \"<string>\",\n            \"description\": \"<string>\"\n        }\n    ]\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/authors",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"authors"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"description": "Added as a part of security scheme: basic",
-										"key": "Authorization",
-										"value": "Basic <credentials>"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"books\": [\n        {\n            \"title\": \"<string>\",\n            \"description\": \"<string>\"\n        },\n        {\n            \"title\": \"<string>\",\n            \"description\": \"<string>\"\n        }\n    ]\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/authors",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"authors"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"id\": \"f60b44b4-5edc-1414-3528-47708731ed76\",\n \"firstName\": \"dolore\",\n \"lastName\": \"commodo magna in\"\n}"
-						},
-						{
-							"name": "Error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"description": "Added as a part of security scheme: basic",
-										"key": "Authorization",
-										"value": "Basic <credentials>"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"books\": [\n        {\n            \"title\": \"<string>\",\n            \"description\": \"<string>\"\n        },\n        {\n            \"title\": \"<string>\",\n            \"description\": \"<string>\"\n        }\n    ]\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/authors",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"authors"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"type\": \"adipisicing sunt veniam in officia\",\n \"title\": \"id commodo sint\",\n \"status\": 25847201,\n \"detail\": \"dolor anim ea nulla dolore\",\n \"instance\": \"ut consectetur in\"\n}"
-						}
-					]
-				},
-				{
-					"name": "/api/authors",
+					"name": "List of all the actions that are allows with this API",
 					"request": {
 						"method": "OPTIONS",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/authors",
+							"raw": "https://localhost:5001/api/books",
+							"protocol": "https",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "5001",
 							"path": [
 								"api",
-								"authors"
+								"books"
 							]
 						}
 					},
@@ -1372,13 +691,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/authors",
+									"raw": "{{baseUrl}}/api/books",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"authors"
+										"books"
 									]
 								}
 							},
@@ -1393,6 +712,473 @@
 							],
 							"cookie": [],
 							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get all the books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/books",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Returns no books found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+						},
+						{
+							"name": "Returns the requested books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": \"urn:uuid:4e1cc94e-b4d2-4cdf-1472-33b8e15b15d3\",\n  \"name\": \"aliquip ad elit Lorem cillum\",\n  \"text\": \"exercitation sit\",\n  \"purchasePrice\": -11594972\n },\n {\n  \"id\": \"urn:uuid:3fda9907-1f3e-dc50-9922-df23c20d4814\",\n  \"name\": \"pariatu\",\n  \"text\": \"Excepteur nulla enim est\",\n  \"purchasePrice\": -65761862\n }\n]"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all the books 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/bookss",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"bookss"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Returns the requested books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": \"urn:uuid:4e1cc94e-b4d2-4cdf-1472-33b8e15b15d3\",\n  \"name\": \"aliquip ad elit Lorem cillum\",\n  \"text\": \"exercitation sit\",\n  \"purchasePrice\": -11594972\n },\n {\n  \"id\": \"urn:uuid:3fda9907-1f3e-dc50-9922-df23c20d4814\",\n  \"name\": \"pariatu\",\n  \"text\": \"Excepteur nulla enim est\",\n  \"purchasePrice\": -65761862\n }\n]"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+						},
+						{
+							"name": "Returns no books found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create a book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(20);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": 0,\n    \"text\": \"<string>\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/books",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"type\": \"fugiat amet\",\n \"title\": \"nisi\",\n \"status\": 63144147,\n \"detail\": \"ut consectetur sed Duis\",\n \"instance\": \"qui\"\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"c574b569-4550-8261-97c9-9faaa6c71f96\",\n \"name\": \"cupidatat eiusmod\",\n \"text\": \"tempor nostrud pariatur ut\",\n \"purchasePrice\": 45414275\n}"
+						},
+						{
+							"name": "Validation error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"purchasePrice\": \"<integer>\",\n    \"text\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
 						}
 					]
 				}

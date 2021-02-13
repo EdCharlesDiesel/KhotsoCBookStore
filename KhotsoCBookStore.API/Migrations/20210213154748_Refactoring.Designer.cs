@@ -4,14 +4,16 @@ using KhotsoCBookStore.API.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KhotsoCBookStore.API.Migrations
 {
     [DbContext(typeof(khotsoCBookStoreDbContext))]
-    partial class khotsoCBookStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210213154748_Refactoring")]
+    partial class Refactoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
