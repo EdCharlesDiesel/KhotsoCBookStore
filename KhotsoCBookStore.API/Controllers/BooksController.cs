@@ -183,8 +183,8 @@ namespace KhotsoCBookStore.API.Controllers
         ///     [ 
         ///         {
         ///             "op": "replace", 
-        ///             "path": "/firstname", 
-        ///             "value": "new first name" 
+        ///             "path": "/purchasePrice", 
+        ///             "value": "new purchase price" 
         ///         } 
         ///     ] 
         /// </remarks>
@@ -195,7 +195,9 @@ namespace KhotsoCBookStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity,
             Type = typeof(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary))]
-        public async Task<ActionResult<BookForUpdateDto>> UpdateBbook(Guid bookId,
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<BookDto>> UpdateBbook(Guid bookId,[FromBody]
             JsonPatchDocument<BookForUpdateDto> patchDocument)
         {
             var bookFromRepo = await _bookRepository.GetBookAsync(bookId);
@@ -206,7 +208,8 @@ namespace KhotsoCBookStore.API.Controllers
 
             // map to DTO to apply the patch to
             var book = _mapper.Map<BookForUpdateDto>(bookFromRepo);
-            patchDocument.ApplyTo(book, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
+            //patchDocument.ApplyTo(book, ModelState);
+            patchDocument.ApplyTo(book);
 
             // if there are errors when applying the patch the patch doc 
             // was badly formed  These aren't caught via the ApiController
@@ -221,10 +224,13 @@ namespace KhotsoCBookStore.API.Controllers
 
 
             await _bookRepository.UpdateBook(bookFromRepo);
-            await _bookRepository.SaveChangesAsync();
 
+            if (! await _bookRepository.SaveChangesAsync())
+            {
+                throw new Exception("Updating a book failed on save.");
+            }            
 
-            return Ok(_mapper.Map<BookDto>(bookFromRepo));
+            return NoContent();            
         }
     }
 }
