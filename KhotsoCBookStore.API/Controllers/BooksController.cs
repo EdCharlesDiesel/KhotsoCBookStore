@@ -123,19 +123,19 @@ namespace KhotsoCBookStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> DeleteBook(Guid bookId)
+        public IActionResult DeleteBook(Guid bookId)
         {
 
-            var bookFromRepo = _bookRepository.GetBookAsync(bookId);
+            var bookFromRepo = _bookRepository.GetBook(bookId);
 
             if (bookFromRepo == null)
             {
                 return NotFound();
             }
 
-          //  await _bookRepository.DeleteBook(bookFromRepo);
+              _bookRepository.DeleteBook(bookFromRepo);
 
-            await _bookRepository.SaveChangesAsync();
+             _bookRepository.SaveChangesAsync();
 
             return NoContent();
         }

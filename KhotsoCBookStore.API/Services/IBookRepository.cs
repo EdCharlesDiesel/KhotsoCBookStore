@@ -11,11 +11,13 @@ namespace KhotsoCBookStore.API.Services
 
         Task<Book> GetBookAsync(Guid bookId);
 
+        Book GetBook(Guid bookId);
+
         Task AddBookAsync(Book book);
 
         Task UpdateBook(Book book);
         
-        Task DeleteBook(Book book);        
+        void DeleteBook(Book book);        
 
         Task<bool> BookExists(Guid Id);
 
