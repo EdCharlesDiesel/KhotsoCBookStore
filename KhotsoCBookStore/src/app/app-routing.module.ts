@@ -14,9 +14,9 @@ const appRoutes: Routes = [
     children: [
       { path: 'welcome', component: WelcomeComponent },
       {
-        path: 'products',
+        path: 'books',
         // canActivate: [AuthGuard],
-        loadChildren: './products/product.module#ProductModule'
+         loadChildren: './book/book.module#bookModule'
       },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
     ]

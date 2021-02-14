@@ -4,14 +4,14 @@
     {{pageTitle}}
   </div>
 
-  <div class="card-body" *ngIf="products?.length">
+  <div class="card-body" *ngIf="books?.length">
     <div class="list-group">
       <button class="list-group-item list-group-item-action rounded-0"
-          *ngFor="let product of products"
-          [ngClass]="{'active': product?.id === selectedProduct?.id}"
-          (click)="productSelected(product)">{{ product.productName }}
+          *ngFor="let book of books"
+          [ngClass]="{'active': book?.id === selectedBook?.id}"
+          (click)="bookSelected(book)">{{ book.bookName }}
         <ng-container *ngIf="displayCode">
-          ({{ product.productCode }})
+          ({{ book.bookCode }})
         </ng-container>
       </button>
     </div>
@@ -25,11 +25,11 @@
                  type="checkbox"
                  (change)="checkChanged($event.target.checked)"
                  [checked]="displayCode">
-          Display Product Code
+          Display Book Code
         </label>
       </div>
       <div class="col-md-4 text-right">
-        <button class="btn btn-primary" (click)="newProduct()">
+        <button class="btn btn-primary" (click)="newBook()">
           Add
         </button>
       </div>

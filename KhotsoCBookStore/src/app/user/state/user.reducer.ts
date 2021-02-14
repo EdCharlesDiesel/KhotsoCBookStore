@@ -1,4 +1,4 @@
-export function reducer(state, action) {
+export function reducer(state: any, action: { type: any; payload: any; }) {
   switch (action.type) {
 
     case 'MASK_USER_NAME':

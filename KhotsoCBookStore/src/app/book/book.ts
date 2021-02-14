@@ -1,8 +1,8 @@
 /* Defines the product entity */
-export interface Product {
+export interface Book {
     id: number | null;
-    productName: string;
-    productCode: string;
+    bookName: string;
+    bookCode: string;
     description: string;
     starRating: number;
 }

@@ -226,7 +226,5 @@ namespace KhotsoCBookStore.API.Controllers
 
             return Ok(_mapper.Map<BookDto>(bookFromRepo));
         }
-
-
     }
 }

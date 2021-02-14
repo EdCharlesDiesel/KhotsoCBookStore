@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 
 import { AuthService } from './auth.service';
-import { Store, select } from '@ngrx/store';
+
 
 @Component({
   templateUrl: './login.component.html',
@@ -11,9 +12,9 @@ import { Store, select } from '@ngrx/store';
 })
 export class LoginComponent implements OnInit {
   pageTitle = 'Log In';
-  errorMessage: string;
+  errorMessage: string | undefined;
 
-  maskUserName: boolean;
+  maskUserName: boolean | undefined;
 
   constructor(private store: Store<any>,
               private authService: AuthService,
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
       if (this.authService.redirectUrl) {
         this.router.navigateByUrl(this.authService.redirectUrl);
       } else {
-        this.router.navigate(['/products']);
+        this.router.navigate(['/books']);
       }
     } else {
       this.errorMessage = 'Please enter a user name and password.';

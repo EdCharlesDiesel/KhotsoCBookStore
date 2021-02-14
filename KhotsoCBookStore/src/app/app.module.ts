@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Imports for loading & configuring the in-memory web api
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ProductData } from './products/product-data';
+import { BookData } from './book/book-data';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,7 +24,7 @@ import { StoreModule } from '@ngrx/store';
   imports: [
     BrowserModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(ProductData),
+    HttpClientInMemoryWebApiModule.forRoot(BookData),
     UserModule,
     AppRoutingModule,
     StoreModule.forRoot({})
