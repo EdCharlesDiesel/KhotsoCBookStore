@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MUBHtgOM13AvFXx0WqFBdq1xmiq0at8ZTydbexhDPVWMTisuDC5Wtw0X4ztxwU9W2UeSgb+usCLBT8Fz3L2L2Q==",
+  "dgSpecHash": "tUXweUEYxl/nmEcGxZLjOP7sO/y4aBpywfGdh3XZ/Ilsh4BhWoeD7hzTxKnDccPRet1BVNPHDMjT5ppQ+P/AxQ==",
   "success": true,
   "projectFilePath": "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,9 @@
     "C:\\Users\\Mokhe\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "C:\\Users\\Mokhe\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\Mokhe\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\Mokhe\\.nuget\\packages\\identitymodel\\4.0.0\\identitymodel.4.0.0.nupkg.sha512",
+    "C:\\Users\\Mokhe\\.nuget\\packages\\identitymodel.aspnetcore.oauth2introspection\\4.0.1\\identitymodel.aspnetcore.oauth2introspection.4.0.1.nupkg.sha512",
+    "C:\\Users\\Mokhe\\.nuget\\packages\\identityserver4.accesstokenvalidation\\3.0.1\\identityserver4.accesstokenvalidation.3.0.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
     "C:\\Users\\Mokhe\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.1\\microsoft.aspnetcore.authentication.jwtbearer.5.0.1.nupkg.sha512",
