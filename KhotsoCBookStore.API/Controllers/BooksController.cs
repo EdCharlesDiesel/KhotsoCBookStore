@@ -11,62 +11,66 @@ using System.Threading.Tasks;
 namespace KhotsoCBookStore.API.Controllers
 {
     [Produces("application/json", "application/xml")]
-    [Route("api/authors/{authorId}/books")]
+    [Route("api/books")]
     [ApiController]
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
-        private readonly IAuthorRepository _authorRepository;
         private readonly IMapper _mapper;
 
         public BooksController(
             IBookRepository bookRepository,
-            IAuthorRepository authorRepository,
             IMapper mapper)
         {
             _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
-            _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+
+        /// <summary>
+        /// List of all the actions that are allows with this API
+        /// </summary>
+        /// <returns>An IActionResult of actions allowed</returns>
+        [HttpOptions]
+        public IActionResult GetBooksAPIOptions()
+        {
+            Response.Headers.Add("Allow", "GET,OPTIONS,POST,DELETE,PUT,PATCH");
+            return Ok();
+        }
+
+        /// <summary>
+        /// Get all the books
+        /// </summary>
+        /// <returns>An ActionResult of type Book</returns>
+        /// <response code="200">Returns the requested books</response>
+        /// <response code="404">Returns no books found</response>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks(
-        Guid authorId)
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
-            if (!await _authorRepository.AuthorExistsAsync(authorId))
-            {
-                return NotFound();
-            }
-
-            var booksFromRepo = await _bookRepository.GetBooksAsync(authorId);
+            var booksFromRepo = await _bookRepository.GetAllBooksAsync();
             return Ok(_mapper.Map<IEnumerable<BookDto>>(booksFromRepo));
         }
 
         /// <summary>
-        /// Get a book by id for a specific author
-        /// </summary>
-        /// <param name="authorId">The id of the book author</param>
+        /// Get a book by id
+        /// </summary>        
         /// <param name="bookId">The id of the book</param>
         /// <returns>An ActionResult of type Book</returns>
         /// <response code="200">Returns the requested book</response>
-        [HttpGet("{bookId}")]
+        /// <response code="404">Returns no book is found</response>
+        /// <response code="400">Returns bad request sent</response>
+        [HttpGet("{bookId}", Name = "GetBook")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        
-        public async Task<ActionResult<BookDto>> GetBook(
-            Guid authorId,
-            Guid bookId)
-        {
-            if (!await _authorRepository.AuthorExistsAsync(authorId))
-            {
-                return NotFound();
-            }
 
-            var bookFromRepo = await _bookRepository.GetBookAsync(authorId, bookId);
+        public async Task<ActionResult<BookDto>> GetBook(Guid bookId)
+        {
+            var bookFromRepo = await _bookRepository.GetBookAsync(bookId);
+
             if (bookFromRepo == null)
             {
                 return NotFound();
@@ -75,145 +79,153 @@ namespace KhotsoCBookStore.API.Controllers
             return Ok(_mapper.Map<BookDto>(bookFromRepo));
         }
 
-
+        /// <summary>
+        /// Create a book 
+        /// </summary>        
+        /// <param name="bookForCreation">The book to create</param>
+        /// <returns>An ActionResult of type Book</returns>
+        /// <response code="422">Validation error</response>
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult<BookDto>> CreateBook(
-            Guid authorId,
-            [FromBody] BookForCreationDto bookForCreation)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity,
+            Type = typeof(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary))]
+        public async Task<ActionResult<BookDto>> CreateBook([FromBody] BookForCreationDto bookForCreation)
         {
-            if (!await _authorRepository.AuthorExistsAsync(authorId))
+            if (bookForCreation == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var bookToAdd = _mapper.Map<Entities.Book>(bookForCreation);
-            _bookRepository.AddBook(bookToAdd);
+            await _bookRepository.AddBookAsync(bookToAdd);
+
+            if (!await _bookRepository.SaveChangesAsync())
+            {
+                throw new Exception("Adding a book failed on save.");
+            }
             await _bookRepository.SaveChangesAsync();
 
             return CreatedAtRoute(
                 "GetBook",
-                new { authorId, bookId = bookToAdd.Id },
+                new { bookId = bookToAdd.Id },
                 _mapper.Map<BookDto>(bookToAdd));
         }
 
-        //[HttpDelete("{bookId}")]
-        //public ActionResult DeleteBookForAuthor(Guid authorId, Guid bookId)
-        //{
-        //    var authourFromRepo =  _authorRepository.GetAuthorAsync(authorId); 
+        /// <summary>
+        /// Delete a book
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns>An ActionResult of type Book</returns>
+        [HttpDelete("{bookId}")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> DeleteBook(Guid bookId)
+        {
 
-        //    if (authourFromRepo == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var bookFromRepo = _bookRepository.GetBookAsync(bookId);
 
-        //    var bookForAuthorFromRepo = _bookRepository.GetBookForAuthorAsync(authorId, bookId);
+            if (bookFromRepo == null)
+            {
+                return NotFound();
+            }
 
-        //    if (bookForAuthorFromRepo == null)
-        //    {
-        //        return NotFound();
-        //    }
+          //  await _bookRepository.DeleteBook(bookFromRepo);
 
-        //    _bookRepository.DeleteBook(bookForAuthorFromRepo)
-        //    _authorRepository.(bookForAuthorFromRepo);
-        //    _authorRepository.Save();
+            await _bookRepository.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //[HttpPut("{bookId}")]
-        //public IActionResult UpdateBookForAuthor(Guid authorId,  Guid bookId,  BookForUpdateDto book)
-        //{
-        //    if (!_authorRepository.AuthorExists(authorId))
-        //    {
-        //        return NotFound();
-        //    }
+        /// <summary>
+        /// Update an book 
+        /// </summary>
+        /// <param name="bookId">The id of the book to update</param>
+        /// <param name="bookForUpdate">The book with updated values</param>
+        /// <returns>An ActionResult of type Bbook</returns>
+        /// <response code="422">Validation error</response>
+        [HttpPut("{bookId}")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity,
+            Type = typeof(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary))]
+        public async Task<ActionResult<BookDto>> UpdateBook(Guid bookId, BookForUpdateDto bookForUpdate)
+        {
+            var bookFromRepo = await _bookRepository.GetBookAsync(bookId);
+            if (bookFromRepo == null)
+            {
+                return NotFound();
+            }
 
-        //    var bookForAuthorFromRepo = _authorRepository.GetBook(authorId, bookId);
+            _mapper.Map(bookForUpdate, bookFromRepo);
 
-        //    if (bookForAuthorFromRepo == null)
-        //    {
-        //        var bookToAdd = _mapper.Map<Entities.Book>(book);
-        //        bookToAdd.Id = bookId;
+            //// update & save
+            await _bookRepository.UpdateBook(bookFromRepo);
+            await _bookRepository.SaveChangesAsync();
 
-        //        _authorRepository.(authorId, bookToAdd);
+            // return the book
+            return Ok(_mapper.Map<BookDto>(bookFromRepo));
+        }
 
-        //        _authorRepository.Save();
+        /// <summary>
+        /// Partially update an book
+        /// </summary>
+        /// <param name="bookId">The id of the book you want to get</param>
+        /// <param name="patchDocument">The set of operations to apply to the book</param>
+        /// <returns>An ActionResult of type Bbook</returns>
+        /// <remarks>Sample request (this request updates the book's **first name**)  
+        /// 
+        /// PATCH /books/bookId
+        ///     [ 
+        ///         {
+        ///             "op": "replace", 
+        ///             "path": "/firstname", 
+        ///             "value": "new first name" 
+        ///         } 
+        ///     ] 
+        /// </remarks>
+        /// <response code="200">Returns the updated book</response>
+        [HttpPatch("{bookId}")]
+        [Consumes("application/json-patch+json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity,
+            Type = typeof(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary))]
+        public async Task<ActionResult<BookForUpdateDto>> UpdateBbook(Guid bookId,
+            JsonPatchDocument<BookForUpdateDto> patchDocument)
+        {
+            var bookFromRepo = await _bookRepository.GetBookAsync(bookId);
+            if (bookFromRepo == null)
+            {
+                return NotFound();
+            }
 
-        //        var bookToReturn = _mapper.Map<BookDto>(bookToAdd);
+            // map to DTO to apply the patch to
+            var book = _mapper.Map<BookForUpdateDto>(bookFromRepo);
+            patchDocument.ApplyTo(book, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
 
-        //        return CreatedAtRoute("GetBookForAuthor",
-        //            new { authorId, bookId = bookToReturn.Id },
-        //            bookToReturn);
-        //    }
+            // if there are errors when applying the patch the patch doc 
+            // was badly formed  These aren't caught via the ApiController
+            // validation, so we must manually check the modelstate and
+            // potentially return these errors.
+            if (!ModelState.IsValid)
+            {
+                return new UnprocessableEntityObjectResult(ModelState);
+            }
 
-        //    // map the entity to a BookForUpdateDto
-        //    // apply the updated field values to that dto
-        //    // map the BookForUpdateDto back to an entity
-        //    _mapper.Map(book, bookForAuthorFromRepo);
-
-        //    _authorRepository.UpdateBook(bookForAuthorFromRepo);
-
-        //    _authorRepository.Save();
-        //    return NoContent();
-        //}
-
-        //[HttpPatch("{bookId}")]
-        //public ActionResult PartiallyUpdateBookForAuthor(Guid authorId,
-        //    Guid bookId,
-        //    JsonPatchDocument<BookForUpdateDto> patchDocument)
-        //{
-        //    if (!_authorRepository.AuthorExists(authorId))
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var bookForAuthorFromRepo = _authorRepository.GetBook(authorId, bookId);
-
-        //    if (bookForAuthorFromRepo == null)
-        //    {
-        //        var bookDto = new BookForUpdateDto();
-        //        patchDocument.ApplyTo(bookDto, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
-
-        //        if (!TryValidateModel(bookDto))
-        //        {
-        //            return ValidationProblem(ModelState);
-        //        }
-
-        //        var bookToAdd = _mapper.Map<Entities.Book>(bookDto);
-        //        bookToAdd.Id = bookId;
-
-        //        _authorRepository.AddBook(authorId, bookToAdd);
-        //        _authorRepository.Save();
-
-        //        var bookToReturn = _mapper.Map<BookDto>(bookToAdd);
-
-        //        return CreatedAtRoute("GetBookForAuthor",
-        //            new { authorId, bookId = bookToReturn.Id },
-        //            bookToReturn);
-        //    }
-
-        //    var bookToPatch = _mapper.Map<BookForUpdateDto>(bookForAuthorFromRepo);
-        //    // add validation
-        //    patchDocument.ApplyTo(bookToPatch, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
-
-        //    if (!TryValidateModel(bookToPatch))
-        //    {
-        //        return ValidationProblem(ModelState);
-        //    }
-
-        //    _mapper.Map(bookToPatch, bookForAuthorFromRepo);
-
-        //    _authorRepository.UpdateBook(bookForAuthorFromRepo);
-
-        //    _authorRepository.Save();
-
-        //    return NoContent();
-        //}
+            _mapper.Map(book, bookFromRepo);
 
 
+            await _bookRepository.UpdateBook(bookFromRepo);
+            await _bookRepository.SaveChangesAsync();
+
+
+            return Ok(_mapper.Map<BookDto>(bookFromRepo));
+        }
 
 
     }

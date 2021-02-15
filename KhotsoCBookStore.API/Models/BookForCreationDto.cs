@@ -1,9 +1,7 @@
 ﻿namespace KhotsoCBookStore.API.Models
 {
-    public class BookForCreationDto
+    public class BookForCreationDto : BookAbstractBase
     {
-        public string Title { get; set; }
-
-        public string Description { get; set; }
+ 
     }
 }
