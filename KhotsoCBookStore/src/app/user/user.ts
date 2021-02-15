@@ -2,5 +2,9 @@
 export interface User {
     id: number;
     userName: string;
-    isAdmin: boolean;
+    passWord: string;
+    emailaddress: string;
+    firstName: string;
+    lastName: string;
+    hasSubsription: boolean;
 }

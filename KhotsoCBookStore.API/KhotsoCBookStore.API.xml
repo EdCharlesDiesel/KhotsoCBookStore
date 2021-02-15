@@ -65,8 +65,8 @@
                 [ 
                     {
                         "op": "replace", 
-                        "path": "/firstname", 
-                        "value": "new first name" 
+                        "path": "/purchasePrice", 
+                        "value": "new purchase price" 
                     } 
                 ] 
             </remarks>

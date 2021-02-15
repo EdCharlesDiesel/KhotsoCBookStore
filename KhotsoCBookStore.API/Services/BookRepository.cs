@@ -24,7 +24,7 @@ namespace KhotsoCBookStore.API.Services
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task DeleteBook(Book book)
+        public void DeleteBook(Book book)
 
         {
             if (book == null)
@@ -42,7 +42,6 @@ namespace KhotsoCBookStore.API.Services
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task UpdateBook(Book book)
-
         {
             // no code in this implementation
         }
@@ -62,6 +61,16 @@ namespace KhotsoCBookStore.API.Services
             }
 
             return await _context.Books.FirstOrDefaultAsync(a => a.Id == Id);
+        }
+        public Book GetBook(Guid bookId)
+        {
+
+            if (bookId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(bookId));
+            }
+
+            return _context.Books.FirstOrDefault(a => a.Id == bookId);
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -86,5 +95,6 @@ namespace KhotsoCBookStore.API.Services
                 }
             }
         }
+
     }
 }

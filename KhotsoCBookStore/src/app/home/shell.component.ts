@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'pm-shell',
+  selector: 'kc-shell',
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.css']
 })

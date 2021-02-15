@@ -4,93 +4,93 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
-import { Product } from './product';
+import { Book } from './book';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
-  private productsUrl = 'api/products';
-  private products: Product[];
+export class BookService {
+  private booksUrl = 'api/books';
+  private books: Book[];
 
-  private selectedProductSource = new BehaviorSubject<Product | null>(null);
-  selectedProductChanges$ = this.selectedProductSource.asObservable();
+  private selectedBookSource = new BehaviorSubject<Book | null>(null);
+  selectedBookChanges$ = this.selectedBookSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  changeSelectedProduct(selectedProduct: Product | null): void {
-    this.selectedProductSource.next(selectedProduct);
+  changeSelectedBook(selectedBook: Book | null): void {
+    this.selectedBookSource.next(selectedBook);
   }
 
-  getProducts(): Observable<Product[]> {
-    if (this.products) {
-      return of(this.products);
+  getBooks(): Observable<Book[]> {
+    if (this.books) {
+      return of(this.books);
     }
-    return this.http.get<Product[]>(this.productsUrl)
+    return this.http.get<Book[]>(this.booksUrl)
       .pipe(
         tap(data => console.log(JSON.stringify(data))),
-        tap(data => this.products = data),
+        tap(data => this.books = data),
         catchError(this.handleError)
       );
   }
 
-  // Return an initialized product
-  newProduct(): Product {
+  // Return an initialized book
+  newBook(): Book {
     return {
       id: 0,
-      productName: '',
-      productCode: 'New',
+      bookName: '',
+      bookCode: 'New',
       description: '',
       starRating: 0
     };
   }
 
-  createProduct(product: Product): Observable<Product> {
+  createBook(book: Book): Observable<Book> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    product.id = null;
-    return this.http.post<Product>(this.productsUrl, product, { headers: headers })
+    book.id = null;
+    return this.http.post<Book>(this.booksUrl, book, { headers: headers })
       .pipe(
-        tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+        tap(data => console.log('createBook: ' + JSON.stringify(data))),
         tap(data => {
-          this.products.push(data);
+          this.books.push(data);
         }),
         catchError(this.handleError)
       );
   }
 
-  deleteProduct(id: number): Observable<{}> {
+  deleteBook(id: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.productsUrl}/${id}`;
-    return this.http.delete<Product>(url, { headers: headers })
+    const url = `${this.booksUrl}/${id}`;
+    return this.http.delete<Book>(url, { headers: headers })
       .pipe(
-        tap(data => console.log('deleteProduct: ' + id)),
+        tap(data => console.log('deleteBook: ' + id)),
         tap(data => {
-          const foundIndex = this.products.findIndex(item => item.id === id);
+          const foundIndex = this.books.findIndex(item => item.id === id);
           if (foundIndex > -1) {
-            this.products.splice(foundIndex, 1);
+            this.books.splice(foundIndex, 1);
           }
         }),
         catchError(this.handleError)
       );
   }
 
-  updateProduct(product: Product): Observable<Product> {
+  updateBook(book: Book): Observable<Book> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.productsUrl}/${product.id}`;
-    return this.http.put<Product>(url, product, { headers: headers })
+    const url = `${this.booksUrl}/${book.id}`;
+    return this.http.put<Book>(url, book, { headers: headers })
       .pipe(
-        tap(() => console.log('updateProduct: ' + product.id)),
+        tap(() => console.log('updateBook: ' + book.id)),
         // Update the item in the list
-        // This is required because the selected product that was edited
+        // This is required because the selected book that was edited
         // was a copy of the item from the array.
         tap(() => {
-          const foundIndex = this.products.findIndex(item => item.id === product.id);
+          const foundIndex = this.books.findIndex(item => item.id === book.id);
           if (foundIndex > -1) {
-            this.products[foundIndex] = product;
+            this.books[foundIndex] = book;
           }
         }),
-        // Return the product on an update
-        map(() => product),
+        // Return the book on an update
+        map(() => book),
         catchError(this.handleError)
       );
   }

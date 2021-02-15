@@ -12,7 +12,7 @@ namespace KhotsoCBookStore.API.Profiles
          
             CreateMap<BookForCreationDto, Entities.Book>();
 
-            CreateMap<BookForUpdateDto, Entities.Book>();
+            CreateMap<BookForUpdateDto, Entities.Book>().ReverseMap();
         }
     }
 }

@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { AuthService } from '../user/auth.service';
 
 @Component({
-  selector: 'pm-menu',
+  selector: 'kc-menu',
   templateUrl: './menu.component.html'
 })
 export class MenuComponent implements OnInit {
-  pageTitle = 'Acme Product Management';
+  pageTitle = 'Khotso C Book Store';
 
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
