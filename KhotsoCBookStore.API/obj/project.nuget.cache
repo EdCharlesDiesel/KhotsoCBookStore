@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tyovAyHopTEnWjs5lxuC6F+XvokVHAJVql8fGFJiUdcfY6NoigSle7Tm1sRDNzMd/hLSTUrZlZG8QU/2yih4Rw==",
+  "dgSpecHash": "MUBHtgOM13AvFXx0WqFBdq1xmiq0at8ZTydbexhDPVWMTisuDC5Wtw0X4ztxwU9W2UeSgb+usCLBT8Fz3L2L2Q==",
   "success": true,
   "projectFilePath": "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj",
   "expectedPackageFiles": [
@@ -22,6 +22,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "C:\\Users\\Mokhe\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.3\\microsoft.aspnetcore.jsonpatch.5.0.3.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.abstractions\\2.2.0\\microsoft.aspnetcore.mvc.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Mokhe\\.nuget\\packages\\microsoft.aspnetcore.mvc.api.analyzers\\2.2.6\\microsoft.aspnetcore.mvc.api.analyzers.2.2.6.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.core\\2.2.0\\microsoft.aspnetcore.mvc.core.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.formatters.json\\2.2.0\\microsoft.aspnetcore.mvc.formatters.json.2.2.0.nupkg.sha512",
     "C:\\Users\\Mokhe\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning\\5.0.0\\microsoft.aspnetcore.mvc.versioning.5.0.0.nupkg.sha512",

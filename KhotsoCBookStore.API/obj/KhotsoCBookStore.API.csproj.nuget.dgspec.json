@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[5.0.3, )"
             },
+            "Microsoft.AspNetCore.Mvc.Api.Analyzers": {
+              "target": "Package",
+              "version": "[2.2.6, )"
+            },
             "Microsoft.AspNetCore.Mvc.Formatters.Json": {
               "target": "Package",
               "version": "[2.2.0, )"

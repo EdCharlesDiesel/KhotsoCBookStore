@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using KhotsoCBookStore.API.Models;
 using KhotsoCBookStore.API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace KhotsoCBookStore.API.Controllers
 {
+    [Produces("application/json", "application/xml")]
     [Route("api/authors/{authorId}/books")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -22,12 +24,15 @@ namespace KhotsoCBookStore.API.Controllers
             IAuthorRepository authorRepository,
             IMapper mapper)
         {
-            _bookRepository = bookRepository;
-            _authorRepository = authorRepository;
-            _mapper = mapper;
+            _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
+            _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks(
         Guid authorId)
         {
@@ -40,7 +45,18 @@ namespace KhotsoCBookStore.API.Controllers
             return Ok(_mapper.Map<IEnumerable<BookDto>>(booksFromRepo));
         }
 
+        /// <summary>
+        /// Get a book by id for a specific author
+        /// </summary>
+        /// <param name="authorId">The id of the book author</param>
+        /// <param name="bookId">The id of the book</param>
+        /// <returns>An ActionResult of type Book</returns>
+        /// <response code="200">Returns the requested book</response>
         [HttpGet("{bookId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        
         public async Task<ActionResult<BookDto>> GetBook(
             Guid authorId,
             Guid bookId)
@@ -61,6 +77,9 @@ namespace KhotsoCBookStore.API.Controllers
 
 
         [HttpPost()]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<BookDto>> CreateBook(
             Guid authorId,
             [FromBody] BookForCreationDto bookForCreation)
@@ -83,19 +102,22 @@ namespace KhotsoCBookStore.API.Controllers
         //[HttpDelete("{bookId}")]
         //public ActionResult DeleteBookForAuthor(Guid authorId, Guid bookId)
         //{
-        //    if (!_authorRepository.AuthorExists(authorId))
+        //    var authourFromRepo =  _authorRepository.GetAuthorAsync(authorId); 
+
+        //    if (authourFromRepo == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    var bookForAuthorFromRepo = _authorRepository.GetBook(authorId, bookId);
+        //    var bookForAuthorFromRepo = _bookRepository.GetBookForAuthorAsync(authorId, bookId);
 
         //    if (bookForAuthorFromRepo == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    _authorRepository.DeleteBook(bookForAuthorFromRepo);
+        //    _bookRepository.DeleteBook(bookForAuthorFromRepo)
+        //    _authorRepository.(bookForAuthorFromRepo);
         //    _authorRepository.Save();
 
         //    return NoContent();

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KhotsoCBookStore.API</name>
+    </assembly>
+    <members>
+        <member name="M:KhotsoCBookStore.API.Controllers.AuthorsController.GetAuthor(System.Guid)">
+            <summary>
+            Get an authour by his/her id
+            </summary>
+            <param name="authorId">The id of the author you want to get</param>
+            <returns> An author with id, fistname and lastname fields</returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.AuthorsController.UpdateAuthor(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{KhotsoCBookStore.API.Models.AuthorForUpdateDto})">
+            <summary>
+            Partial update an author
+            </summary>
+            <param name="authorId">The id f the author you want to get</param>
+            <param name="patchDocument">The set of operations to apply to the author</param>
+            <returns>An ActionResult of type author</returns>
+            <remarks>
+            Sample request( this request updates the author's firstname) \
+            PATCH /authors/authorId \
+            [ \
+                {
+                    "op": "replace", \
+                    "path": "/firstname", \
+                    "value": "new first name" \
+                } \
+            ] 
+            </remarks>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BooksController.GetBook(System.Guid,System.Guid)">
+            <summary>
+            Get a book by id for a specific author
+            </summary>
+            <param name="authorId">The id of the book author</param>
+            <param name="bookId">The id of the book</param>
+            <returns>An ActionResult of type Book</returns>
+            <response code="200">Returns the requested book</response>
+        </member>
+        <member name="T:KhotsoCBookStore.API.Models.AuthorDto">
+            <summary>
+            An author with Id, FirstName and LasttName fields
+            </summary>
+        </member>
+        <member name="P:KhotsoCBookStore.API.Models.AuthorDto.Id">
+            <summary>
+            The id of the author
+            </summary>
+        </member>
+        <member name="P:KhotsoCBookStore.API.Models.AuthorDto.FirstName">
+            <summary>
+            The first name of the author
+            </summary>
+        </member>
+        <member name="P:KhotsoCBookStore.API.Models.AuthorDto.LastName">
+            <summary>
+            The last name of the author
+            </summary>
+        </member>
+        <member name="T:KhotsoCBookStore.API.Models.AuthorForUpdateDto">
+            <summary>
+            An author for update with FirstName and LastName fields
+            </summary>
+        </member>
+        <member name="P:KhotsoCBookStore.API.Models.AuthorForUpdateDto.FirstName">
+            <summary>
+            The first name of the author
+            </summary>
+        </member>
+        <member name="P:KhotsoCBookStore.API.Models.AuthorForUpdateDto.LastName">
+            <summary>
+            The last name of the author
+            </summary>
+        </member>
+    </members>
+</doc>

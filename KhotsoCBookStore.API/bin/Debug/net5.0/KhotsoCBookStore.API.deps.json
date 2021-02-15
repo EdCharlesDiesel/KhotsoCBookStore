@@ -18,7 +18,7 @@
     "optimize": false,
     "keyFile": "",
     "emitEntryPoint": true,
-    "xmlDoc": false,
+    "xmlDoc": true,
     "debugType": "portable"
   },
   "targets": {
@@ -29,6 +29,7 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.1",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "5.0.1",
           "Microsoft.AspNetCore.JsonPatch": "5.0.3",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.6",
           "Microsoft.AspNetCore.Mvc.Formatters.Json": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Versioning": "5.0.0",
           "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer": "5.0.0",
@@ -505,6 +506,7 @@
           "Microsoft.Net.Http.Headers": "2.2.0"
         }
       },
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.6": {},
       "Microsoft.AspNetCore.Mvc.Core/2.2.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.Core": "2.2.0",
@@ -3789,6 +3791,13 @@
       "sha512": "sha512-ET6uZpfVbGR1NjCuLaLy197cQ3qZUjzl7EG5SL4GfJH/c9KRE89MMBrQegqWsh0w1iRUB/zQaK0anAjxa/pz4g==",
       "path": "microsoft.aspnetcore.mvc.abstractions/2.2.0",
       "hashPath": "microsoft.aspnetcore.mvc.abstractions.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XvMvPlksyAtIk+wYzF6pcroVX8cxMkVqqv2Scheh+NzskS1JKXLU1myt2+X6Ia1XLMUtbxZY1hrYgZJy92fjqA==",
+      "path": "microsoft.aspnetcore.mvc.api.analyzers/2.2.6",
+      "hashPath": "microsoft.aspnetcore.mvc.api.analyzers.2.2.6.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Mvc.Core/2.2.0": {
       "type": "package",

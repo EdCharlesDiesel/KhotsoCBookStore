@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-
+    [Produces("application/json", "application/xml")]
     [Route("api/authors")]
     [ApiController]
     public class AuthorsController : ControllerBase
@@ -24,28 +25,15 @@ namespace KhotsoCBookStore.API.Controllers
             _authorsRepository = authorsRepository ?? throw new ArgumentNullException(nameof(authorsRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors()
-        {
-            var authorsFromRepo = await _authorsRepository.GetAuthorsAsync();
-            return Ok(_mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo));
-        }
-
-        [HttpPost]
-        public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto author)
-        {
-            var authorEntity = _mapper.Map<Entities.Author>(author);
-            _authorsRepository.AddAuthorAsync(authorEntity);
-            _authorsRepository.SaveChangesAsync();
-
-            var authorToReturn = _mapper.Map<AuthorDto>(authorEntity);
-            return CreatedAtRoute("GetAuthor",
-                new { authorId = authorToReturn.Id },
-                authorToReturn);
-        }
-
+        /// <summary>
+        /// Get an authour by his/her id
+        /// </summary>
+        /// <param name="authorId">The id of the author you want to get</param>
+        /// <returns> An author with id, fistname and lastname fields</returns>
         [HttpGet("{authorId}", Name = "GetAuthor")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<AuthorDto>> GetAuthor(
             Guid authorId)
         {
@@ -58,7 +46,34 @@ namespace KhotsoCBookStore.API.Controllers
             return Ok(_mapper.Map<AuthorDto>(authorFromRepo));
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors()
+        {
+            var authorsFromRepo = await _authorsRepository.GetAuthorsAsync();
+            return Ok(_mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto author)
+        {
+            var authorEntity = _mapper.Map<Entities.Author>(author);
+            _authorsRepository.AddAuthorAsync(authorEntity);
+            _authorsRepository.SaveChangesAsync();
+
+            var authorToReturn = _mapper.Map<AuthorDto>(authorEntity);
+            return CreatedAtRoute("GetAuthor",
+                new { authorId = authorToReturn.Id },
+                authorToReturn);
+        }
+
+        
+        
         [HttpPut("{authorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<AuthorDto>> UpdateAuthor(
             Guid authorId,
             AuthorForUpdateDto authorForUpdate)
@@ -87,6 +102,9 @@ namespace KhotsoCBookStore.API.Controllers
         }
 
         [HttpDelete("{authorId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task <IActionResult> DeleteAuthor(Guid authorId)
         {
             var authorFromRepo = await _authorsRepository.GetAuthorAsync(authorId);
@@ -103,7 +121,28 @@ namespace KhotsoCBookStore.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Partial update an author
+        /// </summary>
+        /// <param name="authorId">The id f the author you want to get</param>
+        /// <param name="patchDocument">The set of operations to apply to the author</param>
+        /// <returns>An ActionResult of type author</returns>
+        /// <remarks>
+        /// Sample request( this request updates the author's firstname) \
+        /// PATCH /authors/authorId \
+        /// [ \
+        ///     {
+        ///         "op": "replace", \
+        ///         "path": "/firstname", \
+        ///         "value": "new first name" \
+        ///     } \
+        /// ] 
+        /// </remarks>
         [HttpPatch("{authorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<AuthorDto>> UpdateAuthor(
             Guid authorId,
             JsonPatchDocument<AuthorForUpdateDto> patchDocument)
