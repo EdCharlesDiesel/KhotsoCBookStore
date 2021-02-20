@@ -19,7 +19,7 @@ namespace KhotsoCBookStore.API
             {
                 try
                 {
-                    var context = scope.ServiceProvider.GetService<khotsoCBookStoreDbContext>();
+                    var context = scope.ServiceProvider.GetService<KhotsoCBookStoreDbContext>();
                     context.Database.Migrate();
                 }
                 catch (Exception ex)

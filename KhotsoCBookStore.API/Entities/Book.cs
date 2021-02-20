@@ -1,26 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace KhotsoCBookStore.API.Entities
 {
-    [Table("Books")]
-    public class Book
-
+    public partial class Book
     {
-        [Key]
-        public Guid Id { get; set; }
-
-        [Required]
-        [MaxLength(150)]
-        public string Name { get; set; }
-
-        [MaxLength(2500)]
-        public string Text { get; set; }
-
-        [Required]
-        public int PurchasePrice { get; set; }        
+        public int BookId { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Category { get; set; }
+        public decimal Price { get; set; }
+        public string CoverFileName { get; set; }
     }
-
-
 }
