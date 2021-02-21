@@ -70,19 +70,7 @@ namespace KhotsoCBookStore.API.Controllers
         public async Task<IEnumerable<Categories>> CategoryDetails()
         {
             return await Task.FromResult(_bookService.GetCategories()).ConfigureAwait(true);
-        }
-
-        /// <summary>
-        /// Get the random five books from the category of book whose BookId is supplied
-        /// </summary>
-        /// <param name="bookId"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("GetSimilarBooks/{bookId}")]
-        public async Task<List<Book>> SimilarBooks(int bookId)
-        {
-            return await Task.FromResult(_bookService.GetSimilarBooks(bookId)).ConfigureAwait(true);
-        }
+        }    
 
         /// <summary>
         /// Add a new book record

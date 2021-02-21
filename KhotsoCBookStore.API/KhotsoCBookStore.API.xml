@@ -23,13 +23,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookController.SimilarBooks(System.Int32)">
-            <summary>
-            Get the random five books from the category of book whose BookId is supplied
-            </summary>
-            <param name="bookId"></param>
-            <returns></returns>
-        </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.Post">
             <summary>
             Add a new book record

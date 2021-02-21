@@ -16,6 +16,7 @@ namespace KhotsoCBookStore.API.Contexts
         }
 
         public virtual DbSet<Book> Book { get; set; }
+        public virtual DbSet<BookSubscription>  BookSubscriptions { get; set; }
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<CartItems> CartItems { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
@@ -25,6 +26,7 @@ namespace KhotsoCBookStore.API.Contexts
         public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<Wishlist> Wishlist { get; set; }
         public virtual DbSet<WishlistItems> WishlistItems { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
