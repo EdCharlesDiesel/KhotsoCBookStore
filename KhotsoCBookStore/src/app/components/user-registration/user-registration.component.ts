@@ -29,10 +29,10 @@ export class UserRegistrationComponent implements OnDestroy {
   registrationForm = this.fb.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
+    emailaddress: ['', Validators.required, Validators.email],
     username: ['', [Validators.required], this.customValidation.userNameValidator.bind(this.customValidation)],
     password: ['', Validators.compose([Validators.required])],
-    confirmPassword: ['', [Validators.required]],
-    gender: ['', Validators.required],
+    confirmPassword: ['', [Validators.required]],    
   },
     {
       validator: this.customValidation.confirmPasswordValidator,
@@ -47,6 +47,10 @@ export class UserRegistrationComponent implements OnDestroy {
     return this.registrationForm.get('lastname');
   }
 
+  get emailaddress() {
+    return this.registrationForm.get('emailaddress');
+  }
+
   get username() {
     return this.registrationForm.get('username');
   }
@@ -54,9 +58,7 @@ export class UserRegistrationComponent implements OnDestroy {
   get password() {
     return this.registrationForm.get('password');
   }
-  get gender() {
-    return this.registrationForm.get('gender');
-  }
+  
   get confirmPassword() {
     return this.registrationForm.get('confirmPassword');
   }

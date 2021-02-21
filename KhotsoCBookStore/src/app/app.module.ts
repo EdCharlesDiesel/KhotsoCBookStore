@@ -24,6 +24,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { BookSubComponent } from './components/book-sub/book-sub.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,13 @@ import { BookSubComponent } from './components/book-sub/book-sub.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'KhotsoCBookStore App DevTools',
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
     AppRoutingModule
   ],
   providers: [

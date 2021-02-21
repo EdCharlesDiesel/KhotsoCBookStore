@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { BookSubscriptionState } from 'src/app/state/bookSubscriptions.reducers';
+import { DeleteBookSubscription } from 'src/app/state/bookSubscriptions.actions';
 
 @Component({
   selector: 'app-book-sub',
@@ -12,7 +15,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./book-sub.component.css']
 })
 export class BookSubComponent implements OnInit {
-public BookSub;
+  private bookSubStore: Store<BookSubscriptionState>
+  public BookSub;
   public bookSubItems: BookSubscription[];
   userId;
   totalBooks: number;
@@ -27,7 +31,7 @@ public BookSub;
     this.bookSubItems = [];
     this.totalBooks = 0;
     this.isLoading = false;
-    
+
 
   }
 
@@ -38,7 +42,7 @@ public BookSub;
   }
 
   getBookSubItems() {
-    this.bookSubService.getbookAllBookSubs()
+    this.bookSubService.getBookSubscriptions()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (result: BookSubscription[]) => {
@@ -52,22 +56,17 @@ public BookSub;
 
   getTotalBooks() {
     return this.bookSubItems.length;
-    
+
   }
 
-  // getTotalPrice() {
-  //   this.totalPrice = 0;
-  //   this.bookSubItems.forEach(item => {
-  //     this.totalPrice += (item.book.price * item.quantity);
-  //   });
-  // }
 
   deleteBookSubtem(bookSubId: number) {
-    this.bookSubService.removebookSubs(bookSubId)
+    this.bookSubStore.dispatch(new DeleteBookSubscription(bookSubId))
+    this.bookSubService.deleteBookSubscription(bookSubId)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
-        result => {
-          this.subscriptionService.bookSubItemcount$.next(result);
+        () => {
+          this.subscriptionService.bookSubItemcount$.next(bookSubId);
           this.snackBarService.showSnackBar('Book removed from your subscription list');
           this.getBookSubItems();
         }, error => {
@@ -75,12 +74,12 @@ public BookSub;
         });
   }
 
-  addBookSub(bookSub: number) {
-    this.bookSubService.addSingleBookSubscription(bookSub)
+  addBookSub(bookSub: BookSubscription) {
+    this.bookSubService.addBookSubscription(bookSub)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         result => {
-          this.subscriptionService.bookSubItemcount$.next(result);
+          this.subscriptionService.bookSubItemcount$.next(bookSub.bookSubId);
           this.snackBarService.showSnackBar('One item added to book subbscription');
           this.getBookSubItems();
         }, error => {
@@ -89,20 +88,20 @@ public BookSub;
   }
 
 
-  
 
-  // clearBookSubscription() {
-  //   this.bookSubService.clearbookSub()
-  //     .pipe(takeUntil(this.unsubscribe$))
-  //     .subscribe(
-  //       result => {
-  //         this.subscriptionService.cartItemcount$.next(result);
-  //         this.snackBarService.showSnackBar('Cart cleared!!!');
-  //         this.getShoppingbookSubItems();
-  //       }, error => {
-  //         console.log('Error ocurred while deleting cart item : ', error);
-  //       });
-  // }
+
+  clearBookSubscription() {
+    // this.bookSubService.deleteBookSubscription()
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe(
+    //     result => {
+    //       this.subscriptionService.cartItemcount$.next(result);
+    //       this.snackBarService.showSnackBar('Cart cleared!!!');
+    //       this.getShoppingbookSubItems();
+    //     }, error => {
+    //       console.log('Error ocurred while deleting cart item : ', error);
+    //     });
+  }
 
   ngOnDestroy() {
     this.unsubscribe$.next();
