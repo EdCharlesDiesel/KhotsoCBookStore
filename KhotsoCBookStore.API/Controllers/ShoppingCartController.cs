@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ShoppingCart")]
     public class ShoppingCartController : Controller
     {
         readonly ICartService _cartService;

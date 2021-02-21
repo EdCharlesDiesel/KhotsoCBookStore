@@ -112,18 +112,7 @@ namespace KhotsoCBookStore.API.Repositories
             return lstCategories;
         }
 
-        public List<Book> GetSimilarBooks(int bookId)
-        {
-            List<Book> lstBook = new List<Book>();
-            Book book = GetBookData(bookId);
-
-            lstBook = _dbContext.Book.Where(x => x.Category == book.Category && x.BookId != book.BookId)
-                .OrderBy(u => Guid.NewGuid())
-                .Take(5)
-                .ToList();
-            return lstBook;
-        }
-
+       
         public List<CartItemDto> GetBooksAvailableInCart(string cartID)
         {
             try

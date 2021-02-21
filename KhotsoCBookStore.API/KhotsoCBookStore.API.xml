@@ -23,13 +23,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookController.SimilarBooks(System.Int32)">
-            <summary>
-            Get the random five books from the category of book whose BookId is supplied
-            </summary>
-            <param name="bookId"></param>
-            <returns></returns>
-        </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.Post">
             <summary>
             Add a new book record
@@ -45,6 +38,32 @@
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.Delete(System.Int32)">
             <summary>
             Delete a particular book record
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get">
+            <summary>
+            Get the list of books subscriptions
+            </summary>
+            <returns>List of book subscriptions</returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get(System.Int32)">
+            <summary>
+            Get the specific book subscripption corresponding to the subBookId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(KhotsoCBookStore.API.Entities.BookSubscription)">
+            <summary>
+            Add a new book subscription
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Delete(System.Int32)">
+            <summary>
+            Delete a particular book subscription
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -158,27 +177,6 @@
             </summary>
             <param name="userId"></param>
             <returns></returns>
-        </member>
-        <member name="T:KhotsoCBookStore.Client.Models.AuthorDto">
-            <summary>An author with Id, FirstName and LasttName fields</summary>
-        </member>
-        <member name="P:KhotsoCBookStore.Client.Models.AuthorDto.Id">
-            <summary>The id of the author</summary>
-        </member>
-        <member name="P:KhotsoCBookStore.Client.Models.AuthorDto.FirstName">
-            <summary>The first name of the author</summary>
-        </member>
-        <member name="P:KhotsoCBookStore.Client.Models.AuthorDto.LastName">
-            <summary>The last name of the author</summary>
-        </member>
-        <member name="T:KhotsoCBookStore.Client.Models.AuthorForUpdateDto">
-            <summary>An author for update with FirstName and LastName fields</summary>
-        </member>
-        <member name="P:KhotsoCBookStore.Client.Models.AuthorForUpdateDto.FirstName">
-            <summary>The first name of the author</summary>
-        </member>
-        <member name="P:KhotsoCBookStore.Client.Models.AuthorForUpdateDto.LastName">
-            <summary>The last name of the author</summary>
         </member>
     </members>
 </doc>

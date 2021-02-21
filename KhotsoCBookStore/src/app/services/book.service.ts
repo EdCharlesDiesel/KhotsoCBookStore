@@ -27,11 +27,7 @@ export class BookService {
 
   getBookById(id: number) {
     return this.books$.pipe(map(book => book.find(b => b.bookId === id)));
-  }
-
-  getsimilarBooks(bookId: number) {
-    return this.http.get<Book[]>(this.baseURL + 'GetSimilarBooks/' + bookId);
-  }
+  } 
 
   updateBookDetails(book:Book) {
     return this.http.put(this.baseURL, book);

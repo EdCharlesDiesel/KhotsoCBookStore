@@ -26,7 +26,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authenticationService: AuthenticationService,
     private subscriptionService: SubscriptionService,
-    private wishlistService: WishlistService) { }
+    private wishlistService: WishlistService) { 
+      this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
+    }
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -51,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     if (this.loginForm.valid) {
-      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';   
       this.authenticationService.login(this.loginForm.value)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(

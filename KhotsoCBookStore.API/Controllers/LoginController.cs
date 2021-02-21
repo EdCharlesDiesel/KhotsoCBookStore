@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/login")]
     public class LoginController : Controller
     {
         readonly IUserService _userService;

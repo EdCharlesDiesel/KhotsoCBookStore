@@ -16,19 +16,18 @@ import { UserRegistrationComponent } from './components/user-registration/user-r
 import { HomeComponent } from './components/home/home.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
-import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
-import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-
 import { HttpInterceptorService } from './interceptors/http-interceptor.service';
 import { ErrorInterceptorService } from './interceptors/error-interceptor.service';
-
 import { NgMaterialModule } from './ng-material/ng-material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { PriceFilterComponent } from './components/price-filter/price-filter.component';
-import { SearchComponent } from './components/search/search.component';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { BookSubComponent } from './components/book-sub/book-sub.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -44,13 +43,10 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
     HomeComponent,
     NavBarComponent,
     ShoppingcartComponent,
-    ThemePickerComponent,
-    SimilarbooksComponent,
-    PageNotFoundComponent,
-    PriceFilterComponent,
-    SearchComponent,
+    PageNotFoundComponent,  
     AddtowishlistComponent,
-    WishlistComponent
+    WishlistComponent,
+    BookSubComponent
   ],
   imports: [
     NgMaterialModule,
@@ -59,6 +55,13 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'KhotsoCBookStore App DevTools',
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
     AppRoutingModule
   ],
   providers: [

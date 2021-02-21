@@ -33,15 +33,15 @@ export class DeleteBookComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchBookData();
+   // this.fetchBookData();
   }
 
-  fetchBookData() {
-    this.bookData$ = this.bookService.getBookById(this.bookid)
-      .pipe(
-        catchError((error?) => {
-          console.log('Error ocurred while fetching book data : ', error);
-          return EMPTY;
-        }));
-  }
+  // fetchBookData() {
+  //   this.bookData$ = this.bookService.getBookById(this.bookid)
+  //     .pipe(
+  //       catchError((error:any) => {
+  //         console.log('Error ocurred while fetching book data : ', error)
+          
+  //       }));
+  // }
 }

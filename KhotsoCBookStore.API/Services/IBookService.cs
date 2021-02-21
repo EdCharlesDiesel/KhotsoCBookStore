@@ -11,8 +11,7 @@ namespace KhotsoCBookStore.API.Services
         int UpdateBook(Book book);
         Book GetBookData(int bookId);
         string DeleteBook(int bookId);
-        List<Categories> GetCategories();
-        List<Book> GetSimilarBooks(int bookId);
+        List<Categories> GetCategories();       
         List<CartItemDto> GetBooksAvailableInCart(string cartId);
         List<Book> GetBooksAvailableInWishlist(string wishlistID);
     }

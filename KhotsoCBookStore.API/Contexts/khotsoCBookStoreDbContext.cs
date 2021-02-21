@@ -16,6 +16,7 @@ namespace KhotsoCBookStore.API.Contexts
         }
 
         public virtual DbSet<Book> Book { get; set; }
+        public virtual DbSet<BookSubscription>  BookSubscriptions { get; set; }
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<CartItems> CartItems { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
@@ -25,12 +26,9 @@ namespace KhotsoCBookStore.API.Contexts
         public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<Wishlist> Wishlist { get; set; }
         public virtual DbSet<WishlistItems> WishlistItems { get; set; }
+        
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+             protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>(entity =>
             {
@@ -186,6 +184,100 @@ namespace KhotsoCBookStore.API.Contexts
                     .HasMaxLength(36)
                     .IsUnicode(false);
             });
+
+            
+            modelBuilder.Entity<BookSubscription>().HasData(
+                 new BookSubscription
+                 {
+                     Id = 1,
+                     BookName = "Webdevelopment-101",
+                     CoverFileName ="Default_image",                    
+                     UserId = 1
+                     
+                 },new BookSubscription
+                 {
+                     Id = 2,
+                     BookName = "Webdevelopment-102",
+                     CoverFileName ="Default_image",                    
+                     UserId = 1
+                     
+                 },new BookSubscription
+                 {
+                     Id = 3,
+                     BookName = "Webdevelopment-103",
+                     CoverFileName ="Default_image",                    
+                     UserId = 1                     
+                 }
+                );
+
+            modelBuilder.Entity<UserType>().HasData(
+                 new UserType
+                 {
+                     UserTypeId = 1,
+                     UserTypeName = "Admin"
+                 },
+                   new UserType
+                   {
+                       UserTypeId = 2,
+                       UserTypeName = "User"
+                   }
+                );
+
+              modelBuilder.Entity<Book>().HasData(
+                 new Book
+                 {
+                     BookId =1,
+                     Title = "Webdevelopment-101",
+                     Author ="Charles",
+                     CoverFileName ="Default_image",
+                     Price = 300,
+                     Category = "Development"
+                 },
+                   new Book
+                 {
+                     BookId =2,
+                     Title = "Webdevelopment-101",
+                     Author ="Kagiso",
+                     CoverFileName ="Default_image",
+                     Price = 300,
+                     Category = "Development"
+                 }
+                );
+
+            modelBuilder.Entity<UserMaster>().HasData(
+                 new UserMaster
+                 {
+                     UserTypeId = 1,
+                     FirstName = "Khotso",
+                     LastName = "Mokhethi",
+                     Gender = "Male",
+                     Username = "Batman",
+                     Password = "IamBatman",
+                     UserId = 1
+                 }
+                );
+
+            modelBuilder.Entity<Categories>().HasData(
+             new Categories
+             {
+                 CategoryId = 1,
+                 CategoryName = "Web Development",
+             },
+             new Categories
+             {
+                 CategoryId = 2,
+                 CategoryName = "Programming",
+             },
+             new Categories
+             {
+                 CategoryId = 3,
+                 CategoryName = "Databases",
+             },
+             new Categories
+             {
+                 CategoryId = 4,
+                 CategoryName = "Administration",
+             });
 
             OnModelCreatingPartial(modelBuilder);
         }

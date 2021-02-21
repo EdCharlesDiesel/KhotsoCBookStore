@@ -87,9 +87,9 @@ namespace KhotsoCBookStore.API
             });            
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-                       services.AddTransient<IBookService, BookRepository>();
+            services.AddTransient<IBookService, BookRepository>();
+            services.AddTransient<IBookSubscriptionService, BookSubscriptionRepository>();
             services.AddTransient<ICartService, CartRepository>();
             services.AddTransient<IOrderService, OrderRepository>();
             services.AddTransient<IUserService, UserRepository>();
@@ -97,25 +97,25 @@ namespace KhotsoCBookStore.API
 
 
 
-                   services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
-                    ClockSkew = TimeSpan.Zero // Override the default clock skew of 5 mins
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+           .AddJwtBearer(options =>
+           {
+               options.RequireHttpsMetadata = false;
+               options.SaveToken = true;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true,
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   ValidIssuer = Configuration["Jwt:Issuer"],
+                   ValidAudience = Configuration["Jwt:Audience"],
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                   ClockSkew = TimeSpan.Zero // Override the default clock skew of 5 mins
                 };
 
-                services.AddCors();
-            });
+               services.AddCors();
+           });
 
             services.AddAuthorization(config =>
             {
@@ -125,18 +125,18 @@ namespace KhotsoCBookStore.API
 
 
             services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOriginsHeadersAndMethods",
-        builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-});
+            {
+                options.AddPolicy("AllowAllOriginsHeadersAndMethods",
+                    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
 
             services.AddSwaggerGen(setupAction =>
             {
-                setupAction.SwaggerDoc("KhotsoCBookStoreAPISpecification", new Microsoft.OpenApi.Models.OpenApiInfo()
+                setupAction.SwaggerDoc("KhotsoCBookStoreAPISpecification", new OpenApiInfo()
                 {
-                    Title = "KhotsoCBookStore API",
+                    Title = "KhotsoCBookStore API V1.0",
                     Version = "1.0",
-                    Description = "The business has requested the development of a new system which allows users to register online over Http which provides the same functionality.",
+                    Description = "API for an online book store  where  a user can purchase a subscription to any book available in the product catalogue created with ASP.NET Core 5.0",
                     Contact = new OpenApiContact()
                     {
                         Email = "Mokhetkc@hotmail.com",
@@ -176,15 +176,16 @@ namespace KhotsoCBookStore.API
                 app.UseDeveloperExceptionPage();
             }
 
+            
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseSwagger();
 
             app.UseSwaggerUI(setupAction =>
             {
-                setupAction.SwaggerEndpoint("/swagger/KhotsoCBookStoreAPISpecification/swagger.json", "KhotsoCBookStore API");
+                setupAction.SwaggerEndpoint("/swagger/KhotsoCBookStoreAPISpecification/swagger.json", "KhotsoCBookStore API V1.0");
 
                 setupAction.RoutePrefix = "";
 

@@ -14,7 +14,7 @@ export class WishlistService {
   constructor(
     private http: HttpClient,
     private subscriptionService: SubscriptionService) {
-    this.baseURL = '/api/Wishlist/';
+    this.baseURL = 'https://localhost:5000/api/Wishlist/';
   }
 
   toggleWishlistItem(userId: number, bookId: number) {
@@ -27,7 +27,7 @@ export class WishlistService {
 
   getWishlistItems(userId: number) {
     return this.http.get(this.baseURL + userId)
-      .pipe(map((response: Book[]) => {
+      .pipe(map((response: any) => {
         this.setWishlist(response);
         return response;
       }));

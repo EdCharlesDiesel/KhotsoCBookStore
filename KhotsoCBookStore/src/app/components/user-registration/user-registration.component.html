@@ -22,6 +22,10 @@
                             <input matInput placeholder="Last Name" formControlName="lastname" required>
                             <mat-error *ngIf="lastname.touched && lastname.invalid">Last Name is required</mat-error>
                         </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Email Address" formControlName="emailaddress" required>
+                            <mat-error *ngIf="emailaddress.touched && emailaddress.invalid">Email Address required</mat-error>
+                        </mat-form-field>
 
                         <mat-form-field class="full-width">
                             <input matInput placeholder="User Name" formControlName="username" required>
@@ -58,13 +62,8 @@
                             </mat-error>
                         </mat-form-field>
 
-                        <label class="example-margin">Gender: </label>
-                        <mat-radio-group class="example-radio-group" formControlName="gender">
-                            <mat-radio-button class="example-radio-button" value="Male"> Male </mat-radio-button>
-                            <mat-radio-button class="example-radio-button" value="Female"> Female </mat-radio-button>
-                        </mat-radio-group>
-                        <mat-error *ngIf="gender.touched && gender.invalid">Gender is required</mat-error>
-                        <mat-card-actions align="right">
+                      
+                        <mat-card-actions >
                             <div fxFlex></div>
                             <button mat-raised-button color="primary">Register</button>
                         </mat-card-actions>

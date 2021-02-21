@@ -42,7 +42,7 @@ export class WishlistComponent implements OnInit {
         result => {
           this.subscriptionService.wishlistItemcount$.next(result);
           this.snackBarService.showSnackBar('Wishlist cleared!!!');
-          // this.getShoppingCartItems();
+        //  this.getShoppingCartItems();
         }, error => {
           console.log('Error ocurred while deleting wishlist item : ', error);
         });

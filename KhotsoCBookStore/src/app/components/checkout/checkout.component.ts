@@ -29,7 +29,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private checkOutService: CheckoutService,
     private snackBarService: SnackbarService,
     private subscriptionService: SubscriptionService) {
-    this.userId = localStorage.getItem('userId');
+    this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
   }
 
   checkOutForm = this.fb.group({
@@ -83,6 +83,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.checkOutItems.cartTotal = this.totalPrice;
   }
 
+
+
   placeOrder() {
     if (this.checkOutForm.valid) {
       this.checkOutService.placeOrder(this.userId, this.checkOutItems)
@@ -97,7 +99,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           });
     }
   }
-
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
