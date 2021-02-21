@@ -1,27 +1,48 @@
 # KhotsoCBookStore
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
+Application for an online book store  where  a user can purchase a subscription to any book available in the product catalogue 
+created with ASP.NET Core 5.0 and Angular 11, using SQL Server as database.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### ASP .NET Core
 
-## Code scaffolding
+ - Web API created using EF Core DB first approach
+ - Policy based Authorization using JWT
+ - Repository pattern
+ - Dependency Injection
+ - Swagger implementation
+ - Testing
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Angular
 
-## Build
+ - Angular Material 
+ - Routing & Navigation
+ - Auth guards
+ - Lazy loading of modules
+ - HTTP Interceptors
+ - Reactive forms
+ - Form validation 
+ - Pipes
+ - Testing
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+# Prerequisites
+- Visual Studio 2019 
+- SQL Server 
+- .NET Core 5.0 SDK or above
+- Node.Js V12.0 or above
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Steps to run the app
+1. Clone the Repo
+3. Put your connection string in [appsettings.json] file.
+2. Add Migration and run them
+4. Build and launch the application from Visual Studio.
 
-## Running end-to-end tests
+# Angular app
+http://localhost:4200/
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+# API
+https://localhost:5000/index.html
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#oauth2  (apiKey)
+KqcL7s998JrfFHRP
