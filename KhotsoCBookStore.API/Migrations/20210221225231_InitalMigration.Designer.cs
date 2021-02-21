@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KhotsoCBookStore.API.Migrations
 {
     [DbContext(typeof(KhotsoCBookStoreDbContext))]
-    [Migration("20210221055629_UpdatedCovername")]
-    partial class UpdatedCovername
+    [Migration("20210221225231_InitalMigration")]
+    partial class InitalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,17 +29,14 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasColumnName("UserID")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(20)
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(6)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -72,8 +69,8 @@ namespace KhotsoCBookStore.API.Migrations
                         new
                         {
                             UserId = 1,
+                            EmailAddress = "Mokhetkc@hotmail.com",
                             FirstName = "Khotso",
-                            Gender = "Male",
                             LastName = "Mokhethi",
                             Password = "IamBatman",
                             UserTypeId = 1,
@@ -136,17 +133,20 @@ namespace KhotsoCBookStore.API.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<decimal>("PurchasePrice")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("BookId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books");
 
                     b.HasData(
                         new
@@ -155,8 +155,9 @@ namespace KhotsoCBookStore.API.Migrations
                             Author = "Charles",
                             Category = "Development",
                             CoverFileName = "Default_image",
-                            Price = 300m,
-                            Title = "Webdevelopment-101"
+                            Name = "Deep Learning with JavaScript",
+                            PurchasePrice = 300m,
+                            Text = "Deep learning has transformed the fields of computer vision, image processing, and natural language applications."
                         },
                         new
                         {
@@ -164,8 +165,53 @@ namespace KhotsoCBookStore.API.Migrations
                             Author = "Kagiso",
                             Category = "Development",
                             CoverFileName = "Default_image",
-                            Price = 300m,
-                            Title = "Webdevelopment-101"
+                            Name = "Webdevelopment-101",
+                            PurchasePrice = 300m,
+                            Text = "Learn how to make better decisions and write cleaner Ruby code. This book shows you how to avoid messy code that is hard to test and which cripples productivity."
+                        });
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.BookSubscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BookName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoverFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookSubscriptions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BookName = "Webdevelopment-101",
+                            CoverFileName = "Default_image",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BookName = "Webdevelopment-102",
+                            CoverFileName = "Default_image",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BookName = "Webdevelopment-103",
+                            CoverFileName = "Default_image",
+                            UserId = 1
                         });
                 });
 

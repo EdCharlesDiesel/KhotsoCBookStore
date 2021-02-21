@@ -3,25 +3,41 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KhotsoCBookStore.API.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Book",
+                name: "Books",
                 columns: table => new
                 {
                     BookID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Author = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     Category = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    PurchasePrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CoverFileName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book", x => x.BookID);
+                    table.PrimaryKey("PK_Books", x => x.BookID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookSubscriptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CoverFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookSubscriptions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,9 +119,9 @@ namespace KhotsoCBookStore.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "varchar(40)", unicode: false, maxLength: 40, nullable: false),
-                    Gender = table.Column<string>(type: "varchar(6)", unicode: false, maxLength: 6, nullable: false),
                     UserTypeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -152,12 +168,59 @@ namespace KhotsoCBookStore.API.Migrations
                 {
                     table.PrimaryKey("PK__Wishlist__171E21A16A5148A4", x => x.WishlistItemId);
                 });
+
+            migrationBuilder.InsertData(
+                table: "BookSubscriptions",
+                columns: new[] { "Id", "BookName", "CoverFileName", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Webdevelopment-101", "Default_image", 1 },
+                    { 2, "Webdevelopment-102", "Default_image", 1 },
+                    { 3, "Webdevelopment-103", "Default_image", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "BookID", "Author", "Category", "CoverFileName", "Name", "PurchasePrice", "Text" },
+                values: new object[,]
+                {
+                    { 1, "Charles", "Development", "Default_image", "Deep Learning with JavaScript", 300m, "Deep learning has transformed the fields of computer vision, image processing, and natural language applications." },
+                    { 2, "Kagiso", "Development", "Default_image", "Webdevelopment-101", 300m, "Learn how to make better decisions and write cleaner Ruby code. This book shows you how to avoid messy code that is hard to test and which cripples productivity." }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryID", "CategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Web Development" },
+                    { 2, "Programming" },
+                    { 3, "Databases" },
+                    { 4, "Administration" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserMaster",
+                columns: new[] { "UserID", "EmailAddress", "FirstName", "LastName", "Password", "UserTypeID", "Username" },
+                values: new object[] { 1, "Mokhetkc@hotmail.com", "Khotso", "Mokhethi", "IamBatman", 1, "Batman" });
+
+            migrationBuilder.InsertData(
+                table: "UserType",
+                columns: new[] { "UserTypeID", "UserTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "User" }
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Book");
+                name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "BookSubscriptions");
 
             migrationBuilder.DropTable(
                 name: "Cart");

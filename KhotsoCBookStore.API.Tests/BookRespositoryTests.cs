@@ -19,14 +19,14 @@ namespace KhotsoCBookStore.API.Tests
             _output = output;
         }
 
-           
-         [Fact]
+
+        [Fact]
         public void GetBooks_That_ReturnsThreeBooks()
         {
-           // Arrange
+            // Arrange
 
-           var connectionStringBuilder =
-               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connectionStringBuilder =
+                new SqliteConnectionStringBuilder { DataSource = ":memory:" };
             var connection = new SqliteConnection(connectionStringBuilder.ToString());
 
             var options = new DbContextOptionsBuilder<KhotsoCBookStoreDbContext>()
@@ -36,30 +36,20 @@ namespace KhotsoCBookStore.API.Tests
 
             using (var context = new KhotsoCBookStoreDbContext(options))
             {
-                //context.Database.OpenConnection();
-                //context.Database.EnsureCreated();
-                //context.Countries.Add(new Entities.Country()
-                //{
-                //    Id = "BE",
-                //    Description = "Belgium"
-                //});
+                context.Database.OpenConnection();
+                context.Database.EnsureCreated();
 
-                //context.Countries.Add(new Entities.Country()
-                //{
-                //    Id = "US",
-                //    Description = "United States of America"
-                //});
 
-                //context.Books.Add(new Entities.Author()
-                //{ FirstName = "Kevin", LastName = "Dockx", CountryId = "BE" });
-                //context.Books.Add(new Entities.Author()
-                //{ FirstName = "Gill", LastName = "Cleeren", CountryId = "BE" });
-                //context.Books.Add(new Entities.Author()
-                //{ FirstName = "Julie", LastName = "Lerman", CountryId = "US" });
-                //context.Books.Add(new Entities.Author()
-                //{ FirstName = "Shawn", LastName = "Wildermuth", CountryId = "BE" });
-                //context.Books.Add(new Entities.Author()
-                //{ FirstName = "Deborah", LastName = "Kurata", CountryId = "US" });
+                context.Books.Add(new Entities.Book()
+                { 
+                    Name = "How To write CSS",
+                    PurchasePrice = 350,
+                    Author = "Charles Dickenson",
+                    Category = "Web Developement",
+                    CoverFileName ="",
+                    Text="This is a book about summer"});
+
+
 
                 context.SaveChanges();
             }
@@ -70,11 +60,11 @@ namespace KhotsoCBookStore.API.Tests
 
                 // Act
                 var books = bookRepository.GetAllBooks();
-                
+
                 // Assert
                 Assert.Equal(3, books.Count());
             }
         }
-        
+
     }
 }
