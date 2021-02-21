@@ -22,7 +22,7 @@ namespace KhotsoCBookStore.API.Repositories
         {
             try
             {
-                return _dbContext.Book.AsNoTracking().ToList();
+                return _dbContext.Books.AsNoTracking().ToList();
             }
             catch
             {
@@ -34,7 +34,7 @@ namespace KhotsoCBookStore.API.Repositories
         {
             try
             {
-                _dbContext.Book.Add(book);
+                _dbContext.Books.Add(book);
                 _dbContext.SaveChanges();
 
                 return 1;
@@ -74,7 +74,7 @@ namespace KhotsoCBookStore.API.Repositories
         {
             try
             {
-                Book book = _dbContext.Book.FirstOrDefault(x => x.BookId == bookId);
+                Book book = _dbContext.Books.FirstOrDefault(x => x.BookId == bookId);
                 if (book != null)
                 {
                     _dbContext.Entry(book).State = EntityState.Detached;
@@ -92,8 +92,8 @@ namespace KhotsoCBookStore.API.Repositories
         {
             try
             {
-                Book book = _dbContext.Book.Find(bookId);
-                _dbContext.Book.Remove(book);
+                Book book = _dbContext.Books.Find(bookId);
+                _dbContext.Books.Remove(book);
                 _dbContext.SaveChanges();
 
                 return book.CoverFileName;

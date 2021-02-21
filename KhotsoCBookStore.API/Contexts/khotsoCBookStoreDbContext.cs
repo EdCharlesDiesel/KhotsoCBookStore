@@ -15,7 +15,7 @@ namespace KhotsoCBookStore.API.Contexts
         {
         }
 
-        public virtual DbSet<Book> Book { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<BookSubscription>  BookSubscriptions { get; set; }
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<CartItems> CartItems { get; set; }
@@ -47,9 +47,9 @@ namespace KhotsoCBookStore.API.Contexts
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+                entity.Property(e => e.PurchasePrice).HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.Title)
+                entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });
@@ -130,15 +130,16 @@ namespace KhotsoCBookStore.API.Contexts
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false);
+           
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                     entity.Property(e => e.EmailAddress);
+                   
+                 
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -227,19 +228,21 @@ namespace KhotsoCBookStore.API.Contexts
                  new Book
                  {
                      BookId =1,
-                     Title = "Webdevelopment-101",
+                     Name = "Deep Learning with JavaScript",
+                     Text = "Deep learning has transformed the fields of computer vision, image processing, and natural language applications.",
                      Author ="Charles",
                      CoverFileName ="Default_image",
-                     Price = 300,
+                     PurchasePrice = 300,
                      Category = "Development"
                  },
                    new Book
                  {
                      BookId =2,
-                     Title = "Webdevelopment-101",
+                     Name = "Webdevelopment-101",
+                     Text ="Learn how to make better decisions and write cleaner Ruby code. This book shows you how to avoid messy code that is hard to test and which cripples productivity.",
                      Author ="Kagiso",
                      CoverFileName ="Default_image",
-                     Price = 300,
+                     PurchasePrice = 300,
                      Category = "Development"
                  }
                 );
@@ -250,7 +253,7 @@ namespace KhotsoCBookStore.API.Contexts
                      UserTypeId = 1,
                      FirstName = "Khotso",
                      LastName = "Mokhethi",
-                     Gender = "Male",
+                     EmailAddress ="Mokhetkc@hotmail.com",                     
                      Username = "Batman",
                      Password = "IamBatman",
                      UserId = 1

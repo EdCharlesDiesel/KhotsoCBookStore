@@ -42,7 +42,7 @@ namespace KhotsoCBookStore.API.Repositories
                         OrderId = orderid.ToString(),
                         ProductId = order.Book.BookId,
                         Quantity = order.Quantity,
-                        Price = order.Book.Price
+                        Price = order.Book.PurchasePrice
                     };
                     _dbContext.CustomerOrderDetails.Add(productDetails);
                     _dbContext.SaveChanges();
@@ -82,8 +82,8 @@ namespace KhotsoCBookStore.API.Repositories
                     Book book = new Book
                     {
                         BookId = customerOrder.ProductId,
-                        Title = _dbContext.Book.FirstOrDefault(x => x.BookId == customerOrder.ProductId && customerOrder.OrderId == orderid).Title,
-                        Price = _dbContext.CustomerOrderDetails.FirstOrDefault(x => x.ProductId == customerOrder.ProductId && customerOrder.OrderId == orderid).Price
+                        Name = _dbContext.Books.FirstOrDefault(x => x.BookId == customerOrder.ProductId && customerOrder.OrderId == orderid).Name,
+                        PurchasePrice = _dbContext.CustomerOrderDetails.FirstOrDefault(x => x.ProductId == customerOrder.ProductId && customerOrder.OrderId == orderid).Price
                     };
 
                     item.Book = book;
