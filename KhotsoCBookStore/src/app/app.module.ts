@@ -16,17 +16,11 @@ import { UserRegistrationComponent } from './components/user-registration/user-r
 import { HomeComponent } from './components/home/home.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
-import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
-import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-
 import { HttpInterceptorService } from './interceptors/http-interceptor.service';
 import { ErrorInterceptorService } from './interceptors/error-interceptor.service';
-
 import { NgMaterialModule } from './ng-material/ng-material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { PriceFilterComponent } from './components/price-filter/price-filter.component';
-import { SearchComponent } from './components/search/search.component';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 
@@ -44,11 +38,7 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
     HomeComponent,
     NavBarComponent,
     ShoppingcartComponent,
-    ThemePickerComponent,
-    SimilarbooksComponent,
-    PageNotFoundComponent,
-    PriceFilterComponent,
-    SearchComponent,
+    PageNotFoundComponent,  
     AddtowishlistComponent,
     WishlistComponent
   ],

@@ -17,7 +17,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   userId;
   userDataSubscription: any;
-  userData = new User();
+  userData;
   userType = UserType;
   wishListCount$: Observable<number>;
   cartItemCount$: Observable<number>;

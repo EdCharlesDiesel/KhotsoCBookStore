@@ -7,11 +7,7 @@
         </div>
         <div>          
         </div>
-        <div>
-            <button mat-icon-button *ngIf="userData.isLoggedIn" [routerLinkActive]='["link-active"]'
-                [routerLink]='["/wishlist"]'>
-                <mat-icon matBadge="{{wishListCount$ | async}}" matBadgeColor="warn">favorite</mat-icon>
-            </button>
+        <div>        
             <button mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/shopping-cart"]'>
                 <mat-icon matBadge="{{cartItemCount$ | async}}" matBadgeColor="warn">shopping_cart</mat-icon>
             </button>
@@ -29,9 +25,9 @@
                     <button mat-menu-item (click)=logout()>Logout</button>
                 </mat-menu>
             </ng-container>
-            <!-- <app-theme-picker></app-theme-picker> -->
+  
             <button mat-button>
-                <a class="github-link" href="/swagger/index.html" target="_blank">
+                <a class="github-link" href="https://localhost:5000/index.html" target="_blank">
                     <span><img src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png" /></span>
                     
                 </a>

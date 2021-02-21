@@ -65,6 +65,18 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasName("PK__UserMast__1788CCAC2694A2ED");
 
                     b.ToTable("UserMaster");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            FirstName = "Khotso",
+                            Gender = "Male",
+                            LastName = "Mokhethi",
+                            Password = "IamBatman",
+                            UserTypeId = 1,
+                            Username = "Batman"
+                        });
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Authentication.UserType", b =>
@@ -84,6 +96,18 @@ namespace KhotsoCBookStore.API.Migrations
                     b.HasKey("UserTypeId");
 
                     b.ToTable("UserType");
+
+                    b.HasData(
+                        new
+                        {
+                            UserTypeId = 1,
+                            UserTypeName = "Admin"
+                        },
+                        new
+                        {
+                            UserTypeId = 2,
+                            UserTypeName = "User"
+                        });
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.Book", b =>
@@ -121,6 +145,26 @@ namespace KhotsoCBookStore.API.Migrations
                     b.HasKey("BookId");
 
                     b.ToTable("Book");
+
+                    b.HasData(
+                        new
+                        {
+                            BookId = 1,
+                            Author = "Charles",
+                            Category = "Development",
+                            CoverFileName = "Default_image",
+                            Price = 300m,
+                            Title = "Webdevelopment-101"
+                        },
+                        new
+                        {
+                            BookId = 2,
+                            Author = "Kagiso",
+                            Category = "Development",
+                            CoverFileName = "Default_image",
+                            Price = 300m,
+                            Title = "Webdevelopment-101"
+                        });
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.Cart", b =>
@@ -185,6 +229,28 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasName("PK__Categori__19093A2B46B8DFC9");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Web Development"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Programming"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Databases"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Administration"
+                        });
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.CustomerOrderDetails", b =>

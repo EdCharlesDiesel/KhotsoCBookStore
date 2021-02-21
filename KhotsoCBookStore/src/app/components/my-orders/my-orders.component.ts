@@ -49,7 +49,7 @@ export class MyOrdersComponent implements OnInit, OnDestroy {
   getMyOrderDetails() {
     this.orderService.myOrderDetails(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((result: Order[]) => {
+      .subscribe((result: any) => {
         if (result != null) {
           this.dataSource.data = Object.values(result);
           this.isLoading = false;

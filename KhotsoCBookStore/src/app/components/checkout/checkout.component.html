@@ -42,7 +42,7 @@
                             <input matInput placeholder="State" formControlName="state" required>
                             <mat-error *ngIf="state.touched && state.invalid">State is required</mat-error>
                         </mat-form-field>
-                        <mat-card-actions align="right">
+                        <mat-card-actions >
                             <div fxFlex></div>
                             <button type="submit" mat-raised-button color="primary">Place Order</button>
                             <button type="button" mat-raised-button color="warn"
@@ -75,15 +75,15 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Quantity</th>
-                                <th>MRP</th>
+                                <th>Rands</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tr *ngFor="let item of checkOutItems.orderDetails">
                             <td><a [routerLink]="['/books/details/',item.book.bookId]">{{item.book.title}}</a></td>
                             <td>{{item.quantity}}</td>
-                            <td>{{item.book.price| currency : 'INR'}}</td>
-                            <td>{{ item.book.price * item.quantity | currency : 'INR'}}</td>
+                            <td>{{item.book.price| currency : 'ZAR '}}</td>
+                            <td>{{ item.book.price * item.quantity | currency : 'ZAR '}}</td>
                         </tr>
                     </table>
                     <tfoot class="table">
@@ -91,7 +91,7 @@
                             <th></th>
                             <th></th>
                             <td>Grand Total</td>
-                            <th>{{totalPrice| currency : 'INR' }}</th>
+                            <th>{{totalPrice| currency : 'ZAR ' }}</th>
                         </tr>
                     </tfoot>
                 </mat-card-content>

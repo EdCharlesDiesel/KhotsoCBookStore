@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class BookFormComponent implements OnInit, OnDestroy {
 
-  private formData = new FormData();
+  private formData: any;
   bookForm: FormGroup;
   book: Book;
   formTitle = 'Add';
@@ -28,7 +28,8 @@ export class BookFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router) {
-this.book = new Book();
+    this.formData  = new FormData();  
+    this.book = new Book();
     this.bookForm = this.fb.group({
       bookId: 0,
       title: ['', Validators.required],
@@ -79,7 +80,7 @@ this.book = new Book();
     this.bookService.getBookById(this.bookId)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
-        (result: Book )  => {
+        (result: any )  => {
           this.setBookFormData(result);
         }, error => {
           console.log('Error ocurred while fetching book data : ', error);

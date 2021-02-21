@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KhotsoCBookStore.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/Order")]
     public class OrderController : Controller
     {
         readonly IOrderService _orderService;

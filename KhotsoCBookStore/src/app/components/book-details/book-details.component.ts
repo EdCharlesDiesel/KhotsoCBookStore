@@ -22,7 +22,8 @@ export class BookDetailsComponent implements OnInit {
     private bookService: BookService,
     private route: ActivatedRoute,
     private subscriptionService: SubscriptionService) {
-    this.bookId = this.route.snapshot.paramMap.get('id');
+    //this.bookId = this.route.snapshot.paramMap.get('id'); this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
+    this.bookId = JSON.parse(this.route.snapshot.paramMap.get('id') || '{}')
   }
 
   ngOnInit() {
@@ -36,11 +37,11 @@ export class BookDetailsComponent implements OnInit {
   }
 
   getBookDetails() {
-    this.BookDetails$ = this.bookService.getBookById(this.bookId)
-      .pipe(
-        catchError(error => {
-          console.log('Error ocurred while fetching book data : ', error);
-          return EMPTY;
-        }));
+    // this.BookDetails$ = this.bookService.getBookById(this.bookId)
+    //   .pipe(
+    //     catchError(error => {
+    //       console.log('Error ocurred while fetching book data : ', error);
+    //       return EMPTY;
+    //     }));
   }
 }

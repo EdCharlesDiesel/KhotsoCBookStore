@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Wishlist")]
     public class WishlistController : Controller
     {
         readonly IWishlistService _wishlistService;

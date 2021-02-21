@@ -187,6 +187,76 @@ namespace KhotsoCBookStore.API.Contexts
                     .IsUnicode(false);
             });
 
+
+            modelBuilder.Entity<UserType>().HasData(
+                 new UserType
+                 {
+                     UserTypeId = 1,
+                     UserTypeName = "Admin"
+                 },
+                   new UserType
+                   {
+                       UserTypeId = 2,
+                       UserTypeName = "User"
+                   }
+                );
+
+              modelBuilder.Entity<Book>().HasData(
+                 new Book
+                 {
+                     BookId =1,
+                     Title = "Webdevelopment-101",
+                     Author ="Charles",
+                     CoverFileName ="Default_image",
+                     Price = 300,
+                     Category = "Development"
+                 },
+                   new Book
+                 {
+                     BookId =2,
+                     Title = "Webdevelopment-101",
+                     Author ="Kagiso",
+                     CoverFileName ="Default_image",
+                     Price = 300,
+                     Category = "Development"
+                 }
+                );
+
+            modelBuilder.Entity<UserMaster>().HasData(
+                 new UserMaster
+                 {
+                     UserTypeId = 1,
+                     FirstName = "Khotso",
+                     LastName = "Mokhethi",
+                     Gender = "Male",
+                     Username = "Batman",
+                     Password = "IamBatman",
+                     UserId = 1
+                 }
+                );
+
+            modelBuilder.Entity<Categories>().HasData(
+             new Categories
+             {
+                 CategoryId = 1,
+                 CategoryName = "Web Development",
+             },
+             new Categories
+             {
+                 CategoryId = 2,
+                 CategoryName = "Programming",
+             },
+             new Categories
+             {
+                 CategoryId = 3,
+                 CategoryName = "Databases",
+             },
+             new Categories
+             {
+                 CategoryId = 4,
+                 CategoryName = "Administration",
+             });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

@@ -10,17 +10,20 @@ import { UserService } from './user.service';
 })
 export class AuthenticationService {
 
-  oldUserId: string | null;
+  oldUserId;
 
   constructor(
     private http: HttpClient,
-    private subscriptionService: SubscriptionService) { }
+    private subscriptionService: SubscriptionService) {
+      this.oldUserId = JSON.parse(localStorage.getItem('userId') || '{}');
+      
+     }
 
-  login(user:any) {
-    return this.http.post<any>('/api/login', user)
+  login(user: User) {
+    return this.http.post<any>('https://localhost:5000/api/login', user)
       .pipe(map(response => {
         if (response && response.token) {
-          this.oldUserId = localStorage.getItem('userId');
+          this.oldUserId = JSON.parse(localStorage.getItem('userId') || '{}');
           localStorage.setItem('authToken', response.token);
           this.setUserDetails();
           localStorage.setItem('userId', response.userDetails.userId);

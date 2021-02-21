@@ -30,7 +30,7 @@ export class UserRegistrationComponent implements OnDestroy {
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     username: ['', [Validators.required], this.customValidation.userNameValidator.bind(this.customValidation)],
-    password: ['', Validators.compose([Validators.required, this.customValidation.patternValidator()])],
+    password: ['', Validators.compose([Validators.required])],
     confirmPassword: ['', [Validators.required]],
     gender: ['', Validators.required],
   },

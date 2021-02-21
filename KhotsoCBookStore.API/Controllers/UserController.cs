@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/User")]
     public class UserController : Controller
     {
         readonly IUserService _userService;
