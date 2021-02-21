@@ -52,7 +52,7 @@ export class ShoppingcartComponent implements OnInit, OnDestroy {
   getTotalPrice() {
     this.totalPrice = 0;
     this.cartItems.forEach(item => {
-      this.totalPrice += (item.book.price * item.quantity);
+      this.totalPrice += (item.book.purchasePrice * item.quantity);
     });
   }
 

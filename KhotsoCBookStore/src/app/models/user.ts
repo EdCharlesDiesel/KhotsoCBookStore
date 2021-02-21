@@ -1,7 +1,8 @@
 export class User {
     userId: number;
     firstName: string;
-    lastName: number;
+    lastName: string;
+    emailaddress: string;
     username: string;
     userTypeId: number;
     isLoggedIn: boolean;

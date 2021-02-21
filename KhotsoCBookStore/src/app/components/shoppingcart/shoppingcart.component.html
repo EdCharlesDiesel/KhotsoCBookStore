@@ -40,10 +40,10 @@
             <tbody>
                 <tr *ngFor="let item of cartItems">
                     <mat-card-content class="mat-elevation-z2">
-                        <td> <img matTooltip={{item.book.title}} matTooltipPosition="after"
+                        <td> <img matTooltip={{item.book.name}} matTooltipPosition="after"
                                 src="/assets/Upload/{{item.book.coverFileName}}.jpg"></td>
-                        <td><a [routerLink]="['/books/details/',item.book.bookId]">{{item.book.title}}</a></td>
-                        <td>{{ item.book.price | currency : 'ZAR ' }}</td>
+                        <td><a [routerLink]="['/books/details/',item.book.bookId]">{{item.book.name}}</a></td>
+                        <td>{{ item.book.purchasePrice | currency : 'ZAR ' }}</td>
                         <td>
                             <div class="btn-container">
                                 <div class="btn-minus"><button [disabled]="item.quantity < 2 ? true : false"
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>{{ item.book.price * item.quantity | currency : 'ZAR '}}</td>
+                        <td>{{ item.book.purchasePrice * item.quantity | currency : 'ZAR '}}</td>
                         <td><button mat-icon-button color="accent" matTooltip="Delete item"
                                 (click)="deleteCartItem(item.book.bookId)">
                                 <mat-icon>delete</mat-icon>

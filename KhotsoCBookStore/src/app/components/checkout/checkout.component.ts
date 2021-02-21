@@ -78,7 +78,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   getTotalPrice() {
     this.totalPrice = 0;
     this.checkOutItems.orderDetails.forEach(item => {
-      this.totalPrice += (item.book.price * item.quantity);
+      this.totalPrice += (item.book.purchasePrice * item.quantity);
     });
     this.checkOutItems.cartTotal = this.totalPrice;
   }
