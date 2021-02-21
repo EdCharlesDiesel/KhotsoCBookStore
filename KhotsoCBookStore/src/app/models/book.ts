@@ -1,8 +1,9 @@
 export class Book {
     bookId!: number;
-    title!: string;
+    name!: string;
+    text!: string;
     author!: string;
     category!: string;
-    price!: number;
+    purchasePrice!: number;
     coverFileName!: string;
 }

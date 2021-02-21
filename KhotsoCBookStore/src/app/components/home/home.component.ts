@@ -50,12 +50,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   filterBookData() {
-    const filteredData = this.filteredProducts.filter(b => b.price <= this.priceRange).slice();
+    const filteredData = this.filteredProducts.filter(b => b.purchasePrice <= this.priceRange).slice();
 
     if (this.category) {
       this.books = filteredData.filter(b => b.category.toLowerCase() === this.category.toLowerCase());
     } else if (this.searchItem) {
-      this.books = filteredData.filter(b => b.title.toLowerCase().indexOf(this.searchItem) !== -1
+      this.books = filteredData.filter(b => b.name.toLowerCase().indexOf(this.searchItem) !== -1
         || b.author.toLowerCase().indexOf(this.searchItem) !== -1);
     } else {
       this.books = filteredData;

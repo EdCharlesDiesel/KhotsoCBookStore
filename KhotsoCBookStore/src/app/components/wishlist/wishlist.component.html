@@ -27,8 +27,8 @@
           <thead>
             <tr>
               <th>Image</th>
-              <th>Title</th>
-              <th>MRP</th>
+              <th>Name</th>
+              <th>Rands</th>
               <th>Add to Cart</th>
               <th>Delete</th>
             </tr>
@@ -40,10 +40,10 @@
         <tbody>
           <tr *ngFor="let item of wishlistItems">
             <mat-card-content class="mat-elevation-z2">
-              <td> <img matTooltip={{item.title}} matTooltipPosition="after" src="/Upload/{{item.coverFileName}}">
+              <td> <img matTooltip={{item.name}} matTooltipPosition="after" src="asserts/Upload/{{item.coverFileName}}">
               </td>
-              <td><a [routerLink]="['/books/details/',item.bookId]">{{item.title}}</a></td>
-              <td>{{ item.price | currency : 'INR' }}</td>
+              <td><a [routerLink]="['/books/details/',item.bookId]">{{item.name}}</a></td>
+              <td>{{ item.purchasePrice | currency : 'ZAR ' }}</td>
               <td>
                 <app-addtocart [bookId]="item.bookId"></app-addtocart>
               </td>
