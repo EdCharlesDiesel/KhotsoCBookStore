@@ -42,6 +42,32 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get">
+            <summary>
+            Get the list of books subscriptions
+            </summary>
+            <returns>List of book subscriptions</returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get(System.Int32)">
+            <summary>
+            Get the specific book subscripption corresponding to the subBookId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(KhotsoCBookStore.API.Entities.BookSubscription)">
+            <summary>
+            Add a new book subscription
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Delete(System.Int32)">
+            <summary>
+            Delete a particular book subscription
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:KhotsoCBookStore.API.Controllers.CheckOutController.Post(System.Int32,KhotsoCBookStore.API.Models.OrdersDto)">
             <summary>
             Checkout from shopping cart

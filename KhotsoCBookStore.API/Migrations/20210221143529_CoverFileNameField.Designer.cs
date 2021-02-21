@@ -4,14 +4,16 @@ using KhotsoCBookStore.API.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KhotsoCBookStore.API.Migrations
 {
     [DbContext(typeof(KhotsoCBookStoreDbContext))]
-    partial class KhotsoCBookStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210221143529_CoverFileNameField")]
+    partial class CoverFileNameField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,21 +194,21 @@ namespace KhotsoCBookStore.API.Migrations
                         {
                             Id = 1,
                             BookName = "Webdevelopment-101",
-                            CoverFileName = "Default_image",
+                            CoverFileName = "",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             BookName = "Webdevelopment-102",
-                            CoverFileName = "Default_image",
+                            CoverFileName = "",
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
                             BookName = "Webdevelopment-103",
-                            CoverFileName = "Default_image",
+                            CoverFileName = "",
                             UserId = 1
                         });
                 });

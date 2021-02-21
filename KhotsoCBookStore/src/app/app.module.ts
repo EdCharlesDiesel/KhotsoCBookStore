@@ -23,6 +23,7 @@ import { NgMaterialModule } from './ng-material/ng-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { BookSubComponent } from './components/book-sub/book-sub.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
     ShoppingcartComponent,
     PageNotFoundComponent,  
     AddtowishlistComponent,
-    WishlistComponent
+    WishlistComponent,
+    BookSubComponent
   ],
   imports: [
     NgMaterialModule,

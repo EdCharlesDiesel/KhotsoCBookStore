@@ -1,3 +1,4 @@
+import { BookSubscription } from './../../models/booksubscription';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/usertype';
@@ -21,6 +22,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   userType = UserType;
   wishListCount$: Observable<number>;
   cartItemCount$: Observable<number>;
+  bookSubItemCount$: Observable<number>;
 
   constructor(
     private router: Router,
@@ -44,6 +46,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
     this.wishListCount$ = this.subscriptionService.wishlistItemcount$;
+    this.bookSubItemCount$ = this.subscriptionService.bookSubItemcount$;
   }
 
   ngOnDestroy() {

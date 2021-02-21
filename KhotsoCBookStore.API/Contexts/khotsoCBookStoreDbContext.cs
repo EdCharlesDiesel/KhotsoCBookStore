@@ -28,11 +28,7 @@ namespace KhotsoCBookStore.API.Contexts
         public virtual DbSet<WishlistItems> WishlistItems { get; set; }
         
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+             protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>(entity =>
             {
@@ -189,6 +185,30 @@ namespace KhotsoCBookStore.API.Contexts
                     .IsUnicode(false);
             });
 
+            
+            modelBuilder.Entity<BookSubscription>().HasData(
+                 new BookSubscription
+                 {
+                     Id = 1,
+                     BookName = "Webdevelopment-101",
+                     CoverFileName ="Default_image",                    
+                     UserId = 1
+                     
+                 },new BookSubscription
+                 {
+                     Id = 2,
+                     BookName = "Webdevelopment-102",
+                     CoverFileName ="Default_image",                    
+                     UserId = 1
+                     
+                 },new BookSubscription
+                 {
+                     Id = 3,
+                     BookName = "Webdevelopment-103",
+                     CoverFileName ="Default_image",                    
+                     UserId = 1                     
+                 }
+                );
 
             modelBuilder.Entity<UserType>().HasData(
                  new UserType
