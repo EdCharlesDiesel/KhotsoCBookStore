@@ -1,9 +1,9 @@
 {
-  "runtime": "NetCore31",
+  "runtime": "Net50",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://localhost:5001/swagger/KhotsoCBookStoreAPISpecification/swagger.json",
+      "url": "https://localhost:5000/swagger/KhotsoCBookStoreAPISpecification/swagger.json",
       "output": null,
       "newLineBehavior": "Auto"
     }
@@ -58,6 +58,7 @@
       "useGetBaseUrlMethod": false,
       "baseUrlTokenName": "appUrl",
       "queryNullValue": "",
+      "useAbortSignal": false,
       "inlineNamedDictionaries": false,
       "inlineNamedAny": false,
       "templateDirectory": null,
@@ -66,7 +67,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "KhotsoCBookStore/src/app/books.service.ts",
+      "output": "KhotsoCBookStore/src/app/services/master-data.service.ts",
       "newLineBehavior": "Auto"
     },
     "openApiToCSharpClient": {
@@ -87,6 +88,7 @@
       "useBaseUrl": true,
       "generateBaseUrlProperty": true,
       "generateSyncMethods": false,
+      "generatePrepareRequestAndProcessResponseAsAsyncMethods": false,
       "exposeJsonSerializerSettings": false,
       "clientClassAccessModifier": "public",
       "typeAccessModifier": "public",
@@ -150,7 +152,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "Generated code/ZXczxc.cs",
+      "output": "Generated code/Generated code.cs",
       "newLineBehavior": "Auto"
     }
   }
