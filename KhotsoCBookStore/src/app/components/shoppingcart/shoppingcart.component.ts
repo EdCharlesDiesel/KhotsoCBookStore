@@ -1,10 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShoppingCart } from 'src/app/models/shoppingcart';
-import { CartService } from 'src/app/services/cart.service';
+import { ShoppingCart } from 'src/app/components/shoppingcart/shoppingcart';
+import { CartService } from 'src/app/components/shoppingcart/cart.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+
+import * as fromShoppingCart from './state/shoppingcart.selectors';
+import * as shoppingCartActions from './state/shoppingcart.actions';
 
 @Component({
   selector: 'app-shoppingcart',
@@ -12,6 +17,13 @@ import { SubscriptionService } from 'src/app/services/subscription.service';
   styleUrls: ['./shoppingcart.component.scss']
 })
 export class ShoppingcartComponent implements OnInit, OnDestroy {
+  selectedShoppingCart$: Observable<ShoppingCart>;
+  shoppingCarts$: Observable<ShoppingCart[]>;
+  errorMessage$: Observable<string>;
+
+
+
+
   public cartItems: ShoppingCart[];
   userId;
   totalPrice: number;
@@ -19,21 +31,38 @@ export class ShoppingcartComponent implements OnInit, OnDestroy {
   isLoading: boolean;
 
   constructor(
+    private store: Store<fromShoppingCart.State>,
     private cartService: CartService,
     private snackBarService: SnackbarService,
     private subscriptionService: SubscriptionService) {
     this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
     this.cartItems = [];
-    this.totalPrice=0;
-    this.isLoading= false;
-    
-
+    this.totalPrice = 0;
+    this.isLoading = false;
   }
 
   ngOnInit() {
+
+    this.store.dispatch(new shoppingCartActions.Load());
+    this.shoppingCarts$ = this.store.pipe(select(fromShoppingCart.getShoppingCarts));
+    this.errorMessage$ = this.store.pipe(select(fromShoppingCart.getError));
     this.cartItems = [];
     this.isLoading = true;
     this.getShoppingCartItems();
+    this.userId = ""; 
+  }
+
+
+  newShoppingCart(): void {
+    this.store.dispatch(new shoppingCartActions.InitializeCurrentShoppingCart());
+  }
+
+  shoppingCartSelected(shoppingCart: ShoppingCart): void {
+    this.store.dispatch(new shoppingCartActions.SetCurrentShoppingCart(shoppingCart));
+  }
+
+  deleteShoppingCart(shoppingCart: ShoppingCart): void {
+    //this.store.dispatch(new shoppingCartActions.DeleteShoppingCart(Cart.));
   }
 
   getShoppingCartItems() {

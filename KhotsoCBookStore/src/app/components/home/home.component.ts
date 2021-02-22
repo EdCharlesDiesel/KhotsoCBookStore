@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
 import { switchMap } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
+import * as fromBook from './state/book.selectors';
+import * as bookActions from './state/book.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-home',
@@ -20,17 +23,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchItem: string;
 
   constructor(
+    private store: Store<fromBook.State>,
     private route: ActivatedRoute,
     private bookService: BookService,
     private subscriptionService: SubscriptionService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): any {
     this.isLoading = true;
     this.getAllBookData();
+
   }
 
-  getAllBookData() {
+  getAllBookData(): any {
+    this.store.dispatch(new bookActions.Load());
+    this.store.dispatch(new bookActions.LoadSuccess(this.filteredProducts));
     this.bookService.books$.pipe(switchMap(
       (data: Book[]) => {
         this.filteredProducts = data;
@@ -44,12 +51,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  filterPrice(value: number) {
+  filterPrice(value: number): any {
     this.priceRange = value;
     this.filterBookData();
   }
 
-  filterBookData() {
+  filterBookData(): any {
     const filteredData = this.filteredProducts.filter(b => b.purchasePrice <= this.priceRange).slice();
 
     if (this.category) {
@@ -63,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): any {
     this.subscriptionService.searchItemValue$.next('');
   }
 }

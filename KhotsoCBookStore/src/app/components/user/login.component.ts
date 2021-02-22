@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartService } from 'src/app/services/cart.service';
+import { CartService } from 'src/app/components/shoppingcart/cart.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

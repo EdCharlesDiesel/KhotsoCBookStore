@@ -52,7 +52,7 @@
             <summary>
             Get the specific book subscripption corresponding to the subBookId
             </summary>
-            <param name="id"></param>
+            <param name="BookSubId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(KhotsoCBookStore.API.Entities.BookSubscription)">
@@ -65,7 +65,7 @@
             <summary>
             Delete a particular book subscription
             </summary>
-            <param name="id"></param>
+            <param name="BookSubId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.CheckOutController.Post(System.Int32,KhotsoCBookStore.API.Models.OrdersDto)">

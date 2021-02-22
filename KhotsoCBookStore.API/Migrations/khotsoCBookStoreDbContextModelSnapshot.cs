@@ -171,7 +171,7 @@ namespace KhotsoCBookStore.API.Migrations
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.BookSubscription", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BookSubId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -183,30 +183,32 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
 
-                    b.HasKey("Id");
+                    b.HasKey("BookSubId")
+                        .HasName("PK__BookSubId");
 
                     b.ToTable("BookSubscriptions");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            BookSubId = 1,
                             BookName = "Webdevelopment-101",
                             CoverFileName = "Default_image",
                             UserId = 1
                         },
                         new
                         {
-                            Id = 2,
+                            BookSubId = 2,
                             BookName = "Webdevelopment-102",
                             CoverFileName = "Default_image",
                             UserId = 1
                         },
                         new
                         {
-                            Id = 3,
+                            BookSubId = 3,
                             BookName = "Webdevelopment-103",
                             CoverFileName = "Default_image",
                             UserId = 1

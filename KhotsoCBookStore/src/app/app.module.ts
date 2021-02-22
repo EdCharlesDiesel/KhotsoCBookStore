@@ -10,7 +10,7 @@ import { BookCardComponent } from './components/book-card/book-card.component';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
 import { BookFilterComponent } from './components/book-filter/book-filter.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/user/login.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { HomeComponent } from './components/home/home.component';
@@ -29,6 +29,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { environment } from 'src/environments/environment';
     PageNotFoundComponent,  
     AddtowishlistComponent,
     WishlistComponent,
-    BookSubComponent
+    BookSubComponent,
+
   ],
   imports: [
     NgMaterialModule,
