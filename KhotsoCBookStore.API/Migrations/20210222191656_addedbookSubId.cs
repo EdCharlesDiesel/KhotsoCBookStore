@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KhotsoCBookStore.API.Migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class addedbookSubId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,15 +29,15 @@ namespace KhotsoCBookStore.API.Migrations
                 name: "BookSubscriptions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    BookSubId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
                     CoverFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookSubscriptions", x => x.Id);
+                    table.PrimaryKey("PK__BookSubId", x => x.BookSubId);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,7 +171,7 @@ namespace KhotsoCBookStore.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "BookSubscriptions",
-                columns: new[] { "Id", "BookName", "CoverFileName", "UserId" },
+                columns: new[] { "BookSubId", "BookName", "CoverFileName", "UserID" },
                 values: new object[,]
                 {
                     { 1, "Webdevelopment-101", "Default_image", 1 },

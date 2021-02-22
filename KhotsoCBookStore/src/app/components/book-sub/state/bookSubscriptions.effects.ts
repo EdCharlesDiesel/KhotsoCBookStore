@@ -7,9 +7,9 @@ import { Observable, of } from 'rxjs';
 /* NgRx */
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { BookSubscriptionService } from 'src/app/services/book-subscription.service';
+import { BookSubscriptionService } from 'src/app/components/book-sub/book-subscription.service';
 import * as bookSubscriptionActions from './bookSubscriptions.actions'
-import { BookSubscription } from 'src/app/models/booksubscription';
+import { BookSubscription } from 'src/app/components/book-sub/booksubscription';
 
 @Injectable()
 export class BookSubscriptionEffects {

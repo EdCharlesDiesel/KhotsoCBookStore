@@ -7,7 +7,7 @@ namespace KhotsoCBookStore.API.Entities
 {
     public class BookSubscription
     {
-        public int Id { get; set; }
+        public int BookSubId { get; set; }
         public string BookName { get; set; }
         public int UserId { get; set; }
         public string CoverFileName { get; set; }

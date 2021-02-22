@@ -7,7 +7,7 @@ namespace KhotsoCBookStore.API.Services
     {
         List<BookSubscription> GetBooksSubscrption();
         int AddBookSubscription(BookSubscription bookSubscriptions);        
-        BookSubscription GetSingleBookSubscription(int subscriptionbookId);
-        string BookDeleteSubscription(int subscriptionbookId);        
+        BookSubscription GetSingleBookSubscription(int bookSubId);
+        string BookDeleteSubscription(int bookSubId);        
     }
 }

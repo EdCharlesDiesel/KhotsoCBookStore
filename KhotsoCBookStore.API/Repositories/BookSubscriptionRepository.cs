@@ -45,11 +45,11 @@ namespace KhotsoCBookStore.API.Repositories
             }
         }
 
-        public BookSubscription GetSingleBookSubscription(int subscriptionbookId)
+        public BookSubscription GetSingleBookSubscription(int bookSubId)
         {
             try
             {
-                BookSubscription sub = _dbContext.BookSubscriptions.FirstOrDefault(x => x.Id == subscriptionbookId);
+                BookSubscription sub = _dbContext.BookSubscriptions.FirstOrDefault(x => x.BookSubId== bookSubId);
                 if (sub != null)
                 {
                     _dbContext.Entry(sub).State = EntityState.Detached;
@@ -63,11 +63,11 @@ namespace KhotsoCBookStore.API.Repositories
             }
         }
 
-        public string BookDeleteSubscription(int subscriptionbookId)
+        public string BookDeleteSubscription(int bookSubId)
         {
                   try
             {
-                BookSubscription sub = _dbContext.BookSubscriptions.Find(subscriptionbookId);
+                BookSubscription sub = _dbContext.BookSubscriptions.Find(bookSubId);
                 _dbContext.BookSubscriptions.Remove(sub);
                 _dbContext.SaveChanges();
 

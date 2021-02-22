@@ -1,4 +1,4 @@
-import { UserState } from '../user/state/user.reducer';
+import { UserState } from '../components/user/state/user.reducer';
 
 // Representation of the entire app state
 // Extended by lazy loaded modules

@@ -1,4 +1,4 @@
-import { ShoppingCart } from './shoppingcart';
+import { ShoppingCart } from '../components/shoppingcart/shoppingcart';
 
 export class Order {
     orderDetails: ShoppingCart[] = [];

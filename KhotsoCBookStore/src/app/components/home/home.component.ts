@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
 import { switchMap } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
+import * as fromBook from './state/Book.selectors';
+import * as bookActions from './state/Book.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-home',
@@ -18,19 +21,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   priceRange = Number.MAX_SAFE_INTEGER;
   isLoading: boolean;
   searchItem: string;
-
+  
   constructor(
+    private store: Store<fromBook.State>,
     private route: ActivatedRoute,
     private bookService: BookService,
     private subscriptionService: SubscriptionService) {
-  }
+  } 
 
   ngOnInit() {
     this.isLoading = true;
     this.getAllBookData();
+  
   }
 
   getAllBookData() {
+    this.store.dispatch(new bookActions.Load());
+    this.store.dispatch(new bookActions.LoadSuccess(this.filteredProducts));
     this.bookService.books$.pipe(switchMap(
       (data: Book[]) => {
         this.filteredProducts = data;

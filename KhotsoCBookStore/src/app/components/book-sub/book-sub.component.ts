@@ -1,5 +1,5 @@
-import { BookSubscriptionService } from './../../services/book-subscription.service';
-import { BookSubscription } from './../../models/booksubscription';
+import { BookSubscriptionService } from './book-subscription.service';
+import { BookSubscription } from './booksubscription';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar.service';

@@ -1,4 +1,4 @@
-import { BookSubscription } from './../../models/booksubscription';
+import { BookSubscription } from '../book-sub/booksubscription';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/usertype';
@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 import { Observable } from 'rxjs';
 import { WishlistService } from 'src/app/services/wishlist.service';
-import { BookSubscriptionService } from 'src/app/services/book-subscription.service';
+import { BookSubscriptionService } from 'src/app/components/book-sub/book-subscription.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -24,6 +24,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   wishListCount$: Observable<number>;
   cartItemCount$: Observable<number>;
   bookSubItemCount$: number;
+  bookSubscriptionItems = [];
 
   constructor(
     private router: Router,
@@ -32,8 +33,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private subscriptionService: SubscriptionService,
     private wishlistService: WishlistService) {
-
-    this.userId= JSON.parse(localStorage.getItem('userId') || '{}');
+    this.bookSubscriptionItems = [];
+    this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
     this.wishlistService.getWishlistItems(this.userId).subscribe();
     this.userService.getCartItemCount(this.userId).subscribe((data: number) => {
       this.subscriptionService.cartItemcount$.next(data);
@@ -45,10 +46,14 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.userDataSubscription = this.subscriptionService.userData.asObservable().subscribe(data => {
       this.userData = data;
     });
-
+    this.bookSubscriptionItems = [];
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
     this.wishListCount$ = this.subscriptionService.wishlistItemcount$;
-    this.bookSubItemCount$ = this.bookSubsciptionService.getBookSubscriptions.length;
+    this.bookSubItemCount$ = this.getTotalBooks();
+  }
+
+  getTotalBooks() {
+    return this.bookSubscriptionItems.length;
   }
 
   ngOnDestroy() {

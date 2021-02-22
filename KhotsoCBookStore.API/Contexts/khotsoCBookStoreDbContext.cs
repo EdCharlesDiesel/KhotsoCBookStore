@@ -118,6 +118,16 @@ namespace KhotsoCBookStore.API.Contexts
                 entity.Property(e => e.UserId).HasColumnName("UserID");
             });
 
+            modelBuilder.Entity<BookSubscription>(entity =>
+            {
+                entity.HasKey(e => e.BookSubId)
+                    .HasName("PK__BookSubId");
+
+
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
             modelBuilder.Entity<UserMaster>(entity =>
             {
                 entity.HasKey(e => e.UserId)
@@ -190,21 +200,21 @@ namespace KhotsoCBookStore.API.Contexts
             modelBuilder.Entity<BookSubscription>().HasData(
                  new BookSubscription
                  {
-                     Id = 1,
+                     BookSubId = 1,
                      BookName = "Webdevelopment-101",
                      CoverFileName ="Default_image",                    
                      UserId = 1
                      
                  },new BookSubscription
                  {
-                     Id = 2,
+                     BookSubId = 2,
                      BookName = "Webdevelopment-102",
                      CoverFileName ="Default_image",                    
                      UserId = 1
                      
                  },new BookSubscription
                  {
-                     Id = 3,
+                     BookSubId = 3,
                      BookName = "Webdevelopment-103",
                      CoverFileName ="Default_image",                    
                      UserId = 1                     

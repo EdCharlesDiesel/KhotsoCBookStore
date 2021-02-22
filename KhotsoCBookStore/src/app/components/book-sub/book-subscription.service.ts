@@ -1,10 +1,10 @@
-import { Book } from './../models/book';
+import { Book } from '../../models/book';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { BookSubscription } from '../models/booksubscription';
+import { BookSubscription } from './booksubscription';
 import { throwError } from 'rxjs';
 
 

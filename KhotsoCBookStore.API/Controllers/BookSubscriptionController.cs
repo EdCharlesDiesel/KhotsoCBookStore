@@ -40,12 +40,12 @@ namespace KhotsoCBookStore.API.Controllers
         /// <summary>
         /// Get the specific book subscripption corresponding to the subBookId
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="BookSubId"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{BookSubId}")]
+        public IActionResult Get(int BookSubId)
         {
-            BookSubscription sub = _bookSubscriptionService.GetSingleBookSubscription(id);
+            BookSubscription sub = _bookSubscriptionService.GetSingleBookSubscription(BookSubId);
             if (sub != null)
             {
                 return Ok(sub);
@@ -69,18 +69,18 @@ namespace KhotsoCBookStore.API.Controllers
         /// <summary>
         /// Delete a particular book subscription
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="BookSubId"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{BookSubId}")]
+        public IActionResult Delete(int BookSubId)
         {
-            var subFromRepo = _bookSubscriptionService.GetSingleBookSubscription(id);
+            var subFromRepo = _bookSubscriptionService.GetSingleBookSubscription(BookSubId);
 
             if (subFromRepo == null)
             {
                 return NotFound();
             }
-            _bookSubscriptionService.BookDeleteSubscription(id);
+            _bookSubscriptionService.BookDeleteSubscription(BookSubId);
 
             return NoContent();
         }

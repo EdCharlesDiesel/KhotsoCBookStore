@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { BookSubscription } from '../../../models/booksubscription';
+import { BookSubscription } from '../booksubscription';
 export enum BookSubscriptionActionTypes {
   SetCurrentBookSubscription = '[BookSubscription] Set Current BookSubscription',
   ClearCurrentBookSubscription = '[BookSubscription] Clear Current BookSubscription',
