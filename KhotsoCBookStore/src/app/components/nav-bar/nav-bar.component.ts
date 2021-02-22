@@ -8,6 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 import { Observable } from 'rxjs';
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { BookSubscriptionService } from 'src/app/services/book-subscription.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,11 +23,12 @@ export class NavBarComponent implements OnInit, OnDestroy {
   userType = UserType;
   wishListCount$: Observable<number>;
   cartItemCount$: Observable<number>;
-  bookSubItemCount$: Observable<number>;
+  bookSubItemCount$: number;
 
   constructor(
     private router: Router,
     private authService: AuthenticationService,
+    private bookSubsciptionService: BookSubscriptionService,
     private userService: UserService,
     private subscriptionService: SubscriptionService,
     private wishlistService: WishlistService) {
@@ -46,7 +48,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
     this.wishListCount$ = this.subscriptionService.wishlistItemcount$;
-    this.bookSubItemCount$ = this.subscriptionService.bookSubItemcount$;
+    this.bookSubItemCount$ = this.bookSubsciptionService.getBookSubscriptions.length;
   }
 
   ngOnDestroy() {

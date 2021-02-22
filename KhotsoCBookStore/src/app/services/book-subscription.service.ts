@@ -18,7 +18,7 @@ export class BookSubscriptionService {
   baseURL: string;
 
   constructor(private http: HttpClient) {
-    this.baseURL = 'https://localhost:5000/api/BookSubscription/';
+    this.baseURL = 'https://localhost:5000/api/bookSubscription';
   }
 
   getBookSubscriptions(): Observable<BookSubscription[]> {
@@ -29,23 +29,22 @@ export class BookSubscriptionService {
       );
   }
 
-  
-  addBookSubscription(bookSubscription: BookSubscription): Observable<BookSubscription> {
+  createBookSubscription(bookSubscription: BookSubscription): Observable<BookSubscription> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     bookSubscription.bookSubId = null;
-    return this.http.post<BookSubscription>(this.baseURL, bookSubscription, { headers })
+    return this.http.post<BookSubscription>(this.baseURL, bookSubscription, { headers: headers })
       .pipe(
-        tap(data => console.log('addBookSubscription: ' + JSON.stringify(data))),
+        tap(data => console.log('createBookSubscription: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  deleteBookSubscription(id: number): Observable<{}> {
+  deleteBookSubscription(bookSubId: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.baseURL}/${id}`;
+    const url = `${this.baseURL}/${bookSubId}`;
     return this.http.delete<BookSubscription>(url, { headers })
       .pipe(
-        tap(data => console.log('deleteBookSub: ' + id)),
+        tap(data => console.log('deleteBookSub: ' + bookSubId)),
         catchError(this.handleError)
       );
   }

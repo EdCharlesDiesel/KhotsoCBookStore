@@ -34,6 +34,7 @@ export class ShoppingcartComponent implements OnInit, OnDestroy {
     this.cartItems = [];
     this.isLoading = true;
     this.getShoppingCartItems();
+    this.userId = ""
   }
 
   getShoppingCartItems() {

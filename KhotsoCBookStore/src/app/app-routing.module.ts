@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './user/login.component';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { AuthGuard } from './guards/auth.guard';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
