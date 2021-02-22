@@ -3,6 +3,9 @@ import { BookService } from 'src/app/services/book.service';
 import { catchError } from 'rxjs/operators';
 import { EMPTY, Observable } from 'rxjs';
 import { Categories } from 'src/app/models/categories';
+import { Store } from '@ngrx/store';
+import * as frombookFilter from './state/book-filter.selectors';
+import * as bookSubscriptionActions from './state/book-filter.actions';
 
 @Component({
   selector: 'app-book-filter',
@@ -16,13 +19,14 @@ export class BookFilterComponent implements OnInit {
 
   categories$: Observable<Categories[]>;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService,   private store: Store<frombookFilter.State>,) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchCategories();
+    this.store.dispatch(new bookSubscriptionActions.Load());
   }
 
-  fetchCategories() {
+  fetchCategories(): any {
     this.categories$ = this.bookService.categories$
       .pipe(
         catchError(error => {

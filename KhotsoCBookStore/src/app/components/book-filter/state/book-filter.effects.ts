@@ -8,20 +8,23 @@ import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { BookService } from '../../../services/book.service';
-import * as bookActions from './book.actions';
+import * as bookActions from './book-filter.actions';
 import { Book } from '../../../models/book';
+import { Categories } from 'src/app/models/categories';
 
 @Injectable()
-export class BookEffects {
+export class BookFilterEffects {
+  books: Book[]
+  categories$: Observable<Categories[]>;
   constructor(private bookService: BookService,
-              private actions$: Actions) { }
+    private actions$: Actions) { }
 
   @Effect()
-  loadBooks$: Observable<Action> = this.actions$.pipe(
-    ofType(bookActions.BookActionTypes.Load),
-    mergeMap(action =>
-      this.bookService.getAllBooks().pipe(
-        map(books => (new bookActions.LoadSuccess(books))),
+  loadBookFilters$: Observable<Action> = this.actions$.pipe(
+    ofType(bookActions.BookFilterActionTypes.Load),
+    mergeMap(() =>
+      this.bookService.categories$.pipe(
+        map(categories => (new bookActions.LoadSuccess(categories))),
         catchError(err => of(new bookActions.LoadFail(err)))
       )
     )

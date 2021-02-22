@@ -1,6 +1,6 @@
 
 import { Book } from '../../../models/book';
-import { BookActionTypes, BookActions } from './Book.actions';
+import { BookActionTypes, BookActions } from './book.actions';
 
 // State for this feature (Book)
 export interface BookState {
