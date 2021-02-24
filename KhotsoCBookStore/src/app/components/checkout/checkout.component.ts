@@ -1,3 +1,5 @@
+import { BookSubscriptionService } from './../book-sub/book-subscription.service';
+import { BookSubscription } from './../book-sub/booksubscription';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Order } from 'src/app/models/order';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -18,6 +20,7 @@ import { SubscriptionService } from 'src/app/services/subscription.service';
 export class CheckoutComponent implements OnInit, OnDestroy {
 
   userId;
+   subCount:number;
   totalPrice: number;
   checkOutItems = new Order();
   private unsubscribe$ = new Subject<void>();
@@ -26,6 +29,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private cartService: CartService,
+    private bookSubscriptionService: BookSubscriptionService,
     private checkOutService: CheckoutService,
     private snackBarService: SnackbarService,
     private subscriptionService: SubscriptionService) {
@@ -73,6 +77,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         }, error => {
           console.log('Error ocurred while fetching shopping cart item : ', error);
         });
+    
   }
 
   getTotalPrice() {
@@ -98,7 +103,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             console.log('Error ocurred while placing order : ', error);
           });
     }
+    this.addToSubscriberList();
   }
+
+
+  addToSubscriberList():number{
+
+  return this.subCount++;
+  };
+
+
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

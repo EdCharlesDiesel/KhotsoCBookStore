@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ManageBooksComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['id', 'title', 'author', 'category', 'price', 'operation'];
+  displayedColumns: string[] = ['id', 'name', 'author', 'category', 'purchasePrice', 'operation'];
 
   dataSource = new MatTableDataSource<Book>();
 

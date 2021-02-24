@@ -10,7 +10,7 @@ export class CheckoutService {
   baseURL: string;
 
   constructor(private http: HttpClient) {
-    this.baseURL = 'https://localhost:5000/api/CheckOut';
+    this.baseURL = 'https://localhost:5000/api/CheckOut/';
   }
 
   placeOrder(userId: number, checkedOutItems: Order) {

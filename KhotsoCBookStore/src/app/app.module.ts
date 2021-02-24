@@ -1,3 +1,4 @@
+import { SearchComponent } from './components/search/search.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -28,6 +29,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { PriceFilterComponent } from './components/price-filter/price-filter.component';
+import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
 
 
 @NgModule({
@@ -44,10 +47,13 @@ import { environment } from 'src/environments/environment';
     HomeComponent,
     NavBarComponent,
     ShoppingcartComponent,
-    PageNotFoundComponent,  
+    
+    SimilarbooksComponent,
+    PageNotFoundComponent,
+    PriceFilterComponent,
+    SearchComponent,
     AddtowishlistComponent,
-    WishlistComponent,
-    BookSubComponent,
+    WishlistComponent
 
   ],
   imports: [

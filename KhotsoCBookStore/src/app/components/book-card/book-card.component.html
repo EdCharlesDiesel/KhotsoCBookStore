@@ -13,7 +13,7 @@
                 <strong>{{book.name}}</strong>
             </a>
         </div>
-        <p>{{book.purchasePrice | currency : 'ZAR'}}</p>
+        <p>{{book.purchasePrice | currency : 'ZAR '}}</p>
         <app-addtocart [bookId]="book.bookId"></app-addtocart>
     </mat-card-content>
 </mat-card>

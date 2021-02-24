@@ -5,13 +5,19 @@
                 <mat-icon>book</mat-icon> Khotso C Book Store
             </button>
         </div>
-        <div>          
+        <div>       
+            <app-search></app-search>   
         </div>
         <div> 
+                        
             <button mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/book-sub"]'>            
                 <mat-icon matBadge="{{bookSubscriptionItems.length }}" matBadgeColor="warn">book</mat-icon>
             </button>       
             |
+            <button mat-icon-button *ngIf="userData.isLoggedIn" [routerLinkActive]='["link-active"]'
+                [routerLink]='["/wishlist"]'>
+                <mat-icon matBadge="{{wishListCount$ | async}}" matBadgeColor="warn">favorite</mat-icon>
+            </button>
             <button mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/shopping-cart"]'>
                 <mat-icon matBadge="{{cartItemCount$ | async}}" matBadgeColor="warn">shopping_cart</mat-icon>
             </button>
