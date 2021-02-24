@@ -28,8 +28,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/assets/font-awesome.min.css"
+              "src/styles.scss"
+            
             ],
             "scripts": []
           },

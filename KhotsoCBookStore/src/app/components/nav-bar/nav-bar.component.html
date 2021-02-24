@@ -17,8 +17,11 @@
             </button>
             <button mat-button *ngIf="!userData.isLoggedIn" [routerLinkActive]='["link-active"]'
                 [routerLink]='["/login"]'>Login</button>
-            <button mat-button *ngIf="userData.userTypeId==userType.admin" [routerLink]='["/admin/books"]'>Admin
-                Panel</button>
+            <!-- <button mat-button *ngIf="userData.userTypeId==userType.admin" [routerLink]='["/admin/books"]'>Admin
+                Panel</button> -->
+
+                <button mat-button  [routerLink]='["/admin/books"]'>Admin
+                    Panel</button>
 
             <ng-container *ngIf="userData.isLoggedIn">
                 <button mat-button [matMenuTriggerFor]="menu">

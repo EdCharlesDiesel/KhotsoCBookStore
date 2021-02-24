@@ -4,17 +4,25 @@
         <name>KhotsoCBookStore.API</name>
     </assembly>
     <members>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookController.Get">
+        <member name="M:KhotsoCBookStore.API.Controllers.BookController.GetBooksAPIOptions">
             <summary>
-            Get the list of available books
+            List of all the actions that are allows with this API
             </summary>
-            <returns>List of Book</returns>
+            <returns>An IActionResult of actions allowed</returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookController.GetBooks">
+            <summary>
+            Get all the books
+            </summary>
+            <returns>An ActionResult of type Book</returns>
+            <response code="200">Returns the requested books</response>
+            <response code="404">Returns no books found</response>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.Get(System.Int32)">
             <summary>
             Get the specific book data corresponding to the BookId
             </summary>
-            <param name="id"></param>
+            <param name="bookId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.CategoryDetails">
@@ -39,7 +47,7 @@
             <summary>
             Delete a particular book record
             </summary>
-            <param name="id"></param>
+            <param name="bookId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get">

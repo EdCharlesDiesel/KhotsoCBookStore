@@ -22,14 +22,18 @@ const appRoutes: Routes = [
   { path: 'books/details/:id', component: BookDetailsComponent },
   { path: 'shopping-cart', component: ShoppingcartComponent },
   { path: 'book-sub', component: BookSubComponent },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
-  { path: 'myorders', component: MyOrdersComponent, canActivate: [AuthGuard] },
-  { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
+  // { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
+  // { path: 'myorders', component: MyOrdersComponent, canActivate: [AuthGuard] },
+  // { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
+
+  { path: 'checkout', component: CheckoutComponent,  },
+  { path: 'myorders', component: MyOrdersComponent, },
+  { path: 'wishlist', component: WishlistComponent,  },
   {
     path: 'admin/books',
     loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),
-    canLoad: [AdminAuthGuard],
-    canActivate: [AdminAuthGuard]
+    // canLoad: [AdminAuthGuard],
+    // canActivate: [AdminAuthGuard]
   },
   { path: '**', component: PageNotFoundComponent },
 ];
