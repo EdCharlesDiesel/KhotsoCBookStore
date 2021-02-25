@@ -1,5 +1,5 @@
-import { BookSubscriptionService } from './../book-sub/book-subscription.service';
-import { BookSubscription } from './../book-sub/booksubscription';
+import { BookSubscriptionService } from '../book-subscription/book-subscription.service';
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Order } from 'src/app/models/order';
 import { FormBuilder, Validators } from '@angular/forms';

@@ -24,13 +24,14 @@ import { NgMaterialModule } from './ng-material/ng-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
-import { BookSubComponent } from './components/book-sub/book-sub.component';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
+import { BookSubscriptionComponent } from './components/book-subscription/book-subscription.component';
 
 
 @NgModule({
@@ -46,14 +47,14 @@ import { SimilarbooksComponent } from './components/similarbooks/similarbooks.co
     UserRegistrationComponent,
     HomeComponent,
     NavBarComponent,
-    ShoppingcartComponent,
-    
+    ShoppingcartComponent,    
     SimilarbooksComponent,
     PageNotFoundComponent,
     PriceFilterComponent,
     SearchComponent,
     AddtowishlistComponent,
-    WishlistComponent
+    WishlistComponent,
+    BookSubscriptionComponent
 
   ],
   imports: [

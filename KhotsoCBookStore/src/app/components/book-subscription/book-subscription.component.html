@@ -40,7 +40,7 @@
                     <mat-card-content class="mat-elevation-z2">
                         <td>
                             <img matTooltip={{item.bookName}} matTooltipPosition="after"
-                                src="/assets/Upload/{{item.coverFileName}}.jpg">
+                                src="/assets/Upload/{{item.coverFileName}}">
                          </td>
                         <td>
                              {{item.bookName}} 
@@ -61,7 +61,7 @@
                         <th></th>
                         <th></th>
                         <td>Total Books:</td>
-                        <th>{{bookSubscriptionItems.length}}</th>
+                        <th>...</th>
                         <th>
                             <button class="mat-elevation-z4" mat-raised-button color="warn"
                                 [routerLink]='["/"]'>Back</button>

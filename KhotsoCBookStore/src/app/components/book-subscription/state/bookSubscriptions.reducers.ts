@@ -1,5 +1,6 @@
 
-import { BookSubscription } from 'src/app/components/book-sub/booksubscription';
+
+import { BookSubscription } from '../booksubscription';
 import { BookSubscriptionActionTypes, BookSubscriptionActions } from './bookSubscriptions.actions';
 
 // State for this feature (BookSubscription)

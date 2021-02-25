@@ -1,25 +1,22 @@
-import { BookSubscriptionService } from './book-subscription.service';
-import { BookSubscription } from './booksubscription';
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-import { takeUntil } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { BookSubscriptionState } from 'src/app/components/book-sub/state/bookSubscriptions.reducers';
-import { DeleteBookSubscription } from 'src/app/components/book-sub/state/bookSubscriptions.actions';
-import { Observable } from 'rxjs';
-
-import * as fromBookSubscription from './state/bookSubscriptions.selectors';
-import * as bookSubscriptionActions from './state/bookSubscriptions.actions';
-
+import { BookSubscriptionService } from './book-subscription.service';
+import { BookSubscriptionState } from './state/bookSubscriptions.reducers';
+import * as fromBookSubscription from '../book-subscription/state/bookSubscriptions.selectors';
+import * as bookSubscriptionActions from '../book-subscription/state/bookSubscriptions.actions';
+import { BookSubscription } from './booksubscription';
 
 @Component({
-  selector: 'app-book-sub',
-  templateUrl: './book-sub.component.html',
-  styleUrls: ['./book-sub.component.css']
+  selector: 'app-book-subscription',
+  templateUrl: './book-subscription.component.html',
+  styleUrls: ['./book-subscription.component.css']
 })
-export class BookSubComponent implements OnInit {
+export class BookSubscriptionComponent implements OnInit {
+
   selectedBookSubscription$: Observable<BookSubscription>;
   bookSubscriptions$: Observable<BookSubscription[]>;
   errorMessage$: Observable<string>;
