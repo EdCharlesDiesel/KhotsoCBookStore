@@ -4,7 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using KhotsoCBookStore.API.Authentication;
+using KhotsoCBookStore.API.Models;
 using KhotsoCBookStore.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -29,22 +31,26 @@ namespace KhotsoCBookStore.API.Controllers
         /// <param name="login"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Login([FromBody] UserMaster login)
+        [AllowAnonymous]
+        public IActionResult Login([FromBody] AuthenticateModel model)
         {
-            IActionResult response = Unauthorized();
-            UserMaster user = _userService.AuthenticateUser(login);
 
-            if (user != null)
+
+
+            var user = _userService.Authenticate(model.Username, model.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            var tokenString = GenerateJSONWebToken(user);
+            return Ok(new
             {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new
-                {
-                    token = tokenString,
-                    userDetails = user,
-                });
-            }
+                token = tokenString,
+                userDetails = user,
+            });
 
-            return response;
+
+            //return response;
         }
 
         string GenerateJSONWebToken(UserMaster userInfo)

@@ -29,7 +29,10 @@ export class AuthenticationService {
           localStorage.setItem('userId', response.userDetails.userId);
           this.subscriptionService.cartItemcount$.next(response.carItemCount);
         }
+        var logged =  response.userDetails.isLoggedIn;
         return response;
+logged;
+
       }));
   }
 

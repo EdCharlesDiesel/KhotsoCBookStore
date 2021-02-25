@@ -84,7 +84,7 @@
             <param name="checkedOutItems"></param>
             <returns></returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.LoginController.Login(KhotsoCBookStore.API.Authentication.UserMaster)">
+        <member name="M:KhotsoCBookStore.API.Controllers.LoginController.Login(KhotsoCBookStore.API.Models.AuthenticateModel)">
             <summary>
             Login to the application
             </summary>
@@ -157,12 +157,6 @@
             </summary>
             <param name="userName"></param>
             <returns></returns>
-        </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.UserController.Post(KhotsoCBookStore.API.Authentication.UserMaster)">
-            <summary>
-            Register a new user
-            </summary>
-            <param name="userData"></param>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.WishlistController.Get(System.Int32)">
             <summary>

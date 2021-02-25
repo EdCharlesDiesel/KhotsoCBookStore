@@ -38,7 +38,7 @@ namespace KhotsoCBookStore.API.Controllers
         /// <param name="userId"></param>
         /// <param name="bookId"></param>
         /// <returns>All the items in the Wishlist</returns>
-        [Authorize]
+       // [Authorize]
         [HttpPost]
         [Route("ToggleWishlist/{userId}/{bookId}")]
         public async Task<List<Book>> Post(int userId, int bookId)

@@ -13,7 +13,6 @@ import { BookFilterComponent } from './components/book-filter/book-filter.compon
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/user/login.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
-import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
@@ -32,6 +31,7 @@ import { environment } from 'src/environments/environment';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
 import { BookSubscriptionComponent } from './components/book-subscription/book-subscription.component';
+import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 
 
 @NgModule({

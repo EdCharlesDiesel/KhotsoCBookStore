@@ -28,14 +28,12 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private authService: AuthenticationService,
-    private bookSubsciptionService: BookSubscriptionService,
+    private authService: AuthenticationService,    
     private userService: UserService,
     private subscriptionService: SubscriptionService,
     private wishlistService: WishlistService) {
     this.bookSubscriptionItems = [];
-    //this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
-    this.userId = '88097'
+    this.userId = JSON.parse(localStorage.getItem('userId') || '{}');    
     this.wishlistService.getWishlistItems(this.userId).subscribe();
     this.userService.getCartItemCount(this.userId).subscribe((data: number) => {
       this.subscriptionService.cartItemcount$.next(data);

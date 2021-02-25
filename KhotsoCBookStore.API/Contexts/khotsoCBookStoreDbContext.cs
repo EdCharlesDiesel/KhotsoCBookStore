@@ -136,14 +136,14 @@ namespace KhotsoCBookStore.API.Contexts
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
+                    
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
            
 
                 entity.Property(e => e.LastName)
-                    .IsRequired()
+                    
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
@@ -151,10 +151,9 @@ namespace KhotsoCBookStore.API.Contexts
                    
                  
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .IsUnicode(false);
+                entity.Property(e => e.PasswordHash);
+                entity.Property(e => e.PasswordSalt);
+                    
 
                 entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
 
@@ -257,18 +256,18 @@ namespace KhotsoCBookStore.API.Contexts
                  }
                 );
 
-            modelBuilder.Entity<UserMaster>().HasData(
-                 new UserMaster
-                 {
-                     UserTypeId = 1,
-                     FirstName = "Khotso",
-                     LastName = "Mokhethi",
-                     EmailAddress ="Mokhetkc@hotmail.com",                     
-                     Username = "Batman",
-                     Password = "IamBatman",
-                     UserId = 1
-                 }
-                );
+            //modelBuilder.Entity<UserMaster>().HasData(
+            //     new UserMaster
+            //     {
+            //         UserTypeId = 1,
+            //         FirstName = "Khotso",
+            //         LastName = "Mokhethi",
+            //         EmailAddress ="Mokhetkc@hotmail.com",                     
+            //         Username = "Batman",
+            //         Password = "IamBatman",
+            //         UserId = 1
+            //     }
+            //    );
 
             modelBuilder.Entity<Categories>().HasData(
              new Categories
