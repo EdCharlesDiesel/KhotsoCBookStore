@@ -24,10 +24,10 @@ export const getCurrentBookSubscription = createSelector(
     (state, currentBookSubscriptionId) => {
         if (currentBookSubscriptionId === 0) {
             return {
-                bookSubId: 0,  
+                bookSubId: 0,
                 bookName: '',
                 coverFileName: '',
-                userId: ''              
+                userId: ''
             };
         } else {
             return currentBookSubscriptionId ? state.bookSubscriptions.find(p => p.bookSubId === currentBookSubscriptionId) : null;

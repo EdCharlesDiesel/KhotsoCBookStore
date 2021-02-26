@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-
-import { BookSubscription } from '../booksubscription';
+import { BookSubscription } from 'src/app/models/booksubscription';
 export enum BookSubscriptionActionTypes {
   SetCurrentBookSubscription = '[BookSubscription] Set Current BookSubscription',
   ClearCurrentBookSubscription = '[BookSubscription] Clear Current BookSubscription',
@@ -83,7 +82,7 @@ export class DeleteBookSubscriptionFail implements Action {
 }
 
 // Union the valid types
-export type BookSubscriptionActions = 
+export type BookSubscriptionActions =
   | SetCurrentBookSubscription
   | ClearCurrentBookSubscription
   | InitializeCurrentBookSubscription

@@ -1,20 +1,20 @@
 
 import { Injectable } from '@angular/core';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-
 
 /* NgRx */
 import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { BookSubscriptionService } from 'src/app/components/book-subscription/book-subscription.service';
-import * as bookSubscriptionActions from './bookSubscriptions.actions'
+import * as bookSubscriptionActions from './bookSubscriptions.actions';
+import { BookSubscriptionService } from 'src/app/services/book-subscription.service';
+import { BookSubscription } from 'src/app/models/booksubscription';
 
 
 @Injectable()
 export class BookSubscriptionEffects {
   constructor(private bookSubscriptionService: BookSubscriptionService,
-    private actions$: Actions) { }
+              private actions$: Actions) { }
 
   @Effect()
   loadBookSubscriptions$: Observable<Action> = this.actions$.pipe(

@@ -15,5 +15,7 @@ export class SubscriptionService {
   cartItemcount$ = new Subject<number>();
   bookSubItemcount$ = new Subject<number>();
 
+  bookSubscriptionItem$ = new BehaviorSubject<Book[]>([]);
+  bookSubscriptionItemcount$ = new Subject<number>();
   constructor() { }
 }

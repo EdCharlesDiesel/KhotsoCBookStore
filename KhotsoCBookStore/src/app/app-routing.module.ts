@@ -1,5 +1,4 @@
-import { BookSubscription } from './components/book-subscription/booksubscription';
-
+import { BookSubscriptionComponent } from './components/book-subscription/book-subscription.component';
 
 
 import { NgModule } from '@angular/core';
@@ -27,7 +26,7 @@ const appRoutes: Routes = [
   { path: 'register', component: UserRegistrationComponent },
   { path: 'books/details/:id', component: BookDetailsComponent },
   { path: 'shopping-cart', component: ShoppingcartComponent },
-  { path: 'book-sub', component: BookSubscription },
+  { path: 'book-sub', component: BookSubscriptionComponent,canActivate: [AuthGuard] },
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'myorders', component: MyOrdersComponent, canActivate: [AuthGuard] },
   { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },

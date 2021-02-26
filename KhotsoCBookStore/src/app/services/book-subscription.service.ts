@@ -1,23 +1,23 @@
-import { Book } from '../../models/book';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { BookSubscription } from './booksubscription';
 import { throwError } from 'rxjs';
+import { BookSubscription } from '../models/booksubscription';
+import { SubscriptionService } from './subscription.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookSubscriptionService {
-
-  private bookSubscriptions: BookSubscription[] = [];
   bookSubCount = 0;
   baseURL: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private subscriptionService: SubscriptionService) {
     this.baseURL = 'https://localhost:5000/api/bookSubscription';
   }
 
@@ -32,19 +32,19 @@ export class BookSubscriptionService {
   createBookSubscription(bookSubscription: BookSubscription): Observable<BookSubscription> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     bookSubscription.bookSubId = null;
-    return this.http.post<BookSubscription>(this.baseURL, bookSubscription, { headers: headers })
+    return this.http.post<BookSubscription>(this.baseURL, bookSubscription, { headers })
       .pipe(
         tap(data => console.log('createBookSubscription: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  deleteBookSubscription(bookSubId: number): Observable<{}> {
+  deleteBookSubscription(bookId: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.baseURL}/${bookSubId}`;
+    const url = `${this.baseURL}/${bookId}`;
     return this.http.delete<BookSubscription>(url, { headers })
       .pipe(
-        tap(data => console.log('deleteBookSub: ' + bookSubId)),
+        tap(data => console.log('deleteBookSub: ' + bookId)),
         catchError(this.handleError)
       );
   }
@@ -63,6 +63,15 @@ export class BookSubscriptionService {
 
   clearBookSub(bookSubId: number) {
     return this.http.delete<number>(this.baseURL + `${bookSubId}`, {});
+  }
+
+  clearBookSubscription(userId: number) {
+    return this.http.delete<number>(this.baseURL + `${userId}`, {}).pipe(
+      map((response: number) => {
+        this.subscriptionService.bookSubscriptionItem$.next([]);
+        return response;
+      })
+    );
   }
 
   private handleError(err) {

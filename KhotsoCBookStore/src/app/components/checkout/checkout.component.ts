@@ -1,4 +1,4 @@
-import { BookSubscriptionService } from '../book-subscription/book-subscription.service';
+// import { BookSubscriptionService } from '../book-subscription/book-subscription.service';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Order } from 'src/app/models/order';
@@ -28,8 +28,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private cartService: CartService,
-    private bookSubscriptionService: BookSubscriptionService,
+    private cartService: CartService,    
     private checkOutService: CheckoutService,
     private snackBarService: SnackbarService,
     private subscriptionService: SubscriptionService) {

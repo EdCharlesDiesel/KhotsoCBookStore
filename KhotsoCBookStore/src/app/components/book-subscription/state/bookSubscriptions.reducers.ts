@@ -1,6 +1,7 @@
 
 
-import { BookSubscription } from '../booksubscription';
+
+import { BookSubscription } from 'src/app/models/booksubscription';
 import { BookSubscriptionActionTypes, BookSubscriptionActions } from './bookSubscriptions.actions';
 
 // State for this feature (BookSubscription)
