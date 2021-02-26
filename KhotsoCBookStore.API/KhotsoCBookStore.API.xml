@@ -50,30 +50,26 @@
             <param name="bookId"></param>
             <returns></returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get">
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get(System.Int32)">
             <summary>
             Get the list of books subscriptions
             </summary>
+            <param name="userId"></param>
             <returns>List of book subscriptions</returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get(System.Int32)">
-            <summary>
-            Get the specific book subscripption corresponding to the subBookId
-            </summary>
-            <param name="BookSubId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(KhotsoCBookStore.API.Entities.BookSubscription)">
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(System.Int32,System.Int32)">
             <summary>
             Add a new book subscription
             </summary>
+            <param name="bookId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Delete(System.Int32)">
             <summary>
-            Delete a particular book subscription
+            Clear the BookSubscription
             </summary>
-            <param name="BookSubId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.CheckOutController.Post(System.Int32,KhotsoCBookStore.API.Models.OrdersDto)">

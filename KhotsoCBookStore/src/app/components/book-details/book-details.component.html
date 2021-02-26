@@ -26,13 +26,15 @@
                 </tr>
                 <tr>
                     <td><strong>Purchase Price</strong></td>
-                    <td>{{book.purchasePrice | currency : 'ZAR'}}</td>
+                    <td>{{book.purchasePrice | currency : 'ZAR '}}</td>
                 </tr>
             </table>
             <div fxLayoutGap="10px grid">
                 <app-addtocart class="mr-2" [bookId]="bookId"></app-addtocart>
                 <app-addtowishlist *ngIf="(userData$ | async).isLoggedIn" [bookId]="bookId" [showButton]="true">
                 </app-addtowishlist>
+                <!-- <app-addtobooksubscription *ngIf="(userData$ | async).isLoggedIn" [bookId]="bookId" [showButton]="true">
+                </app-addtobooksubscription> -->
             </div>
         </div>
     </div>

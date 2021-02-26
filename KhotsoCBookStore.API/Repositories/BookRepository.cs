@@ -3,7 +3,6 @@ using KhotsoCBookStore.API.Entities;
 using KhotsoCBookStore.API.Models;
 using KhotsoCBookStore.API.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -118,9 +117,7 @@ namespace KhotsoCBookStore.API.Repositories
             try
             {
                 List<CartItemDto> cartItemList = new List<CartItemDto>();
-                List<CartItems> cartItems = _dbContext.CartItems.Where(x => x.CartId == cartID).ToList();
-
-                foreach (CartItems item in cartItems)
+                foreach (CartItems item in _dbContext.CartItems.Where(x => x.CartId == cartID).ToList())
                 {
                     Book book = GetBookData(item.ProductId);
                     CartItemDto objCartItem = new CartItemDto
@@ -144,14 +141,30 @@ namespace KhotsoCBookStore.API.Repositories
             try
             {
                 List<Book> wishlist = new List<Book>();
-                List<WishlistItems> cartItems = _dbContext.WishlistItems.Where(x => x.WishlistId == wishlistID).ToList();
-
-                foreach (WishlistItems item in cartItems)
+                foreach (WishlistItems item in _dbContext.WishlistItems.Where(x => x.WishlistId == wishlistID).ToList())
                 {
                     Book book = GetBookData(item.ProductId);
                     wishlist.Add(book);
                 }
                 return wishlist;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Book> GetBooksAvailableInBookSubscription(string bookSubscriptionId)
+        {
+             try
+            {
+                List<Book> bookSubscription = new List<Book>();
+                foreach (BookSubscriptionItems item in _dbContext.BookSubscriptionItems.Where(x => x.BookSubscriptionId == bookSubscriptionId).ToList())
+                {
+                    Book book = GetBookData(item.ProductId);
+                    bookSubscription.Add(book);
+                }
+                return bookSubscription;
             }
             catch
             {

@@ -33,6 +33,7 @@ import { SimilarbooksComponent } from './components/similarbooks/similarbooks.co
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { BookSubscriptionComponent } from './components/book-subscription/book-subscription.component';
+import { AddtobooksubscriptionComponent } from './components/addtobooksubscription/addtobooksubscription.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { BookSubscriptionComponent } from './components/book-subscription/book-s
     SearchComponent,
     AddtowishlistComponent,
     WishlistComponent,
-    BookSubscriptionComponent
+    BookSubscriptionComponent,    
+    AddtobooksubscriptionComponent
   ],
   imports: [
     NgMaterialModule,

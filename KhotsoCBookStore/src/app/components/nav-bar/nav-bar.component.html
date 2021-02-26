@@ -10,8 +10,8 @@
         </div>
         <div> 
                         
-            <button mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/book-sub"]'>            
-                <mat-icon matBadge="{{bookSubscriptionItems.length }}" matBadgeColor="warn">book</mat-icon>
+            <button mat-icon-button *ngIf="userData.isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/book-sub"]'>            
+                <mat-icon matBadge="{{bookSubscriptionCount$ | async}}" matBadgeColor="warn">book</mat-icon>
             </button>       
             |
             <button mat-icon-button *ngIf="userData.isLoggedIn" [routerLinkActive]='["link-active"]'
