@@ -18,11 +18,11 @@
                 [routerLink]='["/wishlist"]'>
                 <mat-icon matBadge="{{wishListCount$ | async}}" matBadgeColor="warn">favorite</mat-icon>
             </button>
-            |
+            
             <button mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/shopping-cart"]'>
                 <mat-icon matBadge="{{cartItemCount$ | async}}" matBadgeColor="warn">shopping_cart</mat-icon>
             </button>
-            |
+            
             <button mat-button *ngIf="!userData.isLoggedIn" [routerLinkActive]='["link-active"]'
             [routerLink]='["/login"]'>Login</button>
                  <button mat-button *ngIf="userData.userTypeId==userType.admin" [routerLink]='["/admin/books"]'>Admin
@@ -37,7 +37,7 @@
                         <button mat-menu-item (click)=logout()>Logout</button>
                     </mat-menu>
                 </ng-container>
-  
+                <app-theme-picker></app-theme-picker>
             <button mat-button>
                 <a class="github-link" href="https://localhost:5000/index.html" target="_blank">
                     <span><img src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png" /></span>

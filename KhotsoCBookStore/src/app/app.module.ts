@@ -32,6 +32,7 @@ import { PriceFilterComponent } from './components/price-filter/price-filter.com
 import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
 import { BookSubscriptionComponent } from './components/book-subscription/book-subscription.component';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 
 
 @NgModule({
@@ -47,15 +48,14 @@ import { UserRegistrationComponent } from './components/user-registration/user-r
     UserRegistrationComponent,
     HomeComponent,
     NavBarComponent,
-    ShoppingcartComponent,    
+    ShoppingcartComponent,
+    ThemePickerComponent,
     SimilarbooksComponent,
     PageNotFoundComponent,
     PriceFilterComponent,
     SearchComponent,
     AddtowishlistComponent,
-    WishlistComponent,
-    BookSubscriptionComponent
-
+    WishlistComponent
   ],
   imports: [
     NgMaterialModule,

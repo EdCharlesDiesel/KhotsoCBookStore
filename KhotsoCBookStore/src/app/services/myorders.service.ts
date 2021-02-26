@@ -9,7 +9,7 @@ export class MyordersService {
   baseURL: string;
 
   constructor(private http: HttpClient) {
-    this.baseURL = 'https://localhost:5000/api/Order';
+    this.baseURL = 'https://localhost:5000/api/Order/';
   }
 
   myOrderDetails(userId: number) {

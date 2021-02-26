@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KhotsoCBookStore.API.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [Route("api/Order")]
     public class OrderController : Controller
     {
