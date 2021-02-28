@@ -170,11 +170,12 @@
             <returns>All the items in the Wishlist</returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.WishlistController.Delete(System.Int32)">
-            <summary>
-            Clear the Wishlist
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
+             <summary>
+             Clear the Wishlist
+             </summary>
+             <param name="userId"></param>
+             <returns></returns>
+            [Authorize]
         </member>
     </members>
 </doc>

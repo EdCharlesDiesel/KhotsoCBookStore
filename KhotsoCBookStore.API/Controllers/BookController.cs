@@ -126,7 +126,7 @@ namespace KhotsoCBookStore.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(Policy = UserRoles.Admin)]
+      //  [Authorize(Policy = UserRoles.Admin)]
         public int Put()
         {
             Book book = JsonConvert.DeserializeObject<Book>(Request.Form["bookFormData"].ToString());
@@ -159,7 +159,7 @@ namespace KhotsoCBookStore.API.Controllers
         /// <param name="bookId"></param>
         /// <returns></returns>
         [HttpDelete("{bookId}")]
-        [Authorize(Policy = UserRoles.Admin)]
+     //   [Authorize(Policy = UserRoles.Admin)]
         public int Delete(int bookId)
         {
             string coverFileName = _bookService.DeleteBook(bookId);

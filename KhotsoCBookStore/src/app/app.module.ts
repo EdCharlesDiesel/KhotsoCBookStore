@@ -24,9 +24,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+// import { EffectsModule } from '@ngrx/effects';
+// import { StoreModule } from '@ngrx/store';
+// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
@@ -67,13 +67,13 @@ import { AddtobooksubscriptionComponent } from './components/addtobooksubscripti
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument({
-      name: 'KhotsoCBookStore App DevTools',
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
+    // StoreModule.forRoot({}),
+    // StoreDevtoolsModule.instrument({
+    //   name: 'KhotsoCBookStore App DevTools',
+    //   maxAge: 25,
+    //   logOnly: environment.production,
+    // }),
+    // EffectsModule.forRoot([]),
     AppRoutingModule
   ],
   providers: [

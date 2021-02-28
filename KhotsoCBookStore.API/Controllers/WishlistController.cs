@@ -52,7 +52,7 @@ namespace KhotsoCBookStore.API.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [Authorize]
+        ///[Authorize]
         [HttpDelete("{userId}")]
         public int Delete(int userId)
         {
