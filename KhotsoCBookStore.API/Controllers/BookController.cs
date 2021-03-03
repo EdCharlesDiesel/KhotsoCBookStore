@@ -8,6 +8,7 @@ using KhotsoCBookStore.API.Entities;
 using KhotsoCBookStore.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -26,7 +27,7 @@ namespace KhotsoCBookStore.API.Controllers
         public BookController(IConfiguration config, IWebHostEnvironment hostingEnvironment, IBookService bookService)
         {
             _config = config;
-            _bookService = bookService;
+            _bookService = bookService?? throw new ArgumentNullException(nameof(_bookService));
             _hostingEnvironment = hostingEnvironment;
             coverImageFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "Upload");
             if (!Directory.Exists(coverImageFolderPath))
@@ -36,24 +37,40 @@ namespace KhotsoCBookStore.API.Controllers
         }
 
         /// <summary>
-        /// Get the list of available books
+        /// List of all the actions that are allows with this API
         /// </summary>
-        /// <returns>List of Book</returns>
-        [HttpGet]
-        public async Task<List<Book>> Get()
+        /// <returns>An IActionResult of actions allowed</returns>
+        [HttpOptions]
+        public IActionResult GetBooksAPIOptions()
         {
-            return await Task.FromResult(_bookService.GetAllBooks()).ConfigureAwait(true);
+            Response.Headers.Add("Allow", "GET,OPTIONS,POST,DELETE,PUT,PATCH");
+            return Ok();
+        }     
+
+        /// <summary>
+        /// Get all the books
+        /// </summary>
+        /// <returns>An ActionResult of type Book</returns>
+        /// <response code="200">Returns the requested books</response>
+        /// <response code="404">Returns no books found</response>
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        {
+            return await Task.FromResult(_bookService.GetAllBooks()).ConfigureAwait(true);            
         }
 
         /// <summary>
         /// Get the specific book data corresponding to the BookId
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="bookId"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{bookId}")]
+        public IActionResult Get(int bookId)
         {
-            Book book = _bookService.GetBookData(id);
+            Book book = _bookService.GetBookData(bookId);
             if (book != null)
             {
                 return Ok(book);
@@ -77,7 +94,7 @@ namespace KhotsoCBookStore.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, DisableRequestSizeLimit]
-        [Authorize(Policy = UserRoles.Admin)]
+      //  [Authorize(Policy = UserRoles.Admin)]
         public int Post()
         {
             Book book = JsonConvert.DeserializeObject<Book>(Request.Form["bookFormData"].ToString());
@@ -109,7 +126,7 @@ namespace KhotsoCBookStore.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(Policy = UserRoles.Admin)]
+      //  [Authorize(Policy = UserRoles.Admin)]
         public int Put()
         {
             Book book = JsonConvert.DeserializeObject<Book>(Request.Form["bookFormData"].ToString());
@@ -139,13 +156,13 @@ namespace KhotsoCBookStore.API.Controllers
         /// <summary>
         /// Delete a particular book record
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="bookId"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        [Authorize(Policy = UserRoles.Admin)]
-        public int Delete(int id)
+        [HttpDelete("{bookId}")]
+     //   [Authorize(Policy = UserRoles.Admin)]
+        public int Delete(int bookId)
         {
-            string coverFileName = _bookService.DeleteBook(id);
+            string coverFileName = _bookService.DeleteBook(bookId);
             if (coverFileName != _config["DefaultCoverImageFile"])
             {
                 string fullPath = Path.Combine(coverImageFolderPath, coverFileName);

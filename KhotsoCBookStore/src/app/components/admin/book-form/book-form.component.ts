@@ -32,27 +32,32 @@ export class BookFormComponent implements OnInit, OnDestroy {
     this.book = new Book();
     this.bookForm = this.fb.group({
       bookId: 0,
-      title: ['', Validators.required],
+      name: ['', Validators.required],
       author: ['', Validators.required],
+      text: ['', Validators.required],
       category: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0)]],
+      purchasePrice: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
-  get title() {
-    return this.bookForm.get('title');
+  get name() {
+    return this.bookForm.get('name');
   }
 
   get author() {
     return this.bookForm.get('author');
   }
 
+  get text() {
+    return this.bookForm.get('text');
+  }
+
   get category() {
     return this.bookForm.get('category');
   }
 
-  get price() {
-    return this.bookForm.get('price');
+  get purchasePrice() {
+    return this.bookForm.get('purchasePrice');
   }
 
   ngOnInit() {
@@ -139,7 +144,7 @@ export class BookFormComponent implements OnInit, OnDestroy {
       text: bookFormData.text,
       author: bookFormData.author,
       category: bookFormData.category,
-      price: bookFormData.purchasePrice
+      purchasePrice: bookFormData.purchasePrice
     });
     this.coverImagePath = '/Upload/' + bookFormData.coverFileName;
   }

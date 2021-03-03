@@ -1,11 +1,11 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
-import { CustomValidationService } from 'src/app/services/custom-validation.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CustomValidationService } from 'src/app/services/custom-validation.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class UserRegistrationComponent implements OnDestroy {
 
+  
   showPassword = true;
   showConfirmPassword = true;
   private unsubscribe$ = new Subject<void>();
@@ -32,7 +33,7 @@ export class UserRegistrationComponent implements OnDestroy {
     emailaddress: ['', Validators.required, Validators.email],
     username: ['', [Validators.required], this.customValidation.userNameValidator.bind(this.customValidation)],
     password: ['', Validators.compose([Validators.required])],
-    confirmPassword: ['', [Validators.required]],    
+    confirmPassword: ['', [Validators.required]],
   },
     {
       validator: this.customValidation.confirmPasswordValidator,
@@ -65,7 +66,7 @@ export class UserRegistrationComponent implements OnDestroy {
 
   registerUser() {
     if (this.registrationForm.valid) {
-      this.userService.registerUser(this.registrationForm.value)
+      this.userService.registerUser(this.registrationForm.value )
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           () => {

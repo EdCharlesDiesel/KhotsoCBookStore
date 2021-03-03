@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KhotsoCBookStore.API", "Kho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KhotsoCBookStore.API.Tests", "KhotsoCBookStore.API.Tests\KhotsoCBookStore.API.Tests.csproj", "{994E8F80-8572-4F5E-916B-53985764A258}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarPeace.IDP", "StarPeace.IDP\StarPeace.IDP.csproj", "{79504CD5-093A-41D3-A16E-82FDA7E5059A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{994E8F80-8572-4F5E-916B-53985764A258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{994E8F80-8572-4F5E-916B-53985764A258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{994E8F80-8572-4F5E-916B-53985764A258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79504CD5-093A-41D3-A16E-82FDA7E5059A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79504CD5-093A-41D3-A16E-82FDA7E5059A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79504CD5-093A-41D3-A16E-82FDA7E5059A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79504CD5-093A-41D3-A16E-82FDA7E5059A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,12 +2,19 @@
   "name": "khotsocbookstore",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
+  
+
+     "ng": "ng",
+    "start": "ng serve ",   
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "build:prod": "ng build --prod",
+    "start:prod": "http-server ./dist -a localhost -p 4200",
+    "build-and-start:prod": "run-s build:prod start:prod",
+    "e2e": "start-server-and-test build-and-start:prod http://localhost:4200 cypress:run"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +42,7 @@
     "@angular/cli": "~11.0.5",
     "@angular/compiler-cli": "~11.0.5",
     "@angular/language-service": "~11.0.5",
+    "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",

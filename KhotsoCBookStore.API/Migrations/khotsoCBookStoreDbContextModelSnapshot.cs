@@ -31,22 +31,20 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(40)");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("UserTypeId")
                         .HasColumnType("int")
@@ -59,21 +57,9 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("UserId")
-                        .HasName("PK__UserMast__1788CCAC2694A2ED");
+                        .HasName("PK__UserMasterID");
 
                     b.ToTable("UserMaster");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            EmailAddress = "Mokhetkc@hotmail.com",
-                            FirstName = "Khotso",
-                            LastName = "Mokhethi",
-                            Password = "IamBatman",
-                            UserTypeId = 1,
-                            Username = "Batman"
-                        });
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Authentication.UserType", b =>
@@ -171,48 +157,41 @@ namespace KhotsoCBookStore.API.Migrations
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.BookSubscription", b =>
                 {
-                    b.Property<int>("BookSubId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("BookSubscriptionId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("BookName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CoverFileName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("UserID");
 
-                    b.HasKey("BookSubId")
-                        .HasName("PK__BookSubId");
+                    b.HasKey("BookSubscriptionId")
+                        .HasName("PK__BookSubscriptionId");
 
-                    b.ToTable("BookSubscriptions");
+                    b.ToTable("BookSubscription");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            BookSubId = 1,
-                            BookName = "Webdevelopment-101",
-                            CoverFileName = "Default_image",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            BookSubId = 2,
-                            BookName = "Webdevelopment-102",
-                            CoverFileName = "Default_image",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            BookSubId = 3,
-                            BookName = "Webdevelopment-103",
-                            CoverFileName = "Default_image",
-                            UserId = 1
-                        });
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.BookSubscriptionItems", b =>
+                {
+                    b.Property<int>("BookSubscriptionItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BookSubscriptionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookSubscriptionItemId")
+                        .HasName("PK__BookSubscriptionItemId");
+
+                    b.ToTable("BookSubscriptionItems");
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.Cart", b =>
@@ -388,7 +367,7 @@ namespace KhotsoCBookStore.API.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.HasKey("WishlistItemId")
-                        .HasName("PK__Wishlist__171E21A16A5148A4");
+                        .HasName("PK__WishlistItemId");
 
                     b.ToTable("WishlistItems");
                 });

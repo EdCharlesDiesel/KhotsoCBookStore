@@ -12,9 +12,13 @@ export class UserService {
     this.baseURL = 'https://localhost:5000/api/user/';
   }
 
-  registerUser(userdetails: any) {
+  // registerUser(userdetails: any,password: any) {
+  //   return this.http.post(this.baseURL, userdetails + password);
+  // }
+
+    registerUser(userdetails: any) {
     return this.http.post(this.baseURL, userdetails);
-  }
+   }
 
   getCartItemCount(userId: number) {
     return this.http.get<number>(this.baseURL + userId);

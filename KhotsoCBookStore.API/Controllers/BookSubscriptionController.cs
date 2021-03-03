@@ -19,70 +19,69 @@ namespace KhotsoCBookStore.API.Controllers
     public class BookSubscriptionController : Controller
     {
         readonly IBookSubscriptionService _bookSubscriptionService;
+        readonly IBookService _bookService;
+        readonly IUserService _userService;
 
-        public BookSubscriptionController(IBookSubscriptionService bookSubscriptionService)
+        public BookSubscriptionController(IBookSubscriptionService bookSubscriptionService, IBookService bookService, IUserService userService)
         {
 
             _bookSubscriptionService = bookSubscriptionService;
+            _bookService = bookService;
+            _userService = userService;
 
         }
 
         /// <summary>
         /// Get the list of books subscriptions
         /// </summary>
+        /// <param name="userId"></param>
         /// <returns>List of book subscriptions</returns>
-        [HttpGet]
-        public async Task<List<BookSubscription>> Get()
-        {
-            return await Task.FromResult(_bookSubscriptionService.GetBooksSubscrption()).ConfigureAwait(true);
-        }
 
-        /// <summary>
-        /// Get the specific book subscripption corresponding to the subBookId
-        /// </summary>
-        /// <param name="BookSubId"></param>
-        /// <returns></returns>
-        [HttpGet("{BookSubId}")]
-        public IActionResult Get(int BookSubId)
+        [HttpGet("{userId}")]
+        public async Task<List<Book>> Get(int userId)
         {
-            BookSubscription sub = _bookSubscriptionService.GetSingleBookSubscription(BookSubId);
-            if (sub != null)
-            {
-                return Ok(sub);
-            }
-            return NotFound();
+            return await Task.FromResult(GetUserBookSubscription(userId)).ConfigureAwait(true);
         }
-
 
         /// <summary>
         /// Add a new book subscription
         /// </summary>
+        /// <param name="bookId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
         [HttpPost]
-        public int Post([FromBody] BookSubscription sub)
+        [Route("ToggleBookSubscription/{userId}/{bookId}")]
+        public async Task<List<Book>> Post(int userId, int bookId)
         {
-            _bookSubscriptionService.AddBookSubscription(sub);
-            return 0;
+            _bookSubscriptionService.ToggleBookSubscriptionItem(userId, bookId);
+            return await Task.FromResult(GetUserBookSubscription(userId)).ConfigureAwait(true);
         }
 
-
         /// <summary>
-        /// Delete a particular book subscription
+        /// Clear the BookSubscription
         /// </summary>
-        /// <param name="BookSubId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpDelete("{BookSubId}")]
-        public IActionResult Delete(int BookSubId)
+        [Authorize]
+        [HttpDelete("{userId}")]
+        public int Delete(int userId)
         {
-            var subFromRepo = _bookSubscriptionService.GetSingleBookSubscription(BookSubId);
+            return _bookSubscriptionService.ClearBookSubscription(userId);
+        }
 
-            if (subFromRepo == null)
+        List<Book> GetUserBookSubscription(int userId)
+        {
+            bool user = _userService.isUserExists(userId);
+            if (user)
             {
-                return NotFound();
+                string BookSubscriptionId = _bookSubscriptionService.GetBookSubscriptionId(userId);
+                return _bookService.GetBooksAvailableInBookSubscription(BookSubscriptionId);
             }
-            _bookSubscriptionService.BookDeleteSubscription(BookSubId);
+            else
+            {
+                return new List<Book>();
+            }
 
-            return NoContent();
         }
     }
 }

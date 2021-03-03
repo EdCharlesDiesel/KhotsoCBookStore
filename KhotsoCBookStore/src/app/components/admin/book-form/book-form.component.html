@@ -10,14 +10,19 @@
                 <mat-card-content>
                     <form enctype="multipart/form-data" [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Title" formControlName="title" required>
-                            <mat-error *ngIf="title.touched && title.invalid">Title is required</mat-error>
+                            <input matInput placeholder="Name" formControlName="name" required>
+                            <mat-error *ngIf="name.touched && name.invalid">Name is required</mat-error>
                         </mat-form-field>
 
                         <mat-form-field class="full-width">
                             <input matInput placeholder="Author" formControlName="author" required>
                             <mat-error *ngIf="author.touched && author.invalid">Author name is
                                 required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Text" formControlName="text" required>
+                            <mat-error *ngIf="text.touched && text.invalid">Text is required</mat-error>
                         </mat-form-field>
 
                         <mat-form-field class="full-width">
@@ -30,10 +35,10 @@
                         </mat-form-field>
 
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Price" formControlName="price" type="number" required>
-                            <span matPrefix>&#8377;&nbsp;</span>
-                            <mat-error *ngIf="price.touched && price.hasError('required')">Price is required</mat-error>
-                            <mat-error *ngIf="price.touched && price.hasError('min')">Price cannot be less than 0
+                            <input matInput placeholder="Purchase Price" formControlName="purchasePrice" type="number" required>
+                            <span matPrefix>ZAR &nbsp;</span>
+                            <mat-error *ngIf="purchasePrice.touched && purchasePrice.hasError('required')">Purchase Price is required</mat-error>
+                            <mat-error *ngIf="purchasePrice.touched && purchasePrice.hasError('min')">Purchase Price cannot be less than 0
                             </mat-error>
                         </mat-form-field>
                         <mat-card-actions >

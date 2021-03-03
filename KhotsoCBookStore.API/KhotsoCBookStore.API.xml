@@ -4,17 +4,25 @@
         <name>KhotsoCBookStore.API</name>
     </assembly>
     <members>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookController.Get">
+        <member name="M:KhotsoCBookStore.API.Controllers.BookController.GetBooksAPIOptions">
             <summary>
-            Get the list of available books
+            List of all the actions that are allows with this API
             </summary>
-            <returns>List of Book</returns>
+            <returns>An IActionResult of actions allowed</returns>
+        </member>
+        <member name="M:KhotsoCBookStore.API.Controllers.BookController.GetBooks">
+            <summary>
+            Get all the books
+            </summary>
+            <returns>An ActionResult of type Book</returns>
+            <response code="200">Returns the requested books</response>
+            <response code="404">Returns no books found</response>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.Get(System.Int32)">
             <summary>
             Get the specific book data corresponding to the BookId
             </summary>
-            <param name="id"></param>
+            <param name="bookId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookController.CategoryDetails">
@@ -39,33 +47,29 @@
             <summary>
             Delete a particular book record
             </summary>
-            <param name="id"></param>
+            <param name="bookId"></param>
             <returns></returns>
-        </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get">
-            <summary>
-            Get the list of books subscriptions
-            </summary>
-            <returns>List of book subscriptions</returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Get(System.Int32)">
             <summary>
-            Get the specific book subscripption corresponding to the subBookId
+            Get the list of books subscriptions
             </summary>
-            <param name="BookSubId"></param>
-            <returns></returns>
+            <param name="userId"></param>
+            <returns>List of book subscriptions</returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(KhotsoCBookStore.API.Entities.BookSubscription)">
+        <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Post(System.Int32,System.Int32)">
             <summary>
             Add a new book subscription
             </summary>
+            <param name="bookId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.BookSubscriptionController.Delete(System.Int32)">
             <summary>
-            Delete a particular book subscription
+            Clear the BookSubscription
             </summary>
-            <param name="BookSubId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.CheckOutController.Post(System.Int32,KhotsoCBookStore.API.Models.OrdersDto)">
@@ -76,7 +80,7 @@
             <param name="checkedOutItems"></param>
             <returns></returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.LoginController.Login(KhotsoCBookStore.API.Authentication.UserMaster)">
+        <member name="M:KhotsoCBookStore.API.Controllers.LoginController.Login(KhotsoCBookStore.API.Models.AuthenticateModel)">
             <summary>
             Login to the application
             </summary>
@@ -150,12 +154,6 @@
             <param name="userName"></param>
             <returns></returns>
         </member>
-        <member name="M:KhotsoCBookStore.API.Controllers.UserController.Post(KhotsoCBookStore.API.Authentication.UserMaster)">
-            <summary>
-            Register a new user
-            </summary>
-            <param name="userData"></param>
-        </member>
         <member name="M:KhotsoCBookStore.API.Controllers.WishlistController.Get(System.Int32)">
             <summary>
             Get the list of items in the Wishlist
@@ -172,11 +170,12 @@
             <returns>All the items in the Wishlist</returns>
         </member>
         <member name="M:KhotsoCBookStore.API.Controllers.WishlistController.Delete(System.Int32)">
-            <summary>
-            Clear the Wishlist
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
+             <summary>
+             Clear the Wishlist
+             </summary>
+             <param name="userId"></param>
+             <returns></returns>
+            [Authorize]
         </member>
     </members>
 </doc>

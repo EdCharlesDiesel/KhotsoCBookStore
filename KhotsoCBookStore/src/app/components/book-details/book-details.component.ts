@@ -37,11 +37,11 @@ export class BookDetailsComponent implements OnInit {
   }
 
   getBookDetails() {
-    // this.BookDetails$ = this.bookService.getBookById(this.bookId)
-    //   .pipe(
-    //     catchError(error => {
-    //       console.log('Error ocurred while fetching book data : ', error);
-    //       return EMPTY;
-    //     }));
+    this.BookDetails$ = this.bookService.getBookById(this.bookId)
+      .pipe(
+        catchError(error => {
+          console.log('Error ocurred while fetching book data : ', error);
+          return EMPTY;
+        }));
   }
 }

@@ -16,46 +16,47 @@ namespace KhotsoCBookStore.API.Repositories
         public BookSubscriptionRepository(KhotsoCBookStoreDbContext dbContext)
         {
             _dbContext = dbContext;
-        }           
-
-        public List<BookSubscription> GetBooksSubscrption()
-        {
-            try
-            {                
-                return _dbContext.BookSubscriptions.AsNoTracking().ToList();
-            }
-            catch
-            {
-                throw;
-            }
         }
 
-        public int AddBookSubscription(BookSubscription bookSubscription)
+
+        public void ToggleBookSubscriptionItem(int userId, int bookId)
         {
-                  try
+            string bookSubscriptionId = GetBookSubscriptionId(userId);
+            BookSubscriptionItems existingBookSubscriptionItem = _dbContext.BookSubscriptionItems.FirstOrDefault(x => x.ProductId == bookId && x.BookSubscriptionId == bookSubscriptionId);
+
+            if (existingBookSubscriptionItem != null)
             {
-                _dbContext.BookSubscriptions.Add(bookSubscription);
+                _dbContext.BookSubscriptionItems.Remove(existingBookSubscriptionItem);
                 _dbContext.SaveChanges();
-
-                return 1;
             }
-            catch
+            else
             {
-                throw;
-            }
-        }
-
-        public BookSubscription GetSingleBookSubscription(int bookSubId)
-        {
-            try
-            {
-                BookSubscription sub = _dbContext.BookSubscriptions.FirstOrDefault(x => x.BookSubId== bookSubId);
-                if (sub != null)
+                BookSubscriptionItems bookSubscriptionItem = new BookSubscriptionItems
                 {
-                    _dbContext.Entry(sub).State = EntityState.Detached;
-                    return sub;
+                    BookSubscriptionId = bookSubscriptionId,
+                    ProductId = bookId,
+                };
+                _dbContext.BookSubscriptionItems.Add(bookSubscriptionItem);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public int ClearBookSubscription(int userId)
+        {
+            try
+            {
+                string bookSubscriptionId = GetBookSubscriptionId(userId);
+                List<BookSubscriptionItems> bookSubscriptionItem = _dbContext.BookSubscriptionItems.Where(x => x.BookSubscriptionId == bookSubscriptionId).ToList();
+
+                if (!string.IsNullOrEmpty(bookSubscriptionId))
+                {
+                    foreach (BookSubscriptionItems item in bookSubscriptionItem)
+                    {
+                        _dbContext.BookSubscriptionItems.Remove(item);
+                        _dbContext.SaveChanges();
+                    }
                 }
-                return null;
+                return 0;
             }
             catch
             {
@@ -63,20 +64,51 @@ namespace KhotsoCBookStore.API.Repositories
             }
         }
 
-        public string BookDeleteSubscription(int bookSubId)
+
+        public string GetBookSubscriptionId(int userId)
         {
-                  try
+            try
             {
-                BookSubscription sub = _dbContext.BookSubscriptions.Find(bookSubId);
-                _dbContext.BookSubscriptions.Remove(sub);
+                BookSubscription bookSubscription = _dbContext.BookSubscription.FirstOrDefault(x => x.UserId == userId);
+
+                if (bookSubscription != null)
+                {
+                    return bookSubscription.BookSubscriptionId;
+                }
+                else
+                {
+                    return CreateBookSubscription(userId);
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        string CreateBookSubscription(int userId)
+        {
+            try
+            {
+                BookSubscription bookSubscription = new BookSubscription
+                {
+                    BookSubscriptionId = Guid.NewGuid().ToString(),
+                    UserId = userId,
+                    DateCreated = DateTime.Now.Date
+                };
+
+                _dbContext.BookSubscription.Add(bookSubscription);
                 _dbContext.SaveChanges();
 
-                return sub.BookName;
+                return bookSubscription.BookSubscriptionId;
             }
             catch
             {
                 throw;
             }
         }
+
+
     }
 }

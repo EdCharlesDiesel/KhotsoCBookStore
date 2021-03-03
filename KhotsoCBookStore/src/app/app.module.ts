@@ -1,3 +1,4 @@
+import { SearchComponent } from './components/search/search.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,6 @@ import { BookFilterComponent } from './components/book-filter/book-filter.compon
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/user/login.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
-import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
@@ -23,11 +23,17 @@ import { NgMaterialModule } from './ng-material/ng-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
-import { BookSubComponent } from './components/book-sub/book-sub.component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+// import { EffectsModule } from '@ngrx/effects';
+// import { StoreModule } from '@ngrx/store';
+// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { PriceFilterComponent } from './components/price-filter/price-filter.component';
+import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
+import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
+import { BookSubscriptionComponent } from './components/book-subscription/book-subscription.component';
+import { AddtobooksubscriptionComponent } from './components/addtobooksubscription/addtobooksubscription.component';
 
 
 @NgModule({
@@ -44,11 +50,15 @@ import { environment } from 'src/environments/environment';
     HomeComponent,
     NavBarComponent,
     ShoppingcartComponent,
-    PageNotFoundComponent,  
+    ThemePickerComponent,
+    SimilarbooksComponent,
+    PageNotFoundComponent,
+    PriceFilterComponent,
+    SearchComponent,
     AddtowishlistComponent,
     WishlistComponent,
-    BookSubComponent,
-
+    BookSubscriptionComponent,    
+    AddtobooksubscriptionComponent
   ],
   imports: [
     NgMaterialModule,
@@ -57,13 +67,13 @@ import { environment } from 'src/environments/environment';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument({
-      name: 'KhotsoCBookStore App DevTools',
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
+    // StoreModule.forRoot({}),
+    // StoreDevtoolsModule.instrument({
+    //   name: 'KhotsoCBookStore App DevTools',
+    //   maxAge: 25,
+    //   logOnly: environment.production,
+    // }),
+    // EffectsModule.forRoot([]),
     AppRoutingModule
   ],
   providers: [

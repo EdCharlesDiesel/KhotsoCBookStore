@@ -16,7 +16,10 @@ namespace KhotsoCBookStore.API.Contexts
         }
 
         public virtual DbSet<Book> Books { get; set; }
-        public virtual DbSet<BookSubscription>  BookSubscriptions { get; set; }
+        public virtual DbSet<BookSubscription>  BookSubscription { get; set; }
+
+        public virtual DbSet<BookSubscriptionItems>  BookSubscriptionItems { get; set; }
+
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<CartItems> CartItems { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
@@ -120,10 +123,8 @@ namespace KhotsoCBookStore.API.Contexts
 
             modelBuilder.Entity<BookSubscription>(entity =>
             {
-                entity.HasKey(e => e.BookSubId)
-                    .HasName("PK__BookSubId");
-
-
+                entity.HasKey(e => e.BookSubscriptionId)
+                    .HasName("PK__BookSubscriptionId");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
             });
@@ -131,30 +132,25 @@ namespace KhotsoCBookStore.API.Contexts
             modelBuilder.Entity<UserMaster>(entity =>
             {
                 entity.HasKey(e => e.UserId)
-                    .HasName("PK__UserMast__1788CCAC2694A2ED");
+                    .HasName("PK__UserMasterID");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
+                    
                     .HasMaxLength(20)
-                    .IsUnicode(false);
-
-           
+                    .IsUnicode(false);           
 
                 entity.Property(e => e.LastName)
-                    .IsRequired()
+                    
                     .HasMaxLength(20)
                     .IsUnicode(false);
-
-                     entity.Property(e => e.EmailAddress);
-                   
+                     entity.Property(e => e.EmailAddress);                 
                  
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .IsUnicode(false);
+                entity.Property(e => e.PasswordHash);
+                entity.Property(e => e.PasswordSalt);
+                    
 
                 entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
 
@@ -188,7 +184,7 @@ namespace KhotsoCBookStore.API.Contexts
             modelBuilder.Entity<WishlistItems>(entity =>
             {
                 entity.HasKey(e => e.WishlistItemId)
-                    .HasName("PK__Wishlist__171E21A16A5148A4");
+                    .HasName("PK__WishlistItemId");
 
                 entity.Property(e => e.WishlistId)
                     .IsRequired()
@@ -196,30 +192,17 @@ namespace KhotsoCBookStore.API.Contexts
                     .IsUnicode(false);
             });
 
+             modelBuilder.Entity<BookSubscriptionItems>(entity =>
+            {
+                entity.HasKey(e => e.BookSubscriptionItemId)
+                    .HasName("PK__BookSubscriptionItemId");
+
+                entity.Property(e => e.BookSubscriptionItemId)
+                    .IsRequired()
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+            });
             
-            modelBuilder.Entity<BookSubscription>().HasData(
-                 new BookSubscription
-                 {
-                     BookSubId = 1,
-                     BookName = "Webdevelopment-101",
-                     CoverFileName ="Default_image",                    
-                     UserId = 1
-                     
-                 },new BookSubscription
-                 {
-                     BookSubId = 2,
-                     BookName = "Webdevelopment-102",
-                     CoverFileName ="Default_image",                    
-                     UserId = 1
-                     
-                 },new BookSubscription
-                 {
-                     BookSubId = 3,
-                     BookName = "Webdevelopment-103",
-                     CoverFileName ="Default_image",                    
-                     UserId = 1                     
-                 }
-                );
 
             modelBuilder.Entity<UserType>().HasData(
                  new UserType
@@ -257,18 +240,18 @@ namespace KhotsoCBookStore.API.Contexts
                  }
                 );
 
-            modelBuilder.Entity<UserMaster>().HasData(
-                 new UserMaster
-                 {
-                     UserTypeId = 1,
-                     FirstName = "Khotso",
-                     LastName = "Mokhethi",
-                     EmailAddress ="Mokhetkc@hotmail.com",                     
-                     Username = "Batman",
-                     Password = "IamBatman",
-                     UserId = 1
-                 }
-                );
+            //modelBuilder.Entity<UserMaster>().HasData(
+            //     new UserMaster
+            //     {
+            //         UserTypeId = 1,
+            //         FirstName = "Khotso",
+            //         LastName = "Mokhethi",
+            //         EmailAddress ="Mokhetkc@hotmail.com",                     
+            //         Username = "Batman",
+            //         Password = "IamBatman",
+            //         UserId = 1
+            //     }
+            //    );
 
             modelBuilder.Entity<Categories>().HasData(
              new Categories
