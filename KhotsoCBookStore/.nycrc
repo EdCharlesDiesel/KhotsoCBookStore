@@ -1,0 +1,9 @@
+{
+extends @istanbuljsnyc-config-typescript,
+all true,
+exclude [
+.coverage,
+.dist,
+.spec.ts
+]
+}
