@@ -1,12 +1,13 @@
+import { state } from '@angular/animations';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Book } from 'src/app/models/book';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
 import { switchMap } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-// import * as fromBook from './state/book.selectors';
+import * as fromStore from '../../store/reducers/index';
 // import * as bookActions from './state/book.actions';
-//import { Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-home',
@@ -23,32 +24,35 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchItem: string;
 
   constructor(
-    // private store: Store<fromBook.State>,
+    private store: Store<fromStore.BooksState>,
     private route: ActivatedRoute,
-    private bookService: BookService,
+    //private bookService: BookService,
     private subscriptionService: SubscriptionService) {
   }
 
-  ngOnInit(): any {
+  ngOnInit() : void{
+    this.store.select<any>('books').subscribe(state => {
+      console.log(state);
+    });
     this.isLoading = true;
     this.getAllBookData();
 
   }
 
-  getAllBookData(): any {
+  getAllBookData(): void {
     // this.store.dispatch(new bookActions.Load());
     // this.store.dispatch(new bookActions.LoadSuccess(this.filteredProducts));
-    this.bookService.books$.pipe(switchMap(
-      (data: Book[]) => {
-        this.filteredProducts = data;
-        return this.route.queryParams;
-      }
-    )).subscribe(params => {
-      this.category = params.category;
-      this.searchItem = params.item;
-      this.subscriptionService.searchItemValue$.next(this.searchItem);
-      this.filterBookData();
-    });
+    // this.bookService.books$.pipe(switchMap(
+    //   (data: Book[]) => {
+    //     this.filteredProducts = data;
+    //     return this.route.queryParams;
+    //   }
+    // )).subscribe(params => {
+    //   this.category = params.category;
+    //   this.searchItem = params.item;
+    //   this.subscriptionService.searchItemValue$.next(this.searchItem);
+    //   this.filterBookData();
+    // });
   }
 
   filterPrice(value: number): any {
