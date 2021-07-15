@@ -1,3 +1,4 @@
+import { CustomSerializer } from './store/utils';
 
 import { SearchComponent } from './components/search/search.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,6 +36,8 @@ import { HomeComponent } from './components/home/home.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { reducers, metaReducers } from './store/reducers';
 import * as fromUser from '../app/store/reducers/user/user.reducer';
+import { UserEffects } from './store/effects/user.effects';
+import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -69,13 +72,22 @@ import * as fromUser from '../app/store/reducers/user/user.reducer';
     BrowserAnimationsModule,
     EffectsModule.forRoot([]),
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {
+       metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
     !environment.production ? StoreDevtoolsModule.instrument({
       name: 'KhotsoCBookStore App DevTools',
     }) : [],
-    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer)
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer),
+    EffectsModule.forFeature([UserEffects]),
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
   ],
   providers: [
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
   ],

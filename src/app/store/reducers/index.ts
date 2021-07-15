@@ -9,14 +9,17 @@ import {
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
-import { routerReducer } from '@ngrx/router-store';
+import { routerReducer, RouterReducerState } from '@ngrx/router-store';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UserState { }
+export interface AppState {
+  router: RouterReducerState<any>;
+ }
 
-export const reducers: ActionReducerMap<UserState> = {
-  // router: routerReducer
+export const reducers: ActionReducerMap<AppState> = {
+router: routerReducer
 };
 
 
@@ -31,4 +34,6 @@ export function logger(reducer: ActionReducer<any>)
 
 }
 
-export const metaReducers: MetaReducer<UserState>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [
+  storeFreeze
+] : [];

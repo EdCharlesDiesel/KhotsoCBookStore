@@ -1,4 +1,4 @@
-import { UserState } from './../store/reducers/index';
+import { UserState } from './../store/reducers/user/user.reducer';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
