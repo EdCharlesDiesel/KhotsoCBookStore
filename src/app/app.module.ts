@@ -1,19 +1,16 @@
+
 import { SearchComponent } from './components/search/search.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { AddtocartComponent } from './components/addtocart/addtocart.component';
-import { BookCardComponent } from './components/book-card/book-card.component';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
-import { BookFilterComponent } from './components/book-filter/book-filter.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/user/login.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
-import { HomeComponent } from './components/home/home.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -24,7 +21,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddtowishlistComponent } from './components/addtowishlist/addtowishlist.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { environment } from 'src/environments/environment';
-import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { SimilarbooksComponent } from './components/similarbooks/similarbooks.component';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
@@ -33,26 +29,31 @@ import { AddtobooksubscriptionComponent } from './components/addtobooksubscripti
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
+import { BookCardComponent } from './components/book-card/book-card.component';
+import { BookFilterComponent } from './components/book-filter/book-filter.component';
+import { HomeComponent } from './components/home/home.component';
+import { PriceFilterComponent } from './components/price-filter/price-filter.component';
+import { reducers, metaReducers } from './store/reducers';
+import * as fromUser from '../app/store/reducers/user/user.reducer';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddtocartComponent,
-    BookCardComponent,
-    BookDetailsComponent,
+    HomeComponent,
     BookFilterComponent,
+    BookCardComponent,
+    PriceFilterComponent,
+    BookDetailsComponent,
     CheckoutComponent,
     LoginComponent,
     MyOrdersComponent,
     UserRegistrationComponent,
-    HomeComponent,
     NavBarComponent,
     ShoppingcartComponent,
     ThemePickerComponent,
     SimilarbooksComponent,
     PageNotFoundComponent,
-    PriceFilterComponent,
     SearchComponent,
     AddtowishlistComponent,
     WishlistComponent,
@@ -66,14 +67,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument({
-      name: 'KhotsoCBookStore App DevTools',
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
     EffectsModule.forRoot([]),
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument({
+      name: 'KhotsoCBookStore App DevTools',
+    }) : [],
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },

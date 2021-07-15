@@ -3,7 +3,7 @@ import { User } from '../models/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { SubscriptionService } from './subscription.service';
-import { UserService } from './user.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class AuthenticationService {
 
   }
 
-  login(user: User) {
+  login(user: User): Observable<any> {
     return this.http.post<any>('https://localhost:5000/api/login', user)
       .pipe(map(response => {
         if (response && response.token) {
@@ -29,13 +29,11 @@ export class AuthenticationService {
           localStorage.setItem('userId', response.userDetails.userId);
           this.subscriptionService.cartItemcount$.next(response.carItemCount);
         }
-
         return response;
-
       }));
   }
 
-  setUserDetails() {
+  setUserDetails() : void{
     if (localStorage.getItem('authToken')) {
       const userDetails = new User();
       const decodeUserDetails = JSON.parse(atob(localStorage.getItem('authToken')!.split('.')[1]));
@@ -49,24 +47,24 @@ export class AuthenticationService {
     }
   }
 
-  logout() {
+  logout(): void {
     localStorage.clear();
     this.resetSubscription();
     this.setTempUserId();
   }
 
-  setTempUserId() {
+  setTempUserId(): void {
     if (!localStorage.getItem('userId')) {
       const tempUserID = this.generateTempUserId();
       localStorage.setItem('userId', tempUserID.toString());
     }
   }
 
-  generateTempUserId() {
+  generateTempUserId(): number {
     return Math.floor(Math.random() * (99999 - 11111 + 1) + 12345);
   }
 
-  resetSubscription() {
+  resetSubscription() : void{
     this.subscriptionService.userData.next(new User());
     this.subscriptionService.wishlistItem$.next([]);
     this.subscriptionService.wishlistItemcount$.next(0);

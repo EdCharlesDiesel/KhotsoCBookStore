@@ -1,13 +1,16 @@
+import { Login } from '../../store/actions/user.actions';
+import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from 'src/app/components/shoppingcart/cart.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { User } from 'src/app/models/user';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { Subject } from 'rxjs';
+import { UserState } from 'src/app/store/reducers';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authenticationService: AuthenticationService,
     private subscriptionService: SubscriptionService,
-    private wishlistService: WishlistService) {
+    private wishlistService: WishlistService,
+    private store: Store<UserState>) {
     this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
   }
 
@@ -35,15 +39,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: new FormControl('', Validators.required)
   });
 
-  get username() {
+  get username(): AbstractControl {
     return this.loginForm.get('username');
   }
 
-  get password() {
+  get password(): AbstractControl {
     return this.loginForm.get('password');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscriptionService.userData.asObservable()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data: User) => {
@@ -51,11 +55,17 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  login() {
+  login(): void {
     if (this.loginForm.valid) {
+
       const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
       this.authenticationService.login(this.loginForm.value)
-        .pipe(takeUntil(this.unsubscribe$))
+        .pipe(
+          takeUntil(this.unsubscribe$),
+          tap(user => {
+            this.store.dispatch(new Login({ user }));
+          })
+        )
         .subscribe(
           () => {
             this.setShoppingCart();
@@ -71,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  setShoppingCart() {
+  setShoppingCart(): void {
     this.cartService.setCart(this.authenticationService.oldUserId, this.userId)
       .subscribe(result => {
         this.subscriptionService.cartItemcount$.next(result);
@@ -80,11 +90,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  setWishlist() {
+  setWishlist(): void {
     this.wishlistService.getWishlistItems(this.userId).subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

@@ -1,7 +1,8 @@
+import { UserState } from './../../store/reducers/user/user.reducer';
+import { Logout } from './../../store/actions/user.actions';
+import { Store } from '@ngrx/store';
 import { BookSubscriptionService } from 'src/app/services/book-subscription.service';
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/usertype';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 import { Observable } from 'rxjs';
 import { WishlistService } from 'src/app/services/wishlist.service';
-// import { BookSubscriptionService } from 'src/app/components/book-subscription/book-subscription.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -19,12 +20,12 @@ import { WishlistService } from 'src/app/services/wishlist.service';
 export class NavBarComponent implements OnInit, OnDestroy {
 
   userId;
-  userDataSubscription: any;
+  userDataSubscription: Subscription;
   userData;
   userType = UserType;
   wishListCount$: Observable<number>;
   cartItemCount$: Observable<number>;
-  bookSubscriptionCount$ : Observable<number>;
+  bookSubscriptionCount$: Observable<number>;
 
   constructor(
     private router: Router,
@@ -32,7 +33,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private bookSubscriptionService: BookSubscriptionService,
     private subscriptionService: SubscriptionService,
-    private wishlistService: WishlistService) {
+    private wishlistService: WishlistService,
+    private store: Store<UserState>) {
     this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
     this.wishlistService.getWishlistItems(this.userId).subscribe();
     this.bookSubscriptionService.getBookSubscriptionItems(this.userId).subscribe();
@@ -41,23 +43,23 @@ export class NavBarComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
-    this.userDataSubscription = this.subscriptionService.userData.asObservable().subscribe(data => {this.userData = data; });
+    this.userDataSubscription = this.subscriptionService.userData.asObservable().subscribe(data => { this.userData = data; });
     this.bookSubscriptionCount$ = this.subscriptionService.bookSubItemcount$;
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
-    this.wishListCount$ = this.subscriptionService.wishlistItemcount$;    
+    this.wishListCount$ = this.subscriptionService.wishlistItemcount$;
   }
 
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.userDataSubscription) {
       this.userDataSubscription.unsubscribe();
     }
   }
 
-  logout() {
-    this.authService.logout();
+  logout(): void {
+    this.store.dispatch(new Logout()),
+      this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

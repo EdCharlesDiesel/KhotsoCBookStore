@@ -24,16 +24,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchItem: string;
 
   constructor(
-    private store: Store<fromStore.BooksState>,
+    //private store: Store<fromStore.BooksState>,
     private route: ActivatedRoute,
-    //private bookService: BookService,
+    private bookService: BookService,
     private subscriptionService: SubscriptionService) {
   }
 
   ngOnInit() : void{
-    this.store.select<any>('books').subscribe(state => {
-      console.log(state);
-    });
+    // this.store.select<any>('books').subscribe(state => {
+    //   console.log(state);
+    // });
     this.isLoading = true;
     this.getAllBookData();
 
@@ -42,17 +42,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   getAllBookData(): void {
     // this.store.dispatch(new bookActions.Load());
     // this.store.dispatch(new bookActions.LoadSuccess(this.filteredProducts));
-    // this.bookService.books$.pipe(switchMap(
-    //   (data: Book[]) => {
-    //     this.filteredProducts = data;
-    //     return this.route.queryParams;
-    //   }
-    // )).subscribe(params => {
-    //   this.category = params.category;
-    //   this.searchItem = params.item;
-    //   this.subscriptionService.searchItemValue$.next(this.searchItem);
-    //   this.filterBookData();
-    // });
+    this.bookService.books$.pipe(switchMap(
+      (data: Book[]) => {
+        this.filteredProducts = data;
+        return this.route.queryParams;
+      }
+    )).subscribe(params => {
+      this.category = params.category;
+      this.searchItem = params.item;
+      this.subscriptionService.searchItemValue$.next(this.searchItem);
+      this.filterBookData();
+    });
   }
 
   filterPrice(value: number): any {
