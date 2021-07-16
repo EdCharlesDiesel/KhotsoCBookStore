@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Book } from 'src/app/models/book';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 // import * as bookActions from './state/book.actions';
 import { Store } from '@ngrx/store';
@@ -42,13 +42,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   getAllBookData(): void {
 
     this.store.dispatch(new Load());
-    this.store.dispatch(new LoadSuccess(this.filteredBooks));
     this.bookService.books$.pipe(switchMap(
       (data: Book[]) => {
         this.filteredBooks = data;
         return this.route.queryParams;
-      }
-    )).subscribe(params => {
+      }),
+      tap(() => {
+        this.store.dispatch(new LoadSuccess(this.filteredBooks));
+      })
+    ).subscribe(params => {
       this.category = params.category;
       this.searchItem = params.item;
       this.subscriptionService.searchItemValue$.next(this.searchItem);

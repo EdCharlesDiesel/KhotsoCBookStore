@@ -79,7 +79,6 @@ import { BookEffects } from './store/effects/book.effects';
     }) : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer),
     EffectsModule.forFeature([UserEffects, BookEffects]),
-    // StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
     StoreRouterConnectingModule.forRoot({
      serializer: CustomSerializer,
     }),
