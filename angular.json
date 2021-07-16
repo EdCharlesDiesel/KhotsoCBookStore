@@ -29,7 +29,6 @@
             ],
             "styles": [
               "src/styles.scss"
-            
             ],
             "scripts": []
           },
@@ -130,5 +129,8 @@
     "@schematics/angular:component": {
       "styleext": "scss"
     }
+  },
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
   }
 }

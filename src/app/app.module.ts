@@ -1,4 +1,4 @@
-import { CustomSerializer } from './store/utils';
+import { CustomSerializer } from './store/CustomSerializer';
 
 import { SearchComponent } from './components/search/search.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -72,19 +72,16 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
     BrowserAnimationsModule,
     EffectsModule.forRoot([]),
     AppRoutingModule,
-    StoreModule.forRoot(reducers, {
-       metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
-    }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument({
       name: 'KhotsoCBookStore App DevTools',
     }) : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer),
     EffectsModule.forFeature([UserEffects]),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
+    // StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
+    StoreRouterConnectingModule.forRoot({
+     serializer: CustomSerializer,
+    }),
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

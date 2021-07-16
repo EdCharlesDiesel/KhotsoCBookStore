@@ -24,14 +24,14 @@ export class AppComponent implements OnInit {
     this.authService.setUserDetails();
   }
   ngOnInit(): void {
-    // this.isLoggedIn$ = this.store.pipe(
-    //    map(state => state.loggedIn)
-    //    select(isLoggedIn)
-    // );
+    this.isLoggedIn$ = this.store.pipe(
+       // map(state => state.loggedIn)
+       select(isLoggedIn)
+    );
 
-    // this.isLoggedOut$ = this.store.pipe(
-    //    map(state => !state.loggedIn)
-    //    select(isLoggedOut)
-    // );
+    this.isLoggedOut$ = this.store.pipe(
+       // map(state => !state.loggedIn)
+       select(isLoggedOut)
+    );
   }
 }
