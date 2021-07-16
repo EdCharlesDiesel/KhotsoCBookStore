@@ -1,13 +1,13 @@
-import { state } from '@angular/animations';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Book } from 'src/app/models/book';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
 import { switchMap } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-import * as fromStore from '../../store/reducers/index';
 // import * as bookActions from './state/book.actions';
 import { Store } from '@ngrx/store';
+import { BookState } from 'src/app/store/reducers/book/books.reducer';
+import { Load, LoadSuccess } from 'src/app/store/actions/book.action';
 
 @Component({
   selector: 'app-home',
@@ -17,34 +17,35 @@ import { Store } from '@ngrx/store';
 export class HomeComponent implements OnInit, OnDestroy {
 
   public books: Book[];
-  public filteredProducts: Book[];
+  public filteredBooks: Book[];
   category: string;
   priceRange = Number.MAX_SAFE_INTEGER;
   isLoading: boolean;
   searchItem: string;
 
   constructor(
-    //private store: Store<fromStore.BooksState>,
+    private store: Store<BookState>,
     private route: ActivatedRoute,
     private bookService: BookService,
     private subscriptionService: SubscriptionService) {
   }
 
-  ngOnInit() : void{
-    // this.store.select<any>('books').subscribe(state => {
-    //   console.log(state);
-    // });
+  ngOnInit(): void {
+    this.store.select<any>('books').subscribe(state => {
+      console.log(state);
+    });
     this.isLoading = true;
     this.getAllBookData();
 
   }
 
   getAllBookData(): void {
-    // this.store.dispatch(new bookActions.Load());
-    // this.store.dispatch(new bookActions.LoadSuccess(this.filteredProducts));
+
+    this.store.dispatch(new Load());
+    this.store.dispatch(new LoadSuccess(this.filteredBooks));
     this.bookService.books$.pipe(switchMap(
       (data: Book[]) => {
-        this.filteredProducts = data;
+        this.filteredBooks = data;
         return this.route.queryParams;
       }
     )).subscribe(params => {
@@ -61,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   filterBookData(): any {
-    const filteredData = this.filteredProducts.filter(b => b.purchasePrice <= this.priceRange).slice();
+    const filteredData = this.filteredBooks.filter(b => b.purchasePrice <= this.priceRange).slice();
 
     if (this.category) {
       this.books = filteredData.filter(b => b.category.toLowerCase() === this.category.toLowerCase());

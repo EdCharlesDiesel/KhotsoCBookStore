@@ -1,71 +1,110 @@
-// import { state } from '@angular/animations';
-// import { Book } from "src/app/models/book";
-// import * as fromBooks from '../actions/books.action'
-
-// export interface BookState {
-//   data: Book[];
-//   loaded: boolean;
-//   loading: boolean;
-// }
-
-// export const initialState: BookState = {
-//   data: [
-//     {
-//       "bookId": 1,
-//       "name": "Deep Learning with JavaScript",
-//       "text": "Deep learning has transformed the fields of computer vision, image processing, and natural language applications.",
-//       "author": "Charles",
-//       "category": "Development",
-//       "purchasePrice": 300,
-//       "coverFileName": "Default_image"
-//     },
-//     {
-//       "bookId": 2,
-//       "name": "Webdevelopment-101",
-//       "text": "Learn how to make better decisions and write cleaner Ruby code. This book shows you how to avoid messy code that is hard to test and which cripples productivity.",
-//       "author": "Kagiso",
-//       "category": "Development",
-//       "purchasePrice": 300,
-//       "coverFileName": "Default_image"
-//     }
-//   ],
-//   loaded: false,
-//   loading: false
-// }
-
-// export function reducer(
-//   state = initialState,
-//   action: fromBooks.BooksAction): BookState {
-//   switch (action.type) {
-
-//     case fromBooks.LOAD_BOOKS: {
-//       return {
-//         ...state,
-//         loaded: true
-//       };
-//     }
-
-//     case fromBooks.LOAD_BOOKS_SUCCESS: {
-//       return {
-//         ...state,
-//         loading: false,
-//         loaded: true
-//       };
-//     }
-//     case fromBooks.LOAD_BOOKS_FAIL: {
-//       return {
-//         ...state,
-//         loading: false,
-//         loaded: false
-//       };
-//     }
-
-//   }
-//   return this.state;
-
-// }
+import { Book } from 'src/app/models/book';
+import { BookActions, BookActionTypes } from '../../actions/book.action';
 
 
-// export const getBooksLoading = (state: BookState): unknown => state.loading;
-// export const getBooksLoaded = (state: BookState): unknown  => state.loaded;
-// export const getBooks = (state: BookState): unknown  => state.data;
+// State for this feature (Book)
+export interface BookState {
+  showBookCode: boolean;
+  currentBookId: number | null;
+  books: Book[];
+  error: string;
+}
+
+const initialState: BookState = {
+  showBookCode: true,
+  currentBookId: null,
+  books: [],
+  error: ''
+};
+
+export function reducer(state = initialState, action: BookActions): BookState {
+
+  switch (action.type) {
+    case BookActionTypes.ToggleBookCode:
+      return {
+        ...state,
+        showBookCode: action.payload
+      };
+
+    case BookActionTypes.SetCurrentBook:
+      return {
+        ...state,
+        currentBookId: action.payload.bookId
+      };
+
+    case BookActionTypes.ClearCurrentBook:
+      return {
+        ...state,
+        currentBookId: null
+      };
+
+    case BookActionTypes.InitializeCurrentBook:
+      return {
+        ...state,
+        currentBookId: 0
+      };
+
+    case BookActionTypes.LoadSuccess:
+      return {
+        ...state,
+        books: action.payload,
+        error: ''
+      };
+
+    case BookActionTypes.LoadFail:
+      return {
+        ...state,
+        books: [],
+        error: action.payload
+      };
+
+    case BookActionTypes.UpdateBookSuccess:
+      const updatedBooks = state.books.map(
+        item => action.payload.bookId === item.bookId ? action.payload : item);
+      return {
+        ...state,
+        books: updatedBooks,
+        currentBookId: action.payload.bookId,
+        error: ''
+      };
+
+    case BookActionTypes.UpdateBookFail:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    // After a create, the currentBook is the new book.
+    case BookActionTypes.CreateBookSuccess:
+      return {
+        ...state,
+        books: [...state.books, action.payload],
+        currentBookId: action.payload.bookId,
+        error: ''
+      };
+
+    case BookActionTypes.CreateBookFail:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    // After a delete, the currentBook is null.
+    case BookActionTypes.DeleteBookSuccess:
+      return {
+        ...state,
+        books: state.books.filter(book => book.bookId !== action.payload),
+        currentBookId: null,
+        error: ''
+      };
+
+    case BookActionTypes.DeleteBookFail:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    default:
+      return state;
+  }
+}

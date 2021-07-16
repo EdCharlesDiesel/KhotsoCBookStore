@@ -22,11 +22,11 @@ export class BookDetailsComponent implements OnInit {
     private bookService: BookService,
     private route: ActivatedRoute,
     private subscriptionService: SubscriptionService) {
-    //this.bookId = this.route.snapshot.paramMap.get('id'); this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
-    this.bookId = JSON.parse(this.route.snapshot.paramMap.get('id') || '{}')
+    // this.bookId = this.route.snapshot.paramMap.get('id'); this.userId = JSON.parse(localStorage.getItem('userId') || '{}');
+    this.bookId = JSON.parse(this.route.snapshot.paramMap.get('id') || '{}');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.params.subscribe(
       params => {
         this.bookId = +params.id;
@@ -36,7 +36,7 @@ export class BookDetailsComponent implements OnInit {
     this.userData$ = this.subscriptionService.userData;
   }
 
-  getBookDetails() {
+  getBookDetails(): void {
     this.BookDetails$ = this.bookService.getBookById(this.bookId)
       .pipe(
         catchError(error => {

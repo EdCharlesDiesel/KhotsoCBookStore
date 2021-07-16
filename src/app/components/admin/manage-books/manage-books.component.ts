@@ -1,3 +1,4 @@
+import { AppState } from './../../../store/reducers/index';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,6 +10,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { DeleteBookComponent } from '../delete-book/delete-book.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-manage-books',
@@ -28,16 +30,17 @@ export class ManageBooksComponent implements OnInit, OnDestroy {
   constructor(
     private bookService: BookService,
     public dialog: MatDialog,
-    private snackBarService: SnackbarService) {
+    private snackBarService: SnackbarService,
+    private store: Store<AppState>) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllBookData();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  getAllBookData() {
+  getAllBookData(): void {
     this.bookService.getAllBooks()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data: Book[]) => {
@@ -47,7 +50,7 @@ export class ManageBooksComponent implements OnInit, OnDestroy {
       });
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -71,7 +74,7 @@ export class ManageBooksComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

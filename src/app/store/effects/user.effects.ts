@@ -31,11 +31,12 @@ export class UserEffects {
   init$ = defer(() => {
     const userData = localStorage.getItem('user');
 
-    if (userData) {
-      return of(new Login(JSON.parse(userData)));
-    } else{
-      return of();
-    }
+    // Will refactor later
+    // if (userData != null) {
+    //   return of(new Login(JSON.parse(userData)));
+    // } else{
+    //   return of();
+    // }
   });
 
   constructor(private actions$: Actions, private router: Router) { }

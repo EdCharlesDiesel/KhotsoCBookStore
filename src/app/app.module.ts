@@ -38,6 +38,7 @@ import { reducers, metaReducers } from './store/reducers';
 import * as fromUser from '../app/store/reducers/user/user.reducer';
 import { UserEffects } from './store/effects/user.effects';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
+import { BookEffects } from './store/effects/book.effects';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,7 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
       name: 'KhotsoCBookStore App DevTools',
     }) : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer),
-    EffectsModule.forFeature([UserEffects]),
+    EffectsModule.forFeature([UserEffects, BookEffects]),
     // StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
     StoreRouterConnectingModule.forRoot({
      serializer: CustomSerializer,

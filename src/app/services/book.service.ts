@@ -9,7 +9,7 @@ import { Categories } from '../models/categories';
 })
 export class BookService {
 
-  baseURL = 'https://localhost:5000/api/book/';
+  baseURL = 'https://localhost:5000/api/Book/';
 
   constructor(private http: HttpClient) { }
 
@@ -17,29 +17,29 @@ export class BookService {
 
   books$ = this.getAllBooks().pipe(shareReplay(1));
 
-  getAllBooks() {
+  getAllBooks(): any {
     return this.http.get<Book[]>(this.baseURL);
   }
 
-  addBook(book:Book) {
+  addBook(book: Book): any {
     return this.http.post(this.baseURL, book);
   }
 
-
-  getsimilarBooks(bookId: number) {
+  getsimilarBooks(bookId: number): any {
     return this.http.get<Book[]>(this.baseURL + 'GetSimilarBooks/' + bookId);
   }
 
+  getBookById(id: number): any {
+    return this.books$.pipe(map((book: any) => {
+      return book.find(b => b.bookId === id);
+    }));
+  }
 
-  getBookById(id: number) {
-    return this.books$.pipe(map(book => book.find(b => b.bookId === id)));
-  } 
-
-  updateBookDetails(book:Book) {
+  updateBookDetails(book: Book): any {
     return this.http.put(this.baseURL, book);
   }
 
-  deleteBook(id: number) {
+  deleteBook(id: number) : any{
     return this.http.delete(this.baseURL + id);
   }
 }
