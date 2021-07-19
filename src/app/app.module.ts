@@ -1,5 +1,4 @@
-import { CustomSerializer } from './store/CustomSerializer';
-
+import { CustomSerializer } from './store/reducers/CustomSerializer';
 import { SearchComponent } from './components/search/search.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,8 +33,8 @@ import { BookCardComponent } from './components/book-card/book-card.component';
 import { BookFilterComponent } from './components/book-filter/book-filter.component';
 import { HomeComponent } from './components/home/home.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
-import { reducers, metaReducers } from './store/reducers';
-import * as fromUser from '../app/store/reducers/user/user.reducer';
+import { reducers, metaReducers } from './store/app.state';
+import * as fromUser from './store/reducers/user.reducer';
 import { UserEffects } from './store/effects/user.effects';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 import { BookEffects } from './store/effects/book.effects';
@@ -80,7 +79,7 @@ import { BookEffects } from './store/effects/book.effects';
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducer),
     EffectsModule.forFeature([UserEffects, BookEffects]),
     StoreRouterConnectingModule.forRoot({
-     serializer: CustomSerializer,
+      serializer: CustomSerializer,
     }),
   ],
   providers: [
@@ -90,4 +89,6 @@ import { BookEffects } from './store/effects/book.effects';
   ],
   bootstrap: [AppComponent],
 })
+
+
 export class AppModule { }

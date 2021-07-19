@@ -1,5 +1,5 @@
 import { User } from 'src/app/models/user';
-import { UserActions, UserActionTypes } from '../../actions/user.actions';
+import { UserActions, UserActionTypes } from '../actions/user.actions';
 
 export const userFeatureKey = 'user';
 

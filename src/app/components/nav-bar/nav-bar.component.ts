@@ -1,4 +1,4 @@
-import { UserState } from './../../store/reducers/user/user.reducer';
+import { UserState } from '../../store/reducers/user.reducer';
 import { Logout } from './../../store/actions/user.actions';
 import { Store } from '@ngrx/store';
 import { BookSubscriptionService } from 'src/app/services/book-subscription.service';

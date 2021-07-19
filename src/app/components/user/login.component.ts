@@ -10,7 +10,7 @@ import { User } from 'src/app/models/user';
 import { takeUntil, tap } from 'rxjs/operators';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { Subject } from 'rxjs';
-import { UserState } from 'src/app/store/reducers/user/user.reducer';
+import { UserState } from 'src/app/store/reducers/user.reducer';
 
 @Component({
   selector: 'app-login',

@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../app.state';
-import * as fromBooks from '../reducers/book/books.reducer';
+import * as fromBooks from '../reducers/book.reducer';
 
 // Extends the app state to include the book feature.
 // This is required because books are lazy loaded.

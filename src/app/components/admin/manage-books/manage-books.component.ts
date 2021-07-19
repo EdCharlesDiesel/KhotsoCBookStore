@@ -1,4 +1,4 @@
-import { AppState } from './../../../store/reducers/index';
+import { AppState } from './../../../store/app.state';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';

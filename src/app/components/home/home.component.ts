@@ -6,7 +6,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 // import * as bookActions from './state/book.actions';
 import { Store } from '@ngrx/store';
-import { BookState } from 'src/app/store/reducers/book/books.reducer';
+import { BookState } from 'src/app/store/reducers/book.reducer';
 import { Load, LoadSuccess } from 'src/app/store/actions/book.action';
 
 @Component({
@@ -28,28 +28,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private bookService: BookService,
     private subscriptionService: SubscriptionService) {
+    this.store.dispatch(new LoadSuccess(this.filteredBooks));
   }
 
   ngOnInit(): void {
-    this.store.select<any>('books').subscribe(state => {
-      console.log(state);
-    });
     this.isLoading = true;
     this.getAllBookData();
-
   }
 
   getAllBookData(): void {
-
     this.store.dispatch(new Load());
     this.bookService.books$.pipe(switchMap(
       (data: Book[]) => {
         this.filteredBooks = data;
         return this.route.queryParams;
-      }),
-      tap(() => {
-        this.store.dispatch(new LoadSuccess(this.filteredBooks));
       })
+      // ,
+      // tap(() => {
+      // })
     ).subscribe(params => {
       this.category = params.category;
       this.searchItem = params.item;

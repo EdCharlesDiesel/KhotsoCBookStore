@@ -1,6 +1,7 @@
 import { Book } from 'src/app/models/book';
-import { BookActions, BookActionTypes } from '../../actions/book.action';
+import { BookActions, BookActionTypes } from '../actions/book.action';
 
+export const bookFeatureKey = 'book';
 
 // State for this feature (Book)
 export interface BookState {
@@ -17,7 +18,7 @@ const initialState: BookState = {
   error: ''
 };
 
-export function reducer(state = initialState, action: BookActions): BookState {
+export function bookReducer(state = initialState, action: BookActions): BookState {
 
   switch (action.type) {
     case BookActionTypes.ToggleBookCode:

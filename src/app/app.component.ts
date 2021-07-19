@@ -1,4 +1,4 @@
-import { UserState } from './store/reducers/user/user.reducer';
+import { UserState } from './store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
