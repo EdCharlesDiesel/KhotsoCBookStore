@@ -1,5 +1,5 @@
 import { UserState } from './reducers/user.reducer';
-import { BookState } from './reducers/book.reducer';
+import { BooksState } from './reducers/book.reducer';
 import { RouterReducerState, routerReducer } from '@ngrx/router-store';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -8,8 +8,8 @@ import { environment } from 'src/environments/environment';
 // Representation of the entire app state
 // Extended by lazy loaded modules
 export interface AppState {
-  user?: UserState;
-  book?: BookState;
+  // user?: UserState;
+  // book?: BooksState;
   router: RouterReducerState<any>;
 }
 
