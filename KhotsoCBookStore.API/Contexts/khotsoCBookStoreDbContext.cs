@@ -1,97 +1,283 @@
-﻿
+﻿using KhotsoCBookStore.API.Authentication;
 using KhotsoCBookStore.API.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace KhotsoCBookStore.API.Contexts
 {
-    public class khotsoCBookStoreDbContext : DbContext
+    public partial class KhotsoCBookStoreDbContext : DbContext
     {
-        public DbSet<Book> Books { get; set; }
+        public KhotsoCBookStoreDbContext()
+        {
+        }
 
-        public DbSet<Author> Authors { get; set; }
-
-        public khotsoCBookStoreDbContext(DbContextOptions<khotsoCBookStoreDbContext> options)
+        public KhotsoCBookStoreDbContext(DbContextOptions<KhotsoCBookStoreDbContext> options)
             : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<BookSubscription>  BookSubscription { get; set; }
+
+        public virtual DbSet<BookSubscriptionItems>  BookSubscriptionItems { get; set; }
+
+        public virtual DbSet<Cart> Cart { get; set; }
+        public virtual DbSet<CartItems> CartItems { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<CustomerOrderDetails> CustomerOrderDetails { get; set; }
+        public virtual DbSet<CustomerOrders> CustomerOrders { get; set; }
+        public virtual DbSet<UserMaster> UserMaster { get; set; }
+        public virtual DbSet<UserType> UserType { get; set; }
+        public virtual DbSet<Wishlist> Wishlist { get; set; }
+        public virtual DbSet<WishlistItems> WishlistItems { get; set; }
+        
+
+             protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // seed the database with dummy data
-            modelBuilder.Entity<Author>().HasData(
-                new Author()
-                {
-                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                    FirstName = "George",
-                    LastName = "RR Martin"
-                },
-                new Author()
-                {
-                    Id = Guid.Parse("da2fd609-d754-4feb-8acd-c4f9ff13ba96"),
-                    FirstName = "Stephen",
-                    LastName = "Fry"
-                },
-                new Author()
-                {
-                    Id = Guid.Parse("24810dfc-2d94-4cc7-aab5-cdf98b83f0c9"),
-                    FirstName = "James",
-                    LastName = "Elroy"
-                },
-                new Author()
-                {
-                    Id = Guid.Parse("2902b665-1190-4c70-9915-b9c2d7680450"),
-                    FirstName = "Douglas",
-                    LastName = "Adams"
-                }
+            modelBuilder.Entity<Book>(entity =>
+            {
+                entity.Property(e => e.BookId).HasColumnName("BookID");
+
+                entity.Property(e => e.Author)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Category)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CoverFileName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PurchasePrice).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.Property(e => e.CartId)
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<CartItems>(entity =>
+            {
+                entity.HasKey(e => e.CartItemId)
+                    .HasName("PK__CartItem__488B0B0AA0297D1C");
+
+                entity.Property(e => e.CartId)
+                    .IsRequired()
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Categories>(entity =>
+            {
+                entity.HasKey(e => e.CategoryId)
+                    .HasName("PK__Categori__19093A2B46B8DFC9");
+
+                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+
+                entity.Property(e => e.CategoryName)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<CustomerOrderDetails>(entity =>
+            {
+                entity.HasKey(e => e.OrderDetailsId)
+                    .HasName("PK__Customer__9DD74DBD81D9221B");
+
+                entity.Property(e => e.OrderId)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            });
+
+            modelBuilder.Entity<CustomerOrders>(entity =>
+            {
+                entity.HasKey(e => e.OrderId)
+                    .HasName("PK__Customer__C3905BCF96C8F1E7");
+
+                entity.Property(e => e.OrderId)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CartTotal).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<BookSubscription>(entity =>
+            {
+                entity.HasKey(e => e.BookSubscriptionId)
+                    .HasName("PK__BookSubscriptionId");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<UserMaster>(entity =>
+            {
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK__UserMasterID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.FirstName)
+                    
+                    .HasMaxLength(20)
+                    .IsUnicode(false);           
+
+                entity.Property(e => e.LastName)
+                    
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+                     entity.Property(e => e.EmailAddress);                 
+                 
+
+                entity.Property(e => e.PasswordHash);
+                entity.Property(e => e.PasswordSalt);
+                    
+
+                entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<UserType>(entity =>
+            {
+                entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
+
+                entity.Property(e => e.UserTypeName)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Wishlist>(entity =>
+            {
+                entity.Property(e => e.WishlistId)
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<WishlistItems>(entity =>
+            {
+                entity.HasKey(e => e.WishlistItemId)
+                    .HasName("PK__WishlistItemId");
+
+                entity.Property(e => e.WishlistId)
+                    .IsRequired()
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+            });
+
+             modelBuilder.Entity<BookSubscriptionItems>(entity =>
+            {
+                entity.HasKey(e => e.BookSubscriptionItemId)
+                    .HasName("PK__BookSubscriptionItemId");
+
+                entity.Property(e => e.BookSubscriptionItemId)
+                    .IsRequired()
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+            });
+            
+
+            modelBuilder.Entity<UserType>().HasData(
+                 new UserType
+                 {
+                     UserTypeId = 1,
+                     UserTypeName = "Admin"
+                 },
+                   new UserType
+                   {
+                       UserTypeId = 2,
+                       UserTypeName = "User"
+                   }
                 );
 
-            // seed the database with dummy data
-            modelBuilder.Entity<Book>().HasData(
-                new Book
-                {
-                    Id = Guid.Parse("5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"),
-                    AuthorId = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                    Name = "A Dance with Dragons",
-                    Text = "A Dance with Dragons is the fifth of seven planned novels in the epic fantasy series A Song of Ice and Fire.",
-                    PurchasePrice = 150
-                },
-                new Book
-                {
-                    Id = Guid.Parse("d8663e5e-7494-4f81-8739-6e0de1bea7ee"),
-                    AuthorId = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                    Name = "A Game of Thrones",
-                    Text = "A Game of Thrones is the first novel in A Song of Ice and Fire, a series of fantasy novels by American author George R. R. ... In the novel, recounting events from various points of view, Martin introduces the plot-lines of the noble houses of Westeros, the Wall, and the Targaryens.",
-                    PurchasePrice = 220                    
-                },
-                new Book
-                {
-                    Id = Guid.Parse("d173e20d-159e-4127-9ce9-b0ac2564ad97"),
-                    AuthorId = Guid.Parse("da2fd609-d754-4feb-8acd-c4f9ff13ba96"),
-                    Name = "Mythos",
-                    Text = "The Greek myths are amongst the best stories ever told, passed down through millennia and inspiring writers and artists as varied as Shakespeare, Michelangelo, James Joyce and Walt Disney.  They are embedded deeply in the traditions, tales and cultural DNA of the West.You'll fall in love with Zeus, marvel at the birth of Athena, wince at Cronus and Gaia's revenge on Ouranos, weep with King Midas and hunt with the beautiful and ferocious Artemis. Spellbinding, informative and moving, Stephen Fry's Mythos perfectly captures these stories for the modern age - in all their rich and deeply human relevance.",
-                    PurchasePrice = 550
-
-                },
-                new Book
-                {
-                    Id = Guid.Parse("493c3228-3444-4a49-9cc0-e8532edc59b2"),
-                    AuthorId = Guid.Parse("24810dfc-2d94-4cc7-aab5-cdf98b83f0c9"),
-                    Name = "American Tabloid",
-                    Text = "American Tabloid is a 1995 novel by James Ellroy that chronicles the events surrounding three rogue American law enforcement officers from November 22, 1958 through November 22, 1963. Each becomes entangled in a web of interconnecting associations between the FBI, the CIA, and the mafia, which eventually leads to their collective involvement in the John F. Kennedy assassination.",
-                    PurchasePrice = 750
-                },
-                new Book
-                {
-                    Id = Guid.Parse("40ff5488-fdab-45b5-bc3a-14302d59869a"),
-                    AuthorId = Guid.Parse("2902b665-1190-4c70-9915-b9c2d7680450"),
-                    Name = "The Hitchhiker's Guide to the Galaxy",
-                    Text = "In The Hitchhiker's Guide to the Galaxy, the characters visit the legendary planet Magrathea, home to the now-collapsed planet-building industry, and meet Slartibartfast, a planetary coastline designer who was responsible for the fjords of Norway. Through archival recordings, he relates the story of a race of hyper-intelligent pan-dimensional beings who built a computer named Deep Thought to calculate the Answer to the Ultimate Question of Life, the Universe, and Everything.",
-                    PurchasePrice = 850
-                }
+              modelBuilder.Entity<Book>().HasData(
+                 new Book
+                 {
+                     BookId =1,
+                     Name = "Deep Learning with JavaScript",
+                     Text = "Deep learning has transformed the fields of computer vision, image processing, and natural language applications.",
+                     Author ="Charles",
+                     CoverFileName ="Default_image",
+                     PurchasePrice = 300,
+                     Category = "Development"
+                 },
+                   new Book
+                 {
+                     BookId =2,
+                     Name = "Webdevelopment-101",
+                     Text ="Learn how to make better decisions and write cleaner Ruby code. This book shows you how to avoid messy code that is hard to test and which cripples productivity.",
+                     Author ="Kagiso",
+                     CoverFileName ="Default_image",
+                     PurchasePrice = 300,
+                     Category = "Development"
+                 }
                 );
 
-            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<UserMaster>().HasData(
+            //     new UserMaster
+            //     {
+            //         UserTypeId = 1,
+            //         FirstName = "Khotso",
+            //         LastName = "Mokhethi",
+            //         EmailAddress ="Mokhetkc@hotmail.com",                     
+            //         Username = "Batman",
+            //         Password = "IamBatman",
+            //         UserId = 1
+            //     }
+            //    );
+
+            modelBuilder.Entity<Categories>().HasData(
+             new Categories
+             {
+                 CategoryId = 1,
+                 CategoryName = "Web Development",
+             },
+             new Categories
+             {
+                 CategoryId = 2,
+                 CategoryName = "Programming",
+             },
+             new Categories
+             {
+                 CategoryId = 3,
+                 CategoryName = "Databases",
+             },
+             new Categories
+             {
+                 CategoryId = 4,
+                 CategoryName = "Administration",
+             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

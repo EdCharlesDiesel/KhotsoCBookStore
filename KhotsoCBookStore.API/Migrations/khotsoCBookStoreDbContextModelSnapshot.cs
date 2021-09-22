@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KhotsoCBookStore.API.Migrations
 {
-    [DbContext(typeof(khotsoCBookStoreDbContext))]
-    partial class khotsoCBookStoreDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(KhotsoCBookStoreDbContext))]
+    partial class KhotsoCBookStoreDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -19,140 +19,357 @@ namespace KhotsoCBookStore.API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("KhotsoCBookStore.API.Entities.Author", b =>
+            modelBuilder.Entity("KhotsoCBookStore.API.Authentication.UserMaster", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasColumnName("UserID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("LastName")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("UserTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserTypeID");
+
+                    b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId")
+                        .HasName("PK__UserMasterID");
 
-                    b.ToTable("Authors");
+                    b.ToTable("UserMaster");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Authentication.UserType", b =>
+                {
+                    b.Property<int>("UserTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("UserTypeID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserTypeName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("UserTypeId");
+
+                    b.ToTable("UserType");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                            FirstName = "George",
-                            LastName = "RR Martin"
+                            UserTypeId = 1,
+                            UserTypeName = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("da2fd609-d754-4feb-8acd-c4f9ff13ba96"),
-                            FirstName = "Stephen",
-                            LastName = "Fry"
-                        },
-                        new
-                        {
-                            Id = new Guid("24810dfc-2d94-4cc7-aab5-cdf98b83f0c9"),
-                            FirstName = "James",
-                            LastName = "Elroy"
-                        },
-                        new
-                        {
-                            Id = new Guid("2902b665-1190-4c70-9915-b9c2d7680450"),
-                            FirstName = "Douglas",
-                            LastName = "Adams"
+                            UserTypeId = 2,
+                            UserTypeName = "User"
                         });
                 });
 
             modelBuilder.Entity("KhotsoCBookStore.API.Entities.Book", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasColumnName("BookID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AmountOfPages")
-                        .HasColumnType("int");
+                    b.Property<string>("Author")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("CoverFileName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<int>("PurchasePrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("PurchasePrice")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Text")
-                        .HasMaxLength(2500)
-                        .HasColumnType("nvarchar(2500)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
+                    b.HasKey("BookId");
 
                     b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"),
-                            AuthorId = new Guid("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                            Name = "A Dance with Dragons",
-                            PurchasePrice = 150,
-                            Text = "A Dance with Dragons is the fifth of seven planned novels in the epic fantasy series A Song of Ice and Fire."
+                            BookId = 1,
+                            Author = "Charles",
+                            Category = "Development",
+                            CoverFileName = "Default_image",
+                            Name = "Deep Learning with JavaScript",
+                            PurchasePrice = 300m,
+                            Text = "Deep learning has transformed the fields of computer vision, image processing, and natural language applications."
                         },
                         new
                         {
-                            Id = new Guid("d8663e5e-7494-4f81-8739-6e0de1bea7ee"),
-                            AuthorId = new Guid("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                            Name = "A Game of Thrones",
-                            PurchasePrice = 220,
-                            Text = "A Game of Thrones is the first novel in A Song of Ice and Fire, a series of fantasy novels by American author George R. R. ... In the novel, recounting events from various points of view, Martin introduces the plot-lines of the noble houses of Westeros, the Wall, and the Targaryens."
-                        },
-                        new
-                        {
-                            Id = new Guid("d173e20d-159e-4127-9ce9-b0ac2564ad97"),
-                            AuthorId = new Guid("da2fd609-d754-4feb-8acd-c4f9ff13ba96"),
-                            Name = "Mythos",
-                            PurchasePrice = 550,
-                            Text = "The Greek myths are amongst the best stories ever told, passed down through millennia and inspiring writers and artists as varied as Shakespeare, Michelangelo, James Joyce and Walt Disney.  They are embedded deeply in the traditions, tales and cultural DNA of the West.You'll fall in love with Zeus, marvel at the birth of Athena, wince at Cronus and Gaia's revenge on Ouranos, weep with King Midas and hunt with the beautiful and ferocious Artemis. Spellbinding, informative and moving, Stephen Fry's Mythos perfectly captures these stories for the modern age - in all their rich and deeply human relevance."
-                        },
-                        new
-                        {
-                            Id = new Guid("493c3228-3444-4a49-9cc0-e8532edc59b2"),
-                            AuthorId = new Guid("24810dfc-2d94-4cc7-aab5-cdf98b83f0c9"),
-                            Name = "American Tabloid",
-                            PurchasePrice = 750,
-                            Text = "American Tabloid is a 1995 novel by James Ellroy that chronicles the events surrounding three rogue American law enforcement officers from November 22, 1958 through November 22, 1963. Each becomes entangled in a web of interconnecting associations between the FBI, the CIA, and the mafia, which eventually leads to their collective involvement in the John F. Kennedy assassination."
-                        },
-                        new
-                        {
-                            Id = new Guid("40ff5488-fdab-45b5-bc3a-14302d59869a"),
-                            AuthorId = new Guid("2902b665-1190-4c70-9915-b9c2d7680450"),
-                            Name = "The Hitchhiker's Guide to the Galaxy",
-                            PurchasePrice = 850,
-                            Text = "In The Hitchhiker's Guide to the Galaxy, the characters visit the legendary planet Magrathea, home to the now-collapsed planet-building industry, and meet Slartibartfast, a planetary coastline designer who was responsible for the fjords of Norway. Through archival recordings, he relates the story of a race of hyper-intelligent pan-dimensional beings who built a computer named Deep Thought to calculate the Answer to the Ultimate Question of Life, the Universe, and Everything."
+                            BookId = 2,
+                            Author = "Kagiso",
+                            Category = "Development",
+                            CoverFileName = "Default_image",
+                            Name = "Webdevelopment-101",
+                            PurchasePrice = 300m,
+                            Text = "Learn how to make better decisions and write cleaner Ruby code. This book shows you how to avoid messy code that is hard to test and which cripples productivity."
                         });
                 });
 
-            modelBuilder.Entity("KhotsoCBookStore.API.Entities.Book", b =>
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.BookSubscription", b =>
                 {
-                    b.HasOne("KhotsoCBookStore.API.Entities.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("BookSubscriptionId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Navigation("Author");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
+                    b.HasKey("BookSubscriptionId")
+                        .HasName("PK__BookSubscriptionId");
+
+                    b.ToTable("BookSubscription");
                 });
 
-            modelBuilder.Entity("KhotsoCBookStore.API.Entities.Author", b =>
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.BookSubscriptionItems", b =>
                 {
-                    b.Navigation("Books");
+                    b.Property<int>("BookSubscriptionItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BookSubscriptionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookSubscriptionItemId")
+                        .HasName("PK__BookSubscriptionItemId");
+
+                    b.ToTable("BookSubscriptionItems");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.Cart", b =>
+                {
+                    b.Property<string>("CartId")
+                        .HasMaxLength(36)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
+                    b.HasKey("CartId");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.CartItems", b =>
+                {
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CartId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartItemId")
+                        .HasName("PK__CartItem__488B0B0AA0297D1C");
+
+                    b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.Categories", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("CategoryID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("CategoryId")
+                        .HasName("PK__Categori__19093A2B46B8DFC9");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Web Development"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Programming"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Databases"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Administration"
+                        });
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.CustomerOrderDetails", b =>
+                {
+                    b.Property<int>("OrderDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderDetailsId")
+                        .HasName("PK__Customer__9DD74DBD81D9221B");
+
+                    b.ToTable("CustomerOrderDetails");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.CustomerOrders", b =>
+                {
+                    b.Property<string>("OrderId")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<decimal>("CartTotal")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
+                    b.HasKey("OrderId")
+                        .HasName("PK__Customer__C3905BCF96C8F1E7");
+
+                    b.ToTable("CustomerOrders");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.Wishlist", b =>
+                {
+                    b.Property<string>("WishlistId")
+                        .HasMaxLength(36)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
+                    b.HasKey("WishlistId");
+
+                    b.ToTable("Wishlist");
+                });
+
+            modelBuilder.Entity("KhotsoCBookStore.API.Entities.WishlistItems", b =>
+                {
+                    b.Property<int>("WishlistItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WishlistId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(36)");
+
+                    b.HasKey("WishlistItemId")
+                        .HasName("PK__WishlistItemId");
+
+                    b.ToTable("WishlistItems");
                 });
 #pragma warning restore 612, 618
         }

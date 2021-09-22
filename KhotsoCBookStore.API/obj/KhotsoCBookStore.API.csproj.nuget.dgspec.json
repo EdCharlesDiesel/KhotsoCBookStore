@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "IdentityServer4.AccessTokenValidation": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[5.0.1, )",
@@ -65,6 +69,10 @@
             "Microsoft.AspNetCore.JsonPatch": {
               "target": "Package",
               "version": "[5.0.3, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Api.Analyzers": {
+              "target": "Package",
+              "version": "[2.2.6, )"
             },
             "Microsoft.AspNetCore.Mvc.Formatters.Json": {
               "target": "Package",
@@ -103,6 +111,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[6.1.0, )"
             }
           },
           "imports": [
@@ -123,7 +135,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.207\\RuntimeIdentifierGraph.json"
         }
       }
     }
