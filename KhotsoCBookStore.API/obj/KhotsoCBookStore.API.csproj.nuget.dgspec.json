@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\x\\Finished\\KhotsoCBookStore\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj": {}
+    "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj": {}
   },
   "projects": {
-    "C:\\x\\Finished\\KhotsoCBookStore\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj": {
+    "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\x\\Finished\\KhotsoCBookStore\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj",
+        "projectUniqueName": "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj",
         "projectName": "KhotsoCBookStore.API",
-        "projectPath": "C:\\x\\Finished\\KhotsoCBookStore\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj",
+        "projectPath": "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\KhotsoCBookStore.API.csproj",
         "packagesPath": "C:\\Users\\Mokhe\\.nuget\\packages\\",
-        "outputPath": "C:\\x\\Finished\\KhotsoCBookStore\\KhotsoCBookStore.API\\obj\\",
+        "outputPath": "C:\\x\\Finished\\KhotsoCBookStore.API\\KhotsoCBookStore.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

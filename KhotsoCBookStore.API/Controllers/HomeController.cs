@@ -13,7 +13,7 @@ using MessagingInterfacesConstants.Constants;
 using MessagingInterfacesConstants.Commands;
 using KhotsoCBookStore.API.ViewModels;
 
-namespace WebMvc.Controllers
+namespace KhotsoCBookStore.API.Controllers
 {
     public class HomeController : Controller
     {
@@ -40,7 +40,7 @@ namespace WebMvc.Controllers
         public async Task<IActionResult> RegisterOrder(OrderViewModel model)
         {
             MemoryStream memory = new MemoryStream();
-            using(var uploadedFile=model.File.OpenReadStream())
+            using (var uploadedFile = model.File.OpenReadStream())
             {
                 await uploadedFile.CopyToAsync(memory);
 
@@ -49,19 +49,19 @@ namespace WebMvc.Controllers
             model.ImageData = memory.ToArray();
             model.PictureUrl = model.File.FileName;
             model.OrderId = Guid.NewGuid();
-             var sendToUri = new Uri($"{RabbitMqMassTransitConstants.RabbitMqUri }"+
-                
-                 $"{RabbitMqMassTransitConstants.RegisterOrderCommandQueue}");
+            var sendToUri = new Uri($"{RabbitMqMassTransitConstants.RabbitMqUri }" +
+
+                $"{RabbitMqMassTransitConstants.RegisterOrderCommandQueue}");
 
             var endPoint = await _busControl.GetSendEndpoint(sendToUri);
-             await endPoint.Send<IRegisterOrderCommand>(
-                new
-                {
-                    model.OrderId,
-                    model.UserEmail,
-                    model.ImageData,
-                    model.PictureUrl
-                });
+            await endPoint.Send<IRegisterOrderCommand>(
+               new
+               {
+                   model.OrderId,
+                   model.UserEmail,
+                   model.ImageData,
+                   model.PictureUrl
+               });
             ViewData["OrderId"] = model.OrderId;
             return View("Thanks");
         }
